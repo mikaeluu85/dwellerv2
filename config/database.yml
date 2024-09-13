@@ -1,0 +1,38 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
+development:
+  <<: *default
+  database: dweller_development
+  username: <%= ENV["DB_USERNAME"] %>    # Use your local development PostgreSQL username
+  password: <%= ENV["DB_PASSWORD"] %>    # Use your local development PostgreSQL password
+  host: localhost
+  port: 5432
+
+test:
+  <<: *default
+  database: dweller_test       # Ensure test uses a separate database
+  username: <%= ENV["DB_USERNAME"] %>     # Reuse your local PostgreSQL credentials for test
+  password: <%= ENV["DB_PASSWORD"] %>
+  host: localhost
+  port: 5432
+
+staging:
+  <<: *default
+  database: dweller_staging
+  username: <%= ENV["DB_USERNAME_STAGING"] %>    # Staging credentials
+  password: <%= ENV["DB_PASSWORD_STAGING"] %>
+  host: <%= ENV["DB_HOST_STAGING"] %>            # Staging DB host
+  port: 5432
+
+production:
+  <<: *default
+  database: dweller_production
+  username: <%= ENV["DB_USERNAME_PROD"] %>       # Production credentials
+  password: <%= ENV["DB_PASSWORD_PROD"] %>
+  host: <%= ENV["DB_HOST_PROD"] %>               # Production DB host
+  port: 5432
+  sslmode: require                               # Enforce SSL for secure connections in production
