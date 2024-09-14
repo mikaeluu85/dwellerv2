@@ -32,3 +32,19 @@ local:
 #   service: Mirror
 #   primary: local
 #   mirrors: [ amazon, google, microsoft ]
+
+# Production
+amazon_production:
+  service: S3
+  access_key_id: <%= ENV['AWS_ACCESS_KEY_ID_PRODUCTION'] %>
+  secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY_PRODUCTION'] %>
+  region: <%= ENV['AWS_REGION_PRODUCTION'] %>
+  bucket: <%= ENV['AWS_BUCKET_PROODUCTION'] %>  # This is for production
+
+# Staging
+amazon_staging:
+  service: S3
+  access_key_id: <%= ENV['AWS_ACCESS_KEY_ID_STAGING'] %>
+  secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY_STAGING'] %>
+  region: <%= ENV['AWS_REGION_STAGING'] %>
+  bucket: <%= ENV['AWS_BUCKET_STAGING'] %>  # Separate bucket for staging

@@ -42,6 +42,7 @@ gem "devise" # Authentication solution for Rails, https://github.com/heartcombo/
 gem "pundit" # Simple and extensible authorization solution for Ruby on Rails, https://github.com/varvet/pundit
 gem "sidekiq" # Background job processing for Ruby, https://github.com/mperham/sidekiq
 gem "geocode" # Geocoding library for Ruby, https://github.com/alexreisner/geocoder
+gem "aws-sdk-s3" # Amazon S3 SDK for Ruby, https://github.com/aws/aws-sdk-ruby
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
