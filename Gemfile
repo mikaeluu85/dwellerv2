@@ -43,6 +43,7 @@ gem "pundit" # Simple and extensible authorization solution for Ruby on Rails, h
 gem "sidekiq" # Background job processing for Ruby, https://github.com/mperham/sidekiq
 gem "geocode" # Geocoding library for Ruby, https://github.com/alexreisner/geocoder
 gem "aws-sdk-s3" # Amazon S3 SDK for Ruby, https://github.com/aws/aws-sdk-ruby
+gem "redis", ">= 4.0.1" # Redis key-value store for Ruby, https://github.com/redis/redis-rb
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

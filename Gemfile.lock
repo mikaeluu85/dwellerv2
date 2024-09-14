@@ -74,6 +74,22 @@ GEM
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
     ast (2.4.2)
+    aws-eventstream (1.3.0)
+    aws-partitions (1.975.0)
+    aws-sdk-core (3.205.0)
+      aws-eventstream (~> 1, >= 1.3.0)
+      aws-partitions (~> 1, >= 1.651.0)
+      aws-sigv4 (~> 1.9)
+      jmespath (~> 1, >= 1.6.1)
+    aws-sdk-kms (1.91.0)
+      aws-sdk-core (~> 3, >= 3.205.0)
+      aws-sigv4 (~> 1.5)
+    aws-sdk-s3 (1.162.0)
+      aws-sdk-core (~> 3, >= 3.205.0)
+      aws-sdk-kms (~> 1)
+      aws-sigv4 (~> 1.5)
+    aws-sigv4 (1.9.1)
+      aws-eventstream (~> 1, >= 1.0.2)
     base64 (0.2.0)
     bcrypt (3.1.20)
     bigdecimal (3.1.8)
@@ -129,6 +145,7 @@ GEM
     jbuilder (2.12.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    jmespath (1.6.2)
     json (2.7.2)
     language_server-protocol (3.17.0.3)
     logger (1.6.1)
@@ -222,6 +239,8 @@ GEM
     rake (13.2.1)
     rdoc (6.7.0)
       psych (>= 4.0.0)
+    redis (5.3.0)
+      redis-client (>= 0.22.0)
     redis-client (0.22.2)
       connection_pool
     regexp_parser (2.9.2)
@@ -332,6 +351,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  aws-sdk-s3
   bootsnap
   brakeman
   capybara
@@ -345,6 +365,7 @@ DEPENDENCIES
   puma (>= 5.0)
   pundit
   rails (~> 7.2.1)
+  redis (>= 4.0.1)
   rubocop-rails-omakase
   selenium-webdriver
   sidekiq

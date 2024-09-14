@@ -75,4 +75,7 @@ Rails.application.configure do
   # Disable caching by default in tests (optional)
   config.action_controller.perform_caching = false
 
+  # Set logging level to info
+  config.log_level = :info
+
 end

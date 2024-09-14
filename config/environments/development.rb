@@ -84,4 +84,6 @@ Rails.application.configure do
     url: ENV.fetch("REDIS_DEVELOPMENT_URL") { "redis://localhost:6379/1" },  # Fallback to localhost
     namespace: "dweller_development_cache"
   }
+
+  config.log_level = :debug
 end
