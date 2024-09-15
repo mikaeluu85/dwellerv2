@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html class="h-full">
   <head>
-    <title><%= content_for(:title) || "Dwellerv2" %></title>
+    <title><%= @error_title&.delete_suffix('!') || "Error" %> - <%= @error_code %> | <%= AppConstants::APP_NAME %> </title> <!-- Trim period in title -->
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
@@ -10,15 +10,12 @@
     <%= yield :head %>
     <%= render 'shared/head_tags' %> <!-- Render the head tags partial here -->
 
+
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-
-  <body>
-    <%= render 'shared/header_nav' %> <!-- Ensure this is correct -->
-    <main class="container mx-auto mt-28 px-5 flex">
-      <%= yield %>
-    </main>
+  <body class="h-full">
+    <%= yield %> <!-- This will render the content of the specific error view -->
   </body>
 </html>

@@ -13,9 +13,9 @@ module.exports = {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        brand: '#FFC602',
-        'brand-secondary': '#E29900',
-        'brand-hue': 'rgba(255, 198, 2, 0.8)', // 80% opacity
+        'primary': '#FFC602',
+        'primary-30': '#FFD74E',
+        'secondary': '#E29900',
         'custom-black': '#222222',
         'dark-grey': '#484848',
         'light-grey': '#767676',
