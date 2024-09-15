@@ -27,6 +27,7 @@ Rails.application.configure do
 
   # Render exception templates for rescuable exceptions and raise for other exceptions.
   config.action_dispatch.show_exceptions = :rescuable
+  #config.action_dispatch.show_exceptions = true
 
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
@@ -74,8 +75,5 @@ Rails.application.configure do
 
   # Disable caching by default in tests (optional)
   config.action_controller.perform_caching = false
-
-  # Set logging level to info
-  config.log_level = :info
 
 end

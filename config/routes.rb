@@ -11,4 +11,11 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  # Define routes for error handling
+  get '404', to: 'errors#not_found', as: :not_found
+  get '500', to: 'errors#internal_server_error', as: :internal_server_error
+
+  # Catch all unmatched routes
+  match "*unmatched", to: "errors#not_found", via: :all
 end
