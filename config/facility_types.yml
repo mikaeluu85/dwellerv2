@@ -1,0 +1,30 @@
+   - name: Kontorslokal
+     title: Kontorslokaler
+     subtitle: En kontorslokal värdigt ert företag
+     description: Oavsett vad för kontor ni söker så hjälper vi dig hitta rätt kontor, från förslag till inflytt. Hela vägen.
+     icon: kontorslokal
+   - name: Coworking
+     title: Coworking
+     subtitle: Arbete, gemenskap och service
+     description: Oavsett vart i Stockholm du är baserad så hjälper vi dig hitta ett coworking-medlemskap som passar dig och det du söker.
+     icon: coworking
+   - name: Kontorsplats
+     title: Kontorsplatser
+     subtitle: En kontorsplats bara för dig
+     description: Behöver du en permanent kontorsplats? Vi vet vart det finns en och hjälper dig rätt, hela vägen.
+     icon: kontorsplats
+   - name: Kontorsrum
+     title: Kontorsrum
+     subtitle: Mer än fyra egna väggar
+     description: Oavsett vad för kontor ni söker så hjälper vi dig hitta rätt kontor, från förslag till inflytt. Hela vägen.
+     icon: kontorsrum
+   - name: Kontorshotell
+     title: Kontorshotell
+     subtitle: Eget kontor med alla tjänster
+     description: Lite privatare men med samma service som coworking. Kontorshotell är rätt val för den som behöver en lite tydligare servicegrad.
+     icon: kontorshotell
+   - name: Kontor
+     title: Kontor
+     subtitle: Kontor för alla
+     description: Oavsett vad för kontor som du söker så kan Dweller hjälpa dig hitta rätt. Vi kan hjälpa alla, stora som små.
+     icon: kontor

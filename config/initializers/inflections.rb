@@ -14,3 +14,13 @@
 # ActiveSupport::Inflector.inflections(:en) do |inflect|
 #   inflect.acronym "RESTful"
 # end
+
+ActiveSupport::Inflector.inflections(:sv) do |inflect|
+  # Add pluralization rules for Swedish terms
+  inflect.irregular 'kontorslokal', 'kontorslokaler'
+  inflect.irregular 'kontorsplats', 'kontorsplatser'
+  inflect.irregular 'kontorsrum', 'kontorsrum' # Assuming it remains the same
+  inflect.irregular 'kontorshotell', 'kontorshotell' # Assuming it remains the same
+  inflect.irregular 'kontor', 'kontor' # Assuming it remains the same
+  inflect.irregular 'coworking', 'coworking' # Assuming it remains the same
+end

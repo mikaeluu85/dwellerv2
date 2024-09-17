@@ -1,0 +1,49 @@
+<div data-controller="type-selector">  <!-- Single controller for both icons and content -->
+
+  <!-- Type Icons Section -->
+  <div class="container mx-auto max-w-7xl">
+    <div class="flex flex-col pt-4 pr-4 pl-4 space-y-2">
+      <div>
+        <p class="uppercase color-dark-grey">Kontor, Verktyg, Guider, Tips</p>
+        <h1 class="mt-4 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-custom-black">
+          Hitta rätt kontor i Stockholm med Dweller
+        </h1>
+      </div>
+
+      <div class="pt-8 flex flex-col">
+        <div class="flex items-center mt-4 pl-4">
+          <p class="text-xs text-custom-black font-medium">Välj typ</p>
+          <%= image_tag('static/quirky-arrow.svg', alt: 'Välj din lokal', class: 'h-6 w-6 ml-2') %>
+        </div>
+        <%= render 'type_icons', facility_types: @facility_types %>  <!-- Renders icons -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Type Selection Content Section -->
+  <div style="background-image: url('<%= asset_path 'static/home_hero.jpg' %>');" class="bg-cover bg-center">
+    <div class="container mx-auto p-4 max-w-7xl">
+      <div id="type-content">  <!-- Content container -->
+
+        <!-- Show Kontorslokal by default -->
+        <% kontorslokal_type = @types.find { |type| type['name'] == 'Kontorslokal' } %>
+        <% if kontorslokal_type %>
+          <%= render 'type_selection', type: kontorslokal_type, show: true %>
+        <% end %>
+
+        <!-- Render all other types, hidden by default -->
+        <% @types.each do |type| %>
+          <% next if type['name'] == 'Kontorslokal' %>
+          <%= render 'type_selection', type: type, show: false %>  <!-- Other types hidden by default -->
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Additional Sections -->
+<%= render 'shared/calculator_feature' %>
+<%= render 'shared/feature_blogpost' %>
+<%= render 'shared/footer' %>

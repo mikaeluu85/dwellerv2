@@ -1,0 +1,17 @@
+<div 
+  class="rounded-md bg-white w-full md:w-1/2 p-6 my-20 flex flex-col type-selection <%= 'hidden' unless show %>"
+  data-type-content="<%= type['name'] %>" data-type-selector-target="content" >
+  <p class="uppercase color-dark-grey"><%= type['title'] %></p>
+  <h2 class="text-2xl mt-3.5 font-bold"><%= type['subtitle'] %></h2>
+  <p><%= type['description'] %></p>
+
+  <!-- Buttons -->
+  <div class="flex flex-col space-y-3 items-start mt-6">
+    <a href="#" class="lg:w-1/2 w-full rounded-full bg-primary px-3.5 py-2.5 tracking-wide text-center text-sm uppercase font-medium text-custom-black shadow-sm hover:bg-primary-30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
+      Alla <%= sv_pluralize(type['name'].downcase).capitalize %>
+    </a>
+    <a href="#" class="lg:w-1/2 w-full rounded-full bg-white px-3.5 py-2.5 tracking-wide text-center text-sm uppercase font-medium text-custom-black shadow-sm border border-light-grey hover:bg-super-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
+      Guider och tips
+    </a>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<% if facility_types.present? %>
+  <div class="flex space-x-4 overflow-x-auto hide-scrollbar pt-2" >
+    <% facility_types.each do |type| %>
+      <div 
+        class="flex-shrink-0 w-32 flex flex-col items-center justify-center p-1 cursor-pointer 
+               border-b-2 border-transparent hover:border-b-2 hover:border-primary transition-colors duration-200"
+        data-type="<%= type['name'] %>"
+        data-action="click->type-selector#selectType"
+      >
+        <div class="h-12 w-12 rounded-full flex items-center justify-center text-white">
+          <%= image_tag("typeicon/#{type['icon']}.svg", alt: type['title'], class: 'h-full max-w-9') %>
+        </div>
+        <span class="mt-2 uppercase tracking-wide text-xs font-medium color-custom-black"><%= type['name'] %></span>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>No facility types available.</p>
+<% end %>

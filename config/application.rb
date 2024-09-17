@@ -26,5 +26,14 @@ module Dwellerv2
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # Explicitly set available locales
+    config.i18n.available_locales = [:en, :sv]
+    
+    # Set default locale to Swedish
+    config.i18n.default_locale = :sv
+
+    # Fallback to English if Swedish translation is missing
+    config.i18n.fallbacks = [:en]
   end
 end
