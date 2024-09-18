@@ -147,6 +147,13 @@ GEM
       railties (>= 6.1)
     drb (2.2.1)
     erubi (1.13.0)
+    factory_bot (6.5.0)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.4.3)
+      factory_bot (~> 6.4)
+      railties (>= 5.0.0)
+    faker (3.4.2)
+      i18n (>= 1.8.11, < 2)
     ffi (1.17.0-aarch64-linux-gnu)
     ffi (1.17.0-arm-linux-gnu)
     ffi (1.17.0-arm64-darwin)
@@ -391,6 +398,8 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    shoulda-matchers (6.4.0)
+      activesupport (>= 5.2.0)
     sidekiq (7.3.2)
       concurrent-ruby (< 2)
       connection_pool (>= 2.3.0)
@@ -467,6 +476,8 @@ DEPENDENCIES
   debug
   devise
   dotenv-rails
+  factory_bot_rails
+  faker
   friendly_id (~> 5.4.0)
   geocode
   image_processing (~> 1.2)
@@ -488,6 +499,7 @@ DEPENDENCIES
   sanitize
   sassc-rails
   selenium-webdriver
+  shoulda-matchers
   sidekiq
   sitemap_generator
   sprockets-rails

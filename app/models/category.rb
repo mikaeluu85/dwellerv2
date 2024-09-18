@@ -5,7 +5,7 @@ class Category < ApplicationRecord
     has_many :blog_posts, dependent: :destroy
   
     validates :name, presence: true, uniqueness: true
-    validates :slug, uniqueness: true
+    validates :slug, presence: true, uniqueness: true
 
     def self.ransackable_attributes(auth_object = nil)
       ["created_at", "id", "name", "slug", "updated_at"]
