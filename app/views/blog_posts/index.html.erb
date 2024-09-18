@@ -1,0 +1,16 @@
+<h1>
+  <% if @category %>
+    Category: <%= @category.name %>
+  <% else %>
+    Blog Overview
+  <% end %>
+</h1>
+
+<% @blog_posts.each do |post| %>
+  <h2><%= link_to post.title, blog_article_path(post.category.slug, post.id) %></h2>
+  <% if post.featured_image.attached? %>
+    <%= image_tag post.featured_image.variant(resize_to_limit: [300, 200]) %>
+  <% end %>
+  <p><%= post.excerpt %></p>
+  <hr>
+<% end %>

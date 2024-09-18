@@ -43,7 +43,21 @@ gem "pundit" # Simple and extensible authorization solution for Ruby on Rails, h
 gem "sidekiq" # Background job processing for Ruby, https://github.com/mperham/sidekiq
 gem "geocode" # Geocoding library for Ruby, https://github.com/alexreisner/geocoder
 gem "aws-sdk-s3" # Amazon S3 SDK for Ruby, https://github.com/aws/aws-sdk-ruby
-gem "redis", ">= 4.0.1" # Redis key-value store for Ruby, https://github.com/redis/redis-rb
+gem "redis", ">= 4.0.1" # Redis key-value store for Ruby, https://github.com/redis/redis
+
+# Add missing gems
+gem 'activeadmin' # For admin interface
+gem 'sassc-rails' #Support for activeadmin
+gem 'redcarpet' # For Markdown rendering
+gem 'active_storage_validations' # For image validations
+gem 'sitemap_generator' # For sitemap creation
+gem 'rss' # For RSS feed (nice to have)
+gem 'meta-tags' # For SEO meta tags
+gem 'image_processing' # For image variants and optimization
+gem 'mini_magick' # For image processing (dependency)
+gem 'rails-html-sanitizer' # For sanitizing HTML input
+gem 'sanitize' # For sanitizing inputs in a flexible way
+gem 'friendly_id', '~> 5.4.0' #Nice slugs
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

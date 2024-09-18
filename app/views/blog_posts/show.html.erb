@@ -1,0 +1,38 @@
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "<%= @blog_post.title %>",
+    "author": {
+      "@type": "Person",
+      "name": "<%= @blog_post.admin_user.email %>"
+    },
+    "datePublished": "<%= @blog_post.created_at.iso8601 %>",
+    "dateModified": "<%= @blog_post.updated_at.iso8601 %>",
+    "image": [
+      <% images = [] %>
+      <% if @blog_post.featured_image.attached? %>
+        <% images << url_for(@blog_post.featured_image) %>
+      <% end %>
+      <% @blog_post.images.each do |image| %>
+        <% images << url_for(image.file) %>
+      <% end %>
+      "<%= images.join('", "') %>"
+    ],
+    "articleSection": "<%= @blog_post.category.name %>",
+    "articleBody": "<%= strip_tags(markdown(@blog_post.content)) %>"
+  }
+  </script>
+<h1><%= @blog_post.title %></h1>
+<p>
+  By <%= @blog_post.admin_user.email %> on <%= @blog_post.created_at.strftime('%B %d, %Y') %> |
+  Category: <%= link_to @blog_post.category.name, blog_category_path(@blog_post.category.slug) %>
+</p>
+
+<% if @blog_post.featured_image.attached? %>
+  <%= image_tag @blog_post.featured_image.variant(resize_to_limit: [800, 600]) %>
+<% end %>
+
+<div class="content">
+  <%= markdown(@blog_post.content) %>
+</div>
