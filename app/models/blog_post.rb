@@ -11,6 +11,27 @@ class BlogPost < ApplicationRecord
   validates :title, uniqueness: true
   validates :meta_description, length: { maximum: 160 }
   validates :excerpt, length: { maximum: 300 }
-  validates :category, presence: true
 
+  def self.ransackable_associations(auth_object = nil)
+    %w[
+      admin_user
+      category
+      featured_image_attachment
+      featured_image_blob
+      images
+    ]
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[
+      title
+      content
+      excerpt
+      meta_description
+      visible
+      top_story
+      created_at
+      updated_at
+    ]
+  end
 end

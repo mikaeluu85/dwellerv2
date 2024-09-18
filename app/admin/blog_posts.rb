@@ -15,7 +15,7 @@ ActiveAdmin.register BlogPost do
   end
 
   form do |f|
-    f.semantic_errors *f.object.errors.keys
+    f.semantic_errors *f.object.errors.attribute_names
 
     f.inputs 'Blog Post Details' do
       f.input :admin_user, label: 'Writer', as: :select, collection: AdminUser.all.collect { |u| [u.email, u.id] }
@@ -62,7 +62,7 @@ ActiveAdmin.register BlogPost do
         end
       end
       row :content do |blog_post|
-        markdown(blog_post.content).html_safe
+        render_markdown(blog_post.content).html_safe
       end
     end
     active_admin_comments
@@ -71,5 +71,23 @@ ActiveAdmin.register BlogPost do
   controller do
     include Rails.application.routes.url_helpers
     include ActiveStorage::SetCurrent
+    include ActionView::Helpers::SanitizeHelper  # Include the SanitizeHelper module
+
+    helper_method :render_markdown
+
+    def render_markdown(text)
+      renderer = Redcarpet::Render::HTML.new(hard_wrap: true)
+      options = {
+        autolink: true,
+        tables: true,
+        fenced_code_blocks: true,
+        strikethrough: true,
+        lax_html_blocks: true,
+        space_after_headers: true,
+        superscript: true
+      }
+      markdown = Redcarpet::Markdown.new(renderer, options)
+      sanitize(markdown.render(text), tags: %w(p br strong em a h1 h2 h3 h4 h5 h6 ul ol li img blockquote pre code), attributes: %w(href src alt title)).html_safe
+    end
   end
 end

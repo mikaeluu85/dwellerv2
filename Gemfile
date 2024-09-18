@@ -35,6 +35,8 @@ gem "bootsnap", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
+gem 'image_processing', '~> 1.2'
+# gem "image_processing", "~> 1.2"
 
 # Project dedicated
 
@@ -53,8 +55,7 @@ gem 'active_storage_validations' # For image validations
 gem 'sitemap_generator' # For sitemap creation
 gem 'rss' # For RSS feed (nice to have)
 gem 'meta-tags' # For SEO meta tags
-gem 'image_processing' # For image variants and optimization
-gem 'mini_magick' # For image processing (dependency)
+gem 'mini_magick', '~> 4.11'
 gem 'rails-html-sanitizer' # For sanitizing HTML input
 gem 'sanitize' # For sanitizing inputs in a flexible way
 gem 'friendly_id', '~> 5.4.0' #Nice slugs

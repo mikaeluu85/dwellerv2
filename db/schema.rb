@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_17_213527) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_18_173254) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -116,7 +116,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_17_213527) do
 
   create_table "images", force: :cascade do |t|
     t.string "alt_text"
-    t.bigint "blog_post_id", null: false
+    t.bigint "blog_post_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["blog_post_id"], name: "index_images_on_blog_post_id"

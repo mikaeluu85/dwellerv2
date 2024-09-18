@@ -349,4 +349,11 @@ ActiveAdmin.setup do |config|
   # You can switch to using Webpacker here.
   #
   # config.use_webpacker = true
+
+  # Remove the default ActiveAdmin stylesheet (optional)
+  config.clear_stylesheets!
+
+  # Register your custom stylesheet
+  config.register_stylesheet 'admin/active_admin.css', media: 'screen'
+
 end

@@ -8,7 +8,7 @@ ActiveAdmin.register Image do
     column :blog_post
     column :file do |image|
       if image.file.attached?
-        image_tag url_for(image.file), size: "50x50"
+        image_tag rails_blob_path(image.file, only_path: true), size: "50x50"
       else
         'No Image'
       end
@@ -17,10 +17,10 @@ ActiveAdmin.register Image do
   end
 
   form do |f|
-    f.semantic_errors *f.object.errors.keys
-
+    f.semantic_errors
+    
     f.inputs 'Image Details' do
-      f.input :blog_post, as: :select, collection: BlogPost.pluck(:title, :id)
+      f.input :blog_post, as: :select, collection: BlogPost.pluck(:title, :id), include_blank: true
       f.input :alt_text
       f.input :file, as: :file
     end
@@ -34,7 +34,7 @@ ActiveAdmin.register Image do
       row :blog_post
       row :file do |image|
         if image.file.attached?
-          image_tag url_for(image.file)
+          image_tag rails_blob_path(image.file, only_path: true)
         else
           'No Image'
         end

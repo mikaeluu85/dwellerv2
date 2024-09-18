@@ -6,4 +6,12 @@ class Category < ApplicationRecord
   
     validates :name, presence: true, uniqueness: true
     validates :slug, uniqueness: true
-  end
+
+    def self.ransackable_attributes(auth_object = nil)
+      ["created_at", "id", "name", "slug", "updated_at"]
+    end
+
+    def self.ransackable_associations(auth_object = nil)
+      ["blog_posts"]
+    end
+end
