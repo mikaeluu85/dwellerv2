@@ -1,0 +1,28 @@
+<% background_image = asset_path('static/blog_hero.jpg') %>
+<header class="w-full bg-cover bg-center h-96 flex items-center justify-center relative -mt-10" style="background-image: url('<%= background_image %>');">
+  <div class="text-center text-white p-14">
+    <% if @category.present? %>
+      <nav class="flex mb-8 px-8" aria-label="Breadcrumb">
+        <ol role="list" class="flex items-center space-x-4">
+          <li>
+            <%= link_to 'Guider och tips', blog_overview_path, class: "text-white hover:text-gray-500" %>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <svg class="h-5 w-5 flex-shrink-0 text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+              </svg>
+              <%= link_to @category.name, blog_category_path(@category.slug), class: "ml-4 text-sm font-medium text-white hover:text-white" %>
+            </div>
+          </li>
+        </ol>
+      </nav>
+      <h1 class="text-4xl font-bold mb-4"><%= @category.name %></h1>
+      <p class="text-l mb-4">Allt du behöver veta om <%= @category.name&.downcase %>.</p>
+    <% else %>
+      <p class="text-l mb-4">Dweller Insights</p>
+      <h1 class="text-4xl font-bold mb-4">Guider, verktyg och tips</h1>
+      <p class="text-l mb-4">Allt du behöver veta om kontor.</p>
+    <% end %>
+  </div>
+</header>

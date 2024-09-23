@@ -48,3 +48,7 @@ amazon_staging:
   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY_STAGING'] %>
   region: <%= ENV['AWS_REGION_STAGING'] %>
   bucket: <%= ENV['AWS_BUCKET_STAGING'] %>  # Separate bucket for staging
+
+local:
+  service: Disk
+  root: <%= Rails.root.join("storage") %>

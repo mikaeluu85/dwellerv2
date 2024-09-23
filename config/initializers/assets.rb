@@ -11,5 +11,10 @@ Rails.application.config.assets.version = "1.0"
 # folder are already added.
 # Rails.application.config.assets.precompile += %w[ admin.js admin.css ]
 
-# Ensure stylesheets are included in the asset pipeline
+# Ensure stylesheets are included in the asset load path
 Rails.application.config.assets.paths << Rails.root.join("app", "assets", "stylesheets")
+
+
+Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'stylesheets', 'admin')
+# Precompile ActiveAdmin assets separately
+Rails.application.config.assets.precompile += %w[admin/active_admin.css active_admin.js]

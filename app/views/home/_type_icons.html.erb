@@ -3,11 +3,11 @@
     <% facility_types.each do |type| %>
       <div 
         class="flex-shrink-0 w-32 flex flex-col items-center justify-center p-1 cursor-pointer 
-               border-b-2 border-transparent hover:border-b-2 hover:border-primary transition-colors duration-200"
+               border-b-2 border-transparent hover:border-b-2 hover:border-primary"
         data-type="<%= type['name'] %>"
         data-action="click->type-selector#selectType"
       >
-        <div class="h-12 w-12 rounded-full flex items-center justify-center text-white">
+        <div class="h-12 w-12 rounded-full flex items-center justify-center text-white transition-colors duration-200 hover:transform hover:-translate-y-2">
           <%= image_tag("typeicon/#{type['icon']}.svg", alt: type['title'], class: 'h-full max-w-9') %>
         </div>
         <span class="mt-2 uppercase tracking-wide text-xs font-medium color-custom-black"><%= type['name'] %></span>
