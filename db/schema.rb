@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_23_093526) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_23_200419) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -127,9 +127,39 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_23_093526) do
     t.index ["blog_post_id"], name: "index_images_on_blog_post_id"
   end
 
+  create_table "locations", force: :cascade do |t|
+    t.string "name"
+    t.json "geojson"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "prioritized", default: false
+    t.index ["slug"], name: "index_locations_on_slug", unique: true
+  end
+
+  create_table "permutations", force: :cascade do |t|
+    t.bigint "location_id", null: false
+    t.bigint "premise_type_id", null: false
+    t.text "custom_data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["location_id"], name: "index_permutations_on_location_id"
+    t.index ["premise_type_id"], name: "index_permutations_on_premise_type_id"
+  end
+
+  create_table "premise_types", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_premise_types_on_slug", unique: true
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blog_posts", "admin_users"
   add_foreign_key "blog_posts", "categories"
   add_foreign_key "images", "blog_posts"
+  add_foreign_key "permutations", "locations"
+  add_foreign_key "permutations", "premise_types"
 end

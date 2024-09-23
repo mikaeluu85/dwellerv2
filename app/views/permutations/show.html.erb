@@ -1,0 +1,33 @@
+<% content_for :head do %>
+  <title><%= @custom_data['seo_title'] || "Hyra #{@premise_type.name} i #{@location.name}" %></title>
+  <meta name="description" content="<%= @custom_data['seo_description'] %>">
+  <!-- Include Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <!-- Include Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<% end %>
+
+<h1>Hyra <%= @premise_type.name %> i <%= @location.name %></h1>
+
+<div id="map" style="height: 400px; width: 100%;"></div>
+
+<% if @custom_data['content'] %>
+  <%= sanitize @custom_data['content'] %>
+<% else %>
+  <p>Information om att hyra <%= @premise_type.name %> i <%= @location.name %>.</p>
+<% end %>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var map = L.map('map').setView([59.3293, 18.0686], 11);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Ensure geojson is valid and properly formatted
+    var geojson = JSON.parse(<%= @location.geojson.to_json.html_safe %>); // Parse the GeoJSON string
+    L.geoJSON(geojson).addTo(map);
+  });
+</script>
+
+
