@@ -4,13 +4,13 @@
 <% featured_post = top_stories ? blog_posts.top_stories.first : blog_posts.first %>
 <% latest_posts = top_stories ? blog_posts.top_stories.where.not(id: featured_post&.id).limit(5) : blog_posts.where.not(id: featured_post&.id).limit(5) %>
 
-<div class="bg-white pt-16 pb-16">
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 border-t border-super-light">
+<div class="bg-white pb-16 <%= 'pt-16' unless controller_name == 'blog_posts' && (action_name == 'index' || action_name == 'category') %>">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 <%= 'border-t border-super-light' unless controller_name == 'blog_posts' && (action_name == 'index' || action_name == 'category') %>">
     <div class="w-full mb-8 pb-6">
       <p class="text-base font-semibold leading-7 bg-primary"></p>
-      <h1 class="mt-2 text-3xl font-bold tracking-tight text-custom-black sm:text-4xl">
-        <%= top_stories ? "Våra bästa guider" : (category ? "Mer läsning" : "Senaste läsningen från Dweller") %>
-      </h1>
+      <h2 class="mt-2 text-xl font-bold tracking-tight text-custom-black sm:text-4xl">
+        <%= top_stories ? "Våra bästa guider" : (category ? "Mer läsning om #{category&.name&.downcase}" : "Senaste läsningen från Dweller") %>
+      </h2>
     </div>
   </div>
   <div class="mx-auto grid max-w-7xl -grid-cols-1 gap-x-8 gap-y-12 px-6 sm:gap-y-16 lg:grid-cols-2 lg:px-8">
@@ -20,7 +20,7 @@
           <div class="w-full mb-6 relative" style="padding-top: 56.25%;">
             <% if featured_post.featured_image.attached? %>
               <%= image_tag featured_post.featured_image.variant(resize_to_fill: [1600, 900]), 
-                            class: "absolute top-0 left-0 w-full h-full object-cover rounded-lg shadow-md transition duration-300 ease-in-out hover:opacity-80", 
+                            class: "absolute top-0 left-0 w-full h-full object-cover rounded-lg transition duration-300 ease-in-out hover:opacity-80", 
                             alt: "Featured blog post image" %>
             <% end %>
           </div>
@@ -42,7 +42,7 @@
           <div class="flex lg:border-t lg:border-gray-900/10 lg:pt-8">
             <%= link_to "#", class: "flex gap-x-2.5 text-sm font-semibold leading-6 text-gray-900" do %>
               <%= image_tag featured_post.admin_user.avatar.variant(resize_to_fill: [24, 24]), class: "h-6 w-6 flex-none rounded-full bg-gray-50" if featured_post.admin_user.avatar.attached? %>
-              <%= featured_post.admin_user.name %>
+              <%= content_tag(:span, featured_post.admin_user.name, class: "text-light-grey") %>
             <% end %>
           </div>
         </div>
@@ -64,7 +64,7 @@
             <div class="mt-4 flex">
               <%= link_to "#", class: "relative flex gap-x-2.5 text-sm font-semibold leading-6 text-gray-900" do %>
                 <%= image_tag post.admin_user.avatar.variant(resize_to_fill: [24, 24]), class: "h-6 w-6 flex-none rounded-full bg-gray-50" if post.admin_user.avatar.attached? %>
-                <%= post.admin_user.name %>
+                <%= content_tag(:span, post.admin_user.name, class: "text-light-grey semi-bold") %>
               <% end %>
             </div>
           </article>

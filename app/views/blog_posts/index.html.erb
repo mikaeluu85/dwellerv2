@@ -1,10 +1,33 @@
 <!-- Full-width header with background image -->
+
+<!-- Todo: Break header into partial -->
+
 <% background_image = asset_path('static/blog_hero.jpg') %>
 <header class="w-full bg-cover bg-center h-96 flex items-center justify-center relative -mt-10" style="background-image: url('<%= background_image %>');">
-  <div class="text-center text-white p-14">
-    <p class="text-l mb-4">Dweller Insights</p>
-    <h1 class="text-4xl font-bold mb-4">Guider, verktyg och tips</h1>
-    <p class="text-l mb-4">Allt du behöver veta om kontor.</p>
+  <div class="text-center text-white p-4 sm:p-14">
+    <% if @category.present? %>
+      <nav class="flex mb-4 sm:mb-8 px-4 sm:px-8" aria-label="Breadcrumb">
+        <ol role="list" class="flex items-center space-x-2 sm:space-x-4">
+          <li>
+            <%= link_to 'Guider och tips', blog_overview_path, class: "text-white hover:text-gray-500 text-sm sm:text-base" %>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <svg class="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0 text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+              </svg>
+              <%= link_to @category.name, blog_category_path(@category.slug), class: "ml-2 sm:ml-4 text-xs sm:text-sm font-medium text-white hover:text-white" %>
+            </div>
+          </li>
+        </ol>
+      </nav>
+      <h1 class="text-2xl sm:text-4xl font-bold mb-2 sm:mb-4"><%= @category.name %></h1>
+      <p class="text-sm sm:text-l mb-2 sm:mb-4">Allt du behöver veta om <%= @category.name&.downcase %>.</p>
+    <% else %>
+      <p class="text-sm sm:text-l mb-2 sm:mb-4">Dweller Insights</p>
+      <h1 class="text-2xl sm:text-4xl font-bold mb-2 sm:mb-4">Guider, verktyg och tips</h1>
+      <p class="text-sm sm:text-l mb-2 sm:mb-4">Allt du behöver veta om kontor.</p>
+    <% end %>
   </div>
 </header>
 
@@ -13,13 +36,20 @@
   <div class="flex justify-center">
     <div class="flex overflow-x-auto hide-scrollbar pb-4 -mx-4 px-4 sm:px-0">
       <div class="flex space-x-8 min-w-max">
-        <% 6.times do |i| %>
-          <div class="flex flex-col items-center p-4 border border-dark-grey bg-white rounded-lg w-32 transition-transform duration-100 hover:translate-y-1">
-            <svg class="w-12 h-12 mb-2 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
-            </svg>
-            <span class="text-center">Category <%= i + 1 %></span>
-          </div>
+        <% Category.where(active: true).each do |category| %>
+          <a href="<%= blog_category_path(category_slug: category.slug) %>" class="flex flex-col items-center p-4 border border-dark-grey bg-white rounded-lg w-32 transition-transform duration-200 hover:translate-y-0.5 h-full justify-center">
+            <% if category.svg_content.present? %>
+              <div class="mb-1 text-light-grey">
+                <%= raw category.svg_with_viewbox.html_safe %>
+              </div>
+            <% else %>
+              <!-- Fallback SVG -->
+              <svg class="w-12 h-12 mb-2 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+              </svg>
+            <% end %>
+            <span class="text-center"><%= category.name %></span>
+          </a>
         <% end %>
       </div>
     </div>
@@ -27,16 +57,16 @@
 </div>
 
 <!-- Feature blog post partial -->
-<%= render 'shared/feature_blogpost' %>
+<%= render 'shared/feature_blogpost', category: @category %>
 
 <!-- Search feature brand partial -->
-<%= render 'shared/search_feature_brand' %>
+<%= render 'shared/search_feature_brand', category: @category %>
 
 <!-- Show top tops -->
-<%= render 'shared/feature_blogpost', top_stories: true %>
+<%= render 'shared/feature_blogpost', top_stories: true, category: @category %>
 
 <!-- Latest blog posts grid -->
-<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
   <div id="blog-posts-container" class="grid grid-cols-1 gap-x-8 gap-y-12 sm:gap-y-16 md:grid-cols-2 lg:grid-cols-3">
     <%= render partial: 'blog_post', collection: @blog_posts %>
   </div>

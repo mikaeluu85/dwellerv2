@@ -52,6 +52,7 @@ gem 'activeadmin' # For admin interface
 gem 'sassc-rails' #Support for activeadmin
 gem 'redcarpet' # For Markdown rendering
 gem 'active_storage_validations' # For image validations
+gem 'nokogiri' # For parsing and modifying SVG content
 gem 'sitemap_generator' # For sitemap creation
 gem 'rss' # For RSS feed (nice to have)
 gem 'meta-tags' # For SEO meta tags

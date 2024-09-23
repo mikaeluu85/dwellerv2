@@ -18,7 +18,3 @@ Rails.application.config.assets.paths << Rails.root.join("app", "assets", "style
 Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'stylesheets', 'admin')
 # Precompile ActiveAdmin assets separately
 Rails.application.config.assets.precompile += %w[admin/active_admin.css active_admin.js]
-
-
-
-

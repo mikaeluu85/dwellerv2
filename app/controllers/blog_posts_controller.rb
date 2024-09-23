@@ -6,9 +6,8 @@ class BlogPostsController < ApplicationController
     @blog_posts = BlogPost.visible.recent.page(params[:page]).per(6)
     respond_to do |format|
       format.html
-      format.turbo_stream do
+      format.turbo_stream
     end
-      end
   end
 
   def show
@@ -28,7 +27,7 @@ class BlogPostsController < ApplicationController
 
   def category
     @category = Category.friendly.find(params[:category_slug])
-    @blog_posts = @category.blog_posts.where(visible: true).order(created_at: :desc)
+    @blog_posts = @category.blog_posts.where(visible: true).order(created_at: :desc).page(params[:page]).per(6)
     render :index
   end
 
