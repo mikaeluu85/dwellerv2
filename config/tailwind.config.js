@@ -25,6 +25,11 @@ module.exports = {
         'negative-red': '#FF4444',
         'alert-yellow': '#FFBB33',
       },
+      buttonStyles: {
+        'primary-button': 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded',
+        'secondary-button': 'lg:w-1/2 w-full rounded-full bg-white px-3.5 py-2.5 tracking-wide text-center text-sm uppercase font-medium text-custom-black shadow-sm border border-light-grey hover:bg-super-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand',
+        // Add more button styles as needed
+      },
     },
   },
   plugins: [

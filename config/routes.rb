@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   scope '/guider-och-tips' do
     get '/', to: 'blog_posts#index', as: :blog_overview
     get '/:category_slug', to: 'blog_posts#category', as: :blog_category
-    get '/:category_slug/:id', to: 'blog_posts#show', as: :blog_article
+    get '/:category_slug/:slug', to: 'blog_posts#show', as: :blog_article
   end
 
   # RSS Feed

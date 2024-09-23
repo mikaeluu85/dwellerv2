@@ -1,0 +1,11 @@
+<%= turbo_stream.append 'blog-posts-container', partial: 'blog_post', collection: @blog_posts %>
+<%= turbo_stream.replace 'load-more' do %>
+  <div id="load-more" class="mt-12 text-center">
+    <% if @blog_posts.next_page %>
+      <%= link_to 'Ladda fler artiklar', blog_overview_path(page: @blog_posts.next_page, format: :turbo_stream), 
+                  class: 'secondar-button', 
+                  data: { turbo_frame: 'load-more' } %>
+    <% else %>
+    <% end %>
+  </div>
+<% end %>

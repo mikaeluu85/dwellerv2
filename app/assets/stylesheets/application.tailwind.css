@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .secondary-button {
+    @apply lg:w-1/2 w-full rounded-full bg-white px-3.5 py-2.5 tracking-wide text-center text-sm uppercase font-medium text-custom-black shadow-sm border border-light-grey hover:bg-super-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
+  }
+}
+
 /*
 
 @layer components {

@@ -22,17 +22,108 @@
     "articleSection": "<%= @blog_post.category.name %>",
     "articleBody": "<%= strip_tags(markdown(@blog_post.content)) %>"
   }
-  </script>
-<h1><%= @blog_post.title %></h1>
-<p>
-  By <%= @blog_post.admin_user.email %> on <%= @blog_post.created_at.strftime('%B %d, %Y') %> |
-  Category: <%= link_to @blog_post.category.name, blog_category_path(@blog_post.category.slug) %>
-</p>
+</script>
 
-<% if @blog_post.featured_image.attached? %>
-  <%= image_tag @blog_post.featured_image.variant(resize_to_limit: [800, 600]) %>
-<% end %>
+<div class="bg-white lg:px-8">
+  <div class="mx-auto max-w-7xl">
+    <!-- Breadcrumb navigation -->
+    <nav class="flex mb-8 px-8" aria-label="Breadcrumb">
+      <ol role="list" class="flex items-center space-x-4">
+        <li>
+          <div>
+            <%= link_to root_path, class: "text-gray-400 hover:text-gray-500" do %>
+              <svg class="h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" clip-rule="evenodd" />
+              </svg>
+              <span class="sr-only">Home</span>
+            <% end %>
+          </div>
+        </li>
+        <li>
+          <div class="flex items-center">
+            <svg class="h-5 w-5 flex-shrink-0 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+            </svg>
+            <%= link_to @blog_post.category.name, blog_category_path(@blog_post.category.slug), class: "ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" %>
+          </div>
+        </li>
+        <li class="hidden sm:block">
+          <div class="flex items-center">
+            <svg class="h-5 w-5 flex-shrink-0 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+            </svg>
+            <span class="ml-4 text-sm font-medium text-gray-500" aria-current="page"><%= @blog_post.title %></span>
+          </div>
+        </li>
+      </ol>
+    </nav>
 
-<div class="content">
-  <%= markdown(@blog_post.content) %>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 px-8">
+      <!-- Main content column (75%) -->
+      <div class="lg:col-span-7">
+        <div class="max-w-3xl text-base leading-7 text-gray-700">
+          <p class="text-base font-semibold leading-7 text-indigo-600">
+            <%= link_to @blog_post.category.name, blog_category_path(@blog_post.category.slug) %>
+          </p>
+          <h1 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"><%= @blog_post.title %></h1>
+          <div class="flex items-center space-x-3 text-sm mt-6">
+            <%= image_tag @blog_post.admin_user.avatar.variant(resize_to_fill: [40, 40]), 
+                          class: "w-10 h-10 rounded-full" %>
+            <div>
+              <span class="text-gray-500">Av</span>
+              <span class=" text-gray-500"><%= @blog_post.admin_user.name %></span>
+              <span class="text-gray-500 mx-1">·</span>
+              <time datetime="<%= @blog_post.created_at.strftime('%Y-%m-%d') %>" class="text-gray-500">
+                <%= @blog_post.created_at.strftime('%B %d, %Y') %>
+              </time>
+            </div>
+          </div>
+
+          <% if @blog_post.featured_image.attached? %>
+            <figure class="mt-7">
+              <%= image_tag @blog_post.featured_image.variant(resize_to_limit: [800, 600]), class: "aspect-video rounded-xl bg-gray-50 object-cover" %>
+            </figure>
+          <% end %>
+
+          <div class="mt-10 content py-8 border-t border-super-light">
+            <%= markdown(@blog_post.content) %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar column (25%) -->
+      <div class="lg:col-span-5">
+        <div class="group/sticky sticky top-4 transition-all duration-300" 
+             style="--padding-top: 20px;"
+             data-controller="sticky-padding">
+          <div class="bg-white transition-all duration-300 group-[.is-sticky]/sticky:shadow-md"
+               style="padding-top: var(--padding-top);">
+            <!-- Author info and CTA -->
+            <div class="grid grid-cols-6 gap-3 items-start mb-6">
+              <div class="col-span-1 self-start">
+                <%= image_tag @blog_post.admin_user.avatar.variant(resize_to_fill: [100, 100]), 
+                              class: "w-full h-auto rounded-full" %>
+              </div>
+              <div class="col-span-5 pl-4 border-l border-super-light">
+                <h3 class="text-lg font-semibold mb-2">Läge för nytt kontor?</h3>
+                <p class="text-sm font-semibold text-dark-grey">Gör det enkelt med Kontorshjälpen</p>
+                <p class="text-sm text-gray-600 mt-2">Med Kontorshjälpen så gör vi jobbet när det kommer till ditt nästa kontor.</p>
+                <div class="mt-4">
+                  <a href="#" class="text-sm font-semibold leading-6 text-custom-black" aria-describedby="featured-post">
+                    Yes, berätta mer
+                    <span aria-hidden="true">&rarr;</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<%= render 'shared/feature_blogpost', category: @blog_post.category %>
+<%= render 'shared/search_feature_brand' %>
+<%= render 'shared/feature_blogpost' %>
+<%= render 'shared/footer' %>

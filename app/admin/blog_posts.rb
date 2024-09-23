@@ -1,11 +1,28 @@
 ActiveAdmin.register BlogPost do
-  permit_params :title, :content, :excerpt, :meta_description, :visible, :top_story, :category_id, :featured_image, :admin_user_id,
-                images_attributes: [:id, :alt_text, :file, :_destroy]
+  # Ensure we're using ID for all ActiveAdmin routes
+  controller do
+    def find_resource
+      scoped_collection.find(params[:id])
+    end
+  end
 
+  # Use ID in all links
+  member_action :view, method: :get do
+    redirect_to admin_blog_post_path(resource)
+  end
+
+  action_item :view, only: :show do
+    link_to 'View Blog Post', admin_blog_post_path(resource)
+  end
+
+  # Modify the index to use ID in links
   index do
     selectable_column
     id_column
-    column :title
+    column :title do |blog_post|
+      link_to blog_post.title, admin_blog_post_path(blog_post)
+    end
+    column :slug
     column :category
     column :admin_user
     column :visible
@@ -14,6 +31,7 @@ ActiveAdmin.register BlogPost do
     actions
   end
 
+  # Ensure form submits to the correct path
   form do |f|
     f.semantic_errors *f.object.errors.attribute_names
 
@@ -21,6 +39,7 @@ ActiveAdmin.register BlogPost do
       f.input :admin_user, label: 'Writer', as: :select, collection: AdminUser.all.collect { |u| [u.email, u.id] }
       f.input :category, as: :select, collection: Category.all.collect { |c| [c.name, c.id] }
       f.input :title
+      f.input :slug
       f.input :excerpt
       f.input :meta_description
       f.input :content, as: :text
@@ -33,7 +52,7 @@ ActiveAdmin.register BlogPost do
       f.has_many :images, allow_destroy: true, new_record: true do |img_f|
         img_f.input :file, as: :file, hint: img_f.object.file.attached? ? image_tag(img_f.object.file.variant(resize_to_limit: [100, 100])) : content_tag(:span, 'No image yet')
         img_f.input :alt_text
-        if img_f.object.file.attached?
+        if img_f.object.persisted? && img_f.object.file.attached?
           img_f.input :image_url, input_html: { value: rails_blob_url(img_f.object.file, only_path: true), readonly: true }
         end
       end
@@ -42,7 +61,10 @@ ActiveAdmin.register BlogPost do
     f.para 'To include an image in the content, use the following markdown syntax:'
     f.code '![Alt text](Image URL)'
 
-    f.actions
+    f.actions do
+      f.action :submit
+      f.action :cancel, :wrapper_html => { :class => 'cancel' }
+    end
   end
 
   show do
@@ -90,4 +112,7 @@ ActiveAdmin.register BlogPost do
       sanitize(markdown.render(text), tags: %w(p br strong em a h1 h2 h3 h4 h5 h6 ul ol li img blockquote pre code), attributes: %w(href src alt title)).html_safe
     end
   end
+
+  permit_params :title, :content, :excerpt, :meta_description, :visible, :top_story, :category_id, :admin_user_id, :slug, :featured_image,
+                images_attributes: [:id, :alt_text, :file, :_destroy]
 end

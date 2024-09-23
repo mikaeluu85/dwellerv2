@@ -1,16 +1,55 @@
-<h1>
-  <% if @category %>
-    Category: <%= @category.name %>
-  <% else %>
-    Blog Overview
-  <% end %>
-</h1>
+<!-- Full-width header with background image -->
+<% background_image = asset_path('static/blog_hero.jpg') %>
+<header class="w-full bg-cover bg-center h-96 flex items-center justify-center relative -mt-10" style="background-image: url('<%= background_image %>');">
+  <div class="text-center text-white p-14">
+    <p class="text-l mb-4">Dweller Insights</p>
+    <h1 class="text-4xl font-bold mb-4">Guider, verktyg och tips</h1>
+    <p class="text-l mb-4">Allt du behöver veta om kontor.</p>
+  </div>
+</header>
 
-<% @blog_posts.each do |post| %>
-  <h2><%= link_to post.title, blog_article_path(post.category.slug, post.id) %></h2>
-  <% if post.featured_image.attached? %>
-    <%= image_tag post.featured_image.variant(resize_to_limit: [300, 200]) %>
-  <% end %>
-  <p><%= post.excerpt %></p>
-  <hr>
-<% end %>
+<!-- Category rectangles -->
+<div class="container mx-auto px-4 -mt-16 relative z-10">
+  <div class="flex justify-center">
+    <div class="flex overflow-x-auto hide-scrollbar pb-4 -mx-4 px-4 sm:px-0">
+      <div class="flex space-x-8 min-w-max">
+        <% 6.times do |i| %>
+          <div class="flex flex-col items-center p-4 border border-dark-grey bg-white rounded-lg w-32 transition-transform duration-100 hover:translate-y-1">
+            <svg class="w-12 h-12 mb-2 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-center">Category <%= i + 1 %></span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Feature blog post partial -->
+<%= render 'shared/feature_blogpost' %>
+
+<!-- Search feature brand partial -->
+<%= render 'shared/search_feature_brand' %>
+
+<!-- Show top tops -->
+<%= render 'shared/feature_blogpost', top_stories: true %>
+
+<!-- Latest blog posts grid -->
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+  <div id="blog-posts-container" class="grid grid-cols-1 gap-x-8 gap-y-12 sm:gap-y-16 md:grid-cols-2 lg:grid-cols-3">
+    <%= render partial: 'blog_post', collection: @blog_posts %>
+  </div>
+
+  <div id="load-more" class="mt-12 text-center">
+    <% if @blog_posts.next_page %>
+      <%= link_to 'Ladda fler artiklar', blog_overview_path(page: @blog_posts.next_page),
+                  class: 'secondary-button',
+                  data: { turbo_stream: true } %>
+    <% else %>
+    <% end %>
+  </div>
+</div>
+
+<!-- Footer -->
+<%= render 'shared/footer' %>

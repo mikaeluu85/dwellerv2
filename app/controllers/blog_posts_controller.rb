@@ -1,10 +1,18 @@
 class BlogPostsController < ApplicationController
+  include BlogPostFetchable
+  include MarkdownHelper
+
   def index
-    @blog_posts = BlogPost.where(visible: true).order(created_at: :desc)
+    @blog_posts = BlogPost.visible.recent.page(params[:page]).per(6)
+    respond_to do |format|
+      format.html
+      format.turbo_stream do
+    end
+      end
   end
 
   def show
-    @blog_post = BlogPost.find(params[:id])
+    @blog_post = BlogPost.friendly.find(params[:slug])
     redirect_to blog_overview_path unless @blog_post.visible?
   
     set_meta_tags title: @blog_post.title,

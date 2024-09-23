@@ -4,12 +4,13 @@
     <title><%= content_for?(:title) ? yield(:title) : "Dweller" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="turbo-prefetch" content="false">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= display_meta_tags %> <!-- Added display_meta_tags here -->
+    <%= display_meta_tags %>
     <%= yield :head %>
-    <%= render 'shared/head_tags' %> <!-- Render the head tags partial here -->
+    <%= render 'shared/head_tags' %>
 
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag 'application', media: 'all', "data-turbo-track": "reload" %>
@@ -17,7 +18,7 @@
   </head>
 
   <body>
-    <%= render 'shared/header_nav' %> <!-- Ensure this is correct -->
+    <%= render 'shared/header_nav' %>
     <main class="mx-auto mt-10 flex-col">
       <%= yield %>
     </main>
