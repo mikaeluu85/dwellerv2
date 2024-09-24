@@ -7,6 +7,7 @@ class Location < ApplicationRecord
   
     validates :name, presence: true
     validates :geojson, presence: true
+    validates :preposition, inclusion: { in: %w(i på), allow_nil: true } # Validate prepositions if needed
   
     # Add validation for prioritized if needed
     validates :prioritized, inclusion: { in: [true, false] }
@@ -20,6 +21,10 @@ class Location < ApplicationRecord
     end
   
     after_create :generate_permutations
+
+    def full_description
+      "#{preposition} #{name.titleize}".strip
+    end
     
     private
   
@@ -30,10 +35,11 @@ class Location < ApplicationRecord
     end
 
     def self.ransackable_attributes(auth_object = nil)
-      ["created_at", "id", "name", "slug", "geojson", "updated_at", "prioritized"]
+      ["created_at", "id", "name", "slug", "geojson", "updated_at", "prioritized", "preposition"] # Ensure preposition is included
     end
 
     def self.ransackable_associations(auth_object = nil)
       ["premise_types", "permutations"]
     end
+
   end

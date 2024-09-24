@@ -17,6 +17,8 @@
   <p>Information om att hyra <%= @premise_type.name %> i <%= @location.name %>.</p>
 <% end %>
 
+<p>Location: <%= @location_description %></p>
+
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     var map = L.map('map').setView([59.3293, 18.0686], 11);

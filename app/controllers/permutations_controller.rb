@@ -8,6 +8,7 @@ class PermutationsController < ApplicationController
       render :not_found, status: :not_found
     else
       @custom_data = JSON.parse(@permutation.custom_data) rescue {}
+      @location_description = @location.full_description # Use the full description
     end
   end
 end

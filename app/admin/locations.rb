@@ -1,6 +1,6 @@
 ActiveAdmin.register Location do
   menu parent: 'Geo', priority: 2
-  permit_params :name, :geojson, :prioritized
+  permit_params :name, :geojson, :prioritized, :preposition # Ensure preposition is included in permitted params
 
   controller do
     def find_resource
@@ -15,6 +15,7 @@ ActiveAdmin.register Location do
     column :slug
     column :geojson
     column :prioritized
+    column :preposition # Display preposition in the index
     actions
   end
 
@@ -23,6 +24,7 @@ ActiveAdmin.register Location do
       f.input :name
       f.input :geojson, as: :text, input_html: { rows: 10 }, hint: 'Paste valid GeoJSON data here'
       f.input :prioritized, as: :boolean # Add the prioritized field
+      f.input :preposition, as: :select, collection: [['i', 'i'], ['på', 'på']], include_blank: true # Ensure preposition field is included
     end
     f.actions
   end
@@ -34,6 +36,7 @@ ActiveAdmin.register Location do
       row :slug
       row :geojson
       row :prioritized
+      row :preposition # Display preposition in the show view
       row :created_at
       row :updated_at
     end
@@ -44,4 +47,5 @@ ActiveAdmin.register Location do
   filter :created_at
   filter :updated_at
   filter :prioritized # Add filter for prioritized
+  filter :preposition # Add filter for preposition
 end

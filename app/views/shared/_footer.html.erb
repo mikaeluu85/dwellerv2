@@ -128,7 +128,7 @@
                     <% if permutation.location.prioritized %>
                       <li>
                         <a href="<%= hyra_permutation_path(premise_type.name.parameterize, permutation.location.name.parameterize) %>" class="leading-6 text-xs text-light-grey hover:text-gray-900">
-                          <%= "#{permutation.premise_type.name.titleize} på #{permutation.location.name.titleize}" %>
+                          <%= "#{permutation.premise_type.name.titleize} #{permutation.location.full_description}" %> <!-- Updated line -->
                         </a>
                       </li>
                     <% end %>
