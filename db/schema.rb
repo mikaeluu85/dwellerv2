@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_24_092329) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_24_184832) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -144,6 +144,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_24_092329) do
     t.text "custom_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "introduction"
+    t.text "in_depth_description"
+    t.text "commuter_description"
     t.index ["location_id"], name: "index_permutations_on_location_id"
     t.index ["premise_type_id"], name: "index_permutations_on_premise_type_id"
   end

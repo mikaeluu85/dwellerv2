@@ -4,10 +4,11 @@ class Location < ApplicationRecord
   
     has_many :permutations
     has_many :premise_types, through: :permutations
-  
+
     validates :name, presence: true
     validates :geojson, presence: true
     validates :preposition, inclusion: { in: %w(i på), allow_nil: true } # Validate prepositions if needed
+
   
     # Add validation for prioritized if needed
     validates :prioritized, inclusion: { in: [true, false] }

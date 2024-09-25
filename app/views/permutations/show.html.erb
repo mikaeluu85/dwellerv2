@@ -7,29 +7,280 @@
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <% end %>
 
-<h1>Hyra <%= @premise_type.name %> i <%= @location.name %></h1>
+<div class="bg-white">
+  <div class="mx-auto max-w-screen-xl">
+    <!-- Breadcrumb navigation -->
+    <nav class="flex mb-2 px-8" aria-label="Breadcrumb">
+      <ol role="list" class="flex items-center space-x-4">
+        <li>
+          <div>
+            <%= link_to root_path, class: "text-light-grey hover:text-gray-500" do %>
+              <svg class="h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" clip-rule="evenodd" />
+              </svg>
+              <span class="sr-only">Hem</span>
+            <% end %>
+          </div>
+        </li>
+        <li>
+          <div class="flex items-center">
+            <svg class="h-5 w-5 flex-shrink-0 text-light-grey" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+            </svg>
+            <%= link_to "#{@permutation.premise_type.name.titleize} i Stockholm", hyra_permutation_path(@permutation.premise_type.name.parameterize, 'stockholm'), class: "ml-4 text-sm font-medium text-light-grey" %>
+          </div>
+        </li>
+        <li class="hidden sm:block">
+          <div class="flex items-center">
+            <svg class="h-5 w-5 flex-shrink-0 text-light-grey" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+            </svg>
+            <span class="ml-4 text-sm font-medium text-light-grey" aria-current="page"><%= @premise_type.name.titleize %> <%= @location.full_description %></span>
+          </div>
+        </li>
+      </ol>
+    </nav>
 
-<div id="map" style="height: 400px; width: 100%;"></div>
+    <div class="relative isolate">
+      <div class="mx-auto px-8 py-4 sm:py-12 lg:flex lg:items-center lg:gap-x-10 lg:px-6">
+        <div class="max-w-2xl lg:mx-0 lg:flex-auto">
+          <h1 class="mt-6 text-2xl font-bold tracking-tight text-custom-black sm:text-4xl">Hyra <%= @premise_type.name %> <%= @location.full_description %></h1>
+          <p class="mt-6 text-lg leading-8 text-custom-black">Skapa ett hem för ditt företag med <%= @premise_type.name %> <%= @location.full_description %>. Hitta ditt nästa kontor själv eller låt Dweller hjälpa dig från behov till inflyttning.</p>
 
-<% if @custom_data['content'] %>
-  <%= sanitize @custom_data['content'] %>
-<% else %>
-  <p>Information om att hyra <%= @premise_type.name %> i <%= @location.name %>.</p>
-<% end %>
+          <div class="mt-6">
+            <h2 class="text-m font-bold mb-4">Så hjälper Dweller dig</h2>
+            <ul class="list-disc">
+              <li class="flex items-center py-2">
+                <img src="<%= asset_path('static/checkbox.svg') %>" alt="Checked" class="text-light-grey mr-2 w-4 h-4" /> <!-- Use the checkbox SVG -->
+                Vi kan <%= @premise_type.name %> <%= @location.full_description %>
+              </li>
+              <li class="flex items-center py-2">
+                <img src="<%= asset_path('static/checkbox.svg') %>" alt="Checked" class="text-light-grey mr-2 w-4 h-4" />
+                Stöd - vi hjälper dig välja rätt
+              </li>
+              <li class="flex items-center py-2">
+                <img src="<%= asset_path('static/checkbox.svg') %>" alt="Checked" class="text-light-grey mr-2 w-4 h-4" />
+                Guider - Så blir ditt kontor en tillgång
+              </li>
+              <li class="flex items-center py-2">
+                <img src="<%= asset_path('static/checkbox.svg') %>" alt="Checked" class="text-light-grey mr-2 w-4 h-4" />
+                Verktyg - hitta rätt kontor
+              </li>
+            </ul>
+          </div>
 
-<p>Location: <%= @location_description %></p>
+          <div class="mt-10 flex items-center gap-x-6">
+            <a href="#" class="primary-button">Tala med en expert</a>
+            <a href="#" class="text-sm font-semibold leading-6 text-dark-grey">Se alla kontor<span aria-hidden="true">→</span></a>
+          </div>
+        </div>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var map = L.map('map').setView([59.3293, 18.0686], 11);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
+        <% if @permutation.header_image.attached? %>
+          <% background_image = url_for(@permutation.header_image) %>
+        <% else %>
+          <% background_image = asset_path('default_image.png') %> <!-- Fallback image -->
+        <% end %>
+        <div class="hidden sm:hidden md:hidden lg:block mt-16 sm:mt-24 lg:mt-0 lg:flex-shrink-0 lg:flex-grow bg-cover bg-center rounded-lg" style="background-image: url('<%= background_image %>'); height: 400px;">
+          <div class="flex items-center justify-center h-full">
+          </div>
+        </div>
+      </div>
+    </div>
 
-    // Ensure geojson is valid and properly formatted
-    var geojson = JSON.parse(<%= @location.geojson.to_json.html_safe %>); // Parse the GeoJSON string
-    L.geoJSON(geojson).addTo(map);
-  });
-</script>
+    <!-- Edit in here -->
+
+<div class="flex flex-col bg-white mx-auto px-8 m-12">
+  <p class="text-xl font-medium mb-4 my-2"> <%= @premise_type.name.titleize %> <%= @location.full_description %></p>
+  <p class="text-base text-light-grey mb-4">1 resultat</p>
+  <div class="flex overflow-x-scroll pb-10 hide-scroll-bar w-full"> <!-- Scrollable container -->
+
+    <div class="flex flex-nowrap space-x-2 sm:space-x-2 md:space-x-4 w-full"> <!-- Flex container takes full width and has responsive spacing -->
+
+      <!-- Listing item -->
+      <div class="flex-none w-[80vw] sm:w-[calc(50%-1.5rem)] lg:w-[calc(33%-1.5rem)] xl:w-[calc(33%-4rem)] sm:scroll-m-6 md:scroll-m-16 xl:scroll-m-1 scroll-snap-align-start flex flex-col">
+        <div class="h-64 w-full overflow-hidden rounded-lg shadow-md bg-light-grey hover:shadow-xl transition-shadow duration-300 ease-in-out">
+          <!-- Content -->
+        </div>
+      </div>
+
+            <!-- Listing item -->
+      <div class="flex-none w-[80vw] sm:w-[calc(50%-1.5rem)] lg:w-[calc(33%-1.5rem)] xl:w-[calc(33%-4rem)] sm:scroll-m-6 md:scroll-m-16 xl:scroll-m-1 scroll-snap-align-start flex flex-col">
+        <div class="h-64 w-full overflow-hidden rounded-lg shadow-md bg-light-grey hover:shadow-xl transition-shadow duration-300 ease-in-out">
+          <!-- Content -->
+        </div>
+      </div>
+
+            <!-- Listing item -->
+      <div class="flex-none w-[80vw] sm:w-[calc(50%-1.5rem)] lg:w-[calc(33%-1.5rem)] xl:w-[calc(33%-4rem)] sm:scroll-m-6 md:scroll-m-16 xl:scroll-m-1 scroll-snap-align-start flex flex-col">
+        <div class="h-64 w-full overflow-hidden rounded-lg shadow-md bg-light-grey hover:shadow-xl transition-shadow duration-300 ease-in-out">
+          <!-- Content -->
+        </div>
+      </div>
+
+      <div class="flex-none w-[80vw] sm:w-[calc(50%-1.5rem)] lg:w-[calc(33%-1.5rem)] xl:w-[calc(33%-4rem)] sm:scroll-m-6 md:scroll-m-16 xl:scroll-m-1 scroll-snap-align-start flex flex-col">
+        <div class="h-64 w-full overflow-hidden rounded-lg shadow-md bg-light-grey hover:shadow-xl transition-shadow duration-300 ease-in-out">
+          <!-- Content -->
+        </div>
+      </div>
+
+      <!-- Add more listing items if needed -->
+
+    </div>
+  </div>
+</div>
+
+<!-- Edit in here -->
 
 
+
+</div>
+
+<%= render 'shared/search_feature_brand' %>
+
+<div class="bg-white">
+  <div class="mx-auto max-w-7xl px-8 py-12 sm:pt-12">
+    <div class="lg:grid lg:grid-cols-12 lg:gap-16">
+      <div class="hidden md:flex lg:col-span-6">
+        <img src="<%= url_for(@permutation.header_image.attached? ? @permutation.header_image : 'default_image.png') %>" alt="Image for <%= @location.full_description %>" class="h-full object-cover rounded-lg" />
+      </div>
+      <div class="mt-10 lg:col-span-6 lg:mt-0">
+        <div>
+        <h2 class="text-2xl font-bold leading-10 tracking-tight text-gray-900">Vi kan kontor <%= @location.full_description %></h2>
+        <p class="mt-4 text-base leading-7 text-gray-600"><%= @permutation.introduction %></p>
+      <dl class="mt-10 space-y-6 divide-y divide-super-light-grey">
+        <div data-controller="faq">
+        <div class="pt-6 border-t border-super-light-grey">
+          <dt>
+            <button type="button" class="flex w-full items-start justify-between text-left text-gray-900" 
+                    data-faq-target="question"
+                    data-action="click->faq#toggle"
+                    aria-controls="faq-0" aria-expanded="false">
+              <span class="text-base font-semibold leading-7">Hur är stadsdelen <%= @location.name.titleize%>?</span>
+              <span class="ml-6 flex h-7 items-center">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"
+                     data-faq-target="expandIcon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                </svg>
+                <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"
+                     data-faq-target="collapseIcon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
+                </svg>
+              </span>
+            </button>
+          </dt>
+          <dd class="mt-2 pr-12 hidden" id="faq-0" data-faq-target="answer">
+            <p class="text-base leading-7 text-gray-600"><%= @permutation.in_depth_description %></p>
+          </dd>
+        </div>
+        </div>
+        <div data-controller="faq">
+        <div class="pt-6">
+          <dt>
+            <button type="button" class="flex w-full items-start justify-between text-left text-gray-900" 
+                    data-faq-target="question"
+                    data-action="click->faq#toggle"
+                    aria-controls="faq-0" aria-expanded="false">
+              <span class="text-base font-semibold leading-7">Vad kostar <%= @premise_type.name %> <%= @location.full_description %>?</span>
+              <span class="ml-6 flex h-7 items-center">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"
+                     data-faq-target="expandIcon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                </svg>
+                <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"
+                     data-faq-target="collapseIcon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
+                </svg>
+              </span>
+            </button>
+          </dt>
+          <dd class="mt-2 pr-12 hidden" id="faq-0" data-faq-target="answer">
+            <p class="text-base leading-7 text-gray-600"><%= @permutation.in_depth_description %></p>
+          </dd>
+        </div>
+        </div>
+        <div data-controller="faq">
+        <div class="pt-6">
+          <dt>
+            <button type="button" class="flex w-full items-start justify-between text-left text-gray-900" 
+                    data-faq-target="question"
+                    data-action="click->faq#toggle"
+                    aria-controls="faq-0" aria-expanded="false">
+              <span class="text-base font-semibold leading-7">Hur många <%= @premise_type.name %> finns det <%= @location.full_description %>?</span>
+              <span class="ml-6 flex h-7 items-center">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"
+                     data-faq-target="expandIcon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                </svg>
+                <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"
+                     data-faq-target="collapseIcon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
+                </svg>
+              </span>
+            </button>
+          </dt>
+          <dd class="mt-2 pr-12 hidden" id="faq-0" data-faq-target="answer">
+            <p class="text-base leading-7 text-gray-600"><%= @permutation.in_depth_description %></p>
+          </dd>
+        </div>
+        </div>
+        <div data-controller="faq">
+        <div class="pt-6">
+          <dt>
+            <button type="button" class="flex w-full items-start justify-between text-left text-gray-900" 
+                    data-faq-target="question"
+                    data-action="click->faq#toggle"
+                    aria-controls="faq-0" aria-expanded="false">
+              <span class="text-base font-semibold leading-7">Vilken <%= @premise_type.name %> <%= @location.full_description %> är billigast?</span>
+              <span class="ml-6 flex h-7 items-center">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"
+                     data-faq-target="expandIcon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                </svg>
+                <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"
+                     data-faq-target="collapseIcon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
+                </svg>
+              </span>
+            </button>
+          </dt>
+          <dd class="mt-2 pr-12 hidden" id="faq-0" data-faq-target="answer">
+            <p class="text-base leading-7 text-gray-600"><%= @permutation.in_depth_description %></p>
+          </dd>
+        </div>
+        </div>
+        <div data-controller="faq">
+        <div class="pt-6">
+          <dt>
+            <button type="button" class="flex w-full items-start justify-between text-left text-gray-900" 
+                    data-faq-target="question"
+                    data-action="click->faq#toggle"
+                    aria-controls="faq-0" aria-expanded="false">
+              <span class="text-base font-semibold leading-7">Hur ser kollektivtrafiken ut i <%= @location.name.titleize %>?</span>
+              <span class="ml-6 flex h-7 items-center">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"
+                     data-faq-target="expandIcon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                </svg>
+                <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"
+                     data-faq-target="collapseIcon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
+                </svg>
+              </span>
+            </button>
+          </dt>
+          <dd class="mt-2 pr-12 hidden" id="faq-0" data-faq-target="answer">
+            <p class="text-base leading-7 text-gray-600"><%= @permutation.commuter_description %></p>
+          </dd>
+            </div>
+            </div>
+        </div>
+      </dl>
+    </div>
+  </div>
+</div>
+
+
+<%= render 'shared/calculator_feature_brand' %>
+
+<%= render 'shared/feature_blogpost' %>
+<%= render 'shared/footer' %>

@@ -4,6 +4,13 @@ class Permutation < ApplicationRecord
 
   validates :location_id, :premise_type_id, presence: true
 
+  has_one_attached :header_image # For ActiveStorage
+
+  # Validations (optional)
+  validates :introduction, presence: true
+  validates :in_depth_description, presence: true
+  validates :commuter_description, presence: true
+
   def to_param
     "#{premise_type.slug}/#{location.slug}" # This is for public-facing URLs
   end
