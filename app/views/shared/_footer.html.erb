@@ -114,88 +114,31 @@
       </div>
     </div>
     <!-- Footer linktree -->
-    <div class="xl:grid xl:grid-cols-3 xl:gap-8">
+    <div class="xl:grid xl:grid-cols-3 xl:gap-8 mt-16">
       <!-- First Row: Existing content, starting in the second column -->
-      <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 xl:col-span-2 xl:col-start-2 xl:mt-0 pt-16">
-        <!-- First set of content (2 columns on medium screens and up, 1 column on smaller screens) -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div>
-            <h3 class="text-sm font-semibold leading-tight text-custom-black">Kontor</h3>
-            <ul role="list" class="mt-6 space-y-4">
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Guider och tips</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Kontorshjälpen</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Kontorskalkylatorn</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Hybridkalkylatorn</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Områden</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Varumärken</a></li>
-            </ul>
+      <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 xl:col-span-2 xl:col-start-2 xl:mt-0 pb-8">
+        <% premise_types = PremiseType.includes(permutations: :location).find_each.to_a %>
+        <% premise_types.each_slice(2) do |pair| %>
+          <div class="md:grid md:grid-cols-2 md:gap-8">
+            <% pair.each do |premise_type| %>
+              <div>
+                <h3 class="font-semibold leading-6 text-xs text-custom-black"><%= premise_type.name.titleize %></h3>
+                <ul role="list" class="mt-6 space-y-4">
+                  <% premise_type.permutations.includes(:location).each do |permutation| %>
+                    <% if permutation.location.prioritized %>
+                      <li>
+                        <a href="<%= hyra_permutation_path(premise_type.name.parameterize, permutation.location.name.parameterize) %>" class="leading-6 text-xs text-light-grey hover:text-gray-900">
+                          <%= "#{permutation.premise_type.name.titleize} #{permutation.location.full_description}" %> <!-- Updated line -->
+                        </a>
+                      </li>
+                    <% end %>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
           </div>
-          <div class="mt-10 md:mt-0">
-            <h3 class=" font-semibold leading-6 text-sm text-custom-black">Coworking</h3>
-            <ul role="list" class="mt-6 space-y-4">
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Guider och tips</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Kontorshjälpen</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Kontorskalkylatorn</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Hybridkalkylatorn</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Områden</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Varumärken</a></li>
-            </ul>
-          </div>
-        </div>
-      
-        <!-- Second set of content (same behavior) -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div>
-            <h3 class=" font-semibold leading-6 text-sm text-custom-black">Kontorsplatser</h3>
-            <ul role="list" class="mt-6 space-y-4">
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Guider och tips</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Kontorshjälpen</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Kontorskalkylatorn</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Hybridkalkylatorn</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Områden</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Varumärken</a></li>
-            </ul>
-          </div>
-          <div class="mt-10 md:mt-0">
-            <h3 class=" font-semibold leading-6 text-sm text-custom-black">Kontorsrum</h3>
-            <ul role="list" class="mt-6 space-y-4">
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Guider och tips</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Kontorshjälpen</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Kontorskalkylatorn</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Hybridkalkylatorn</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Områden</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Varumärken</a></li>
-            </ul>
-          </div>
-        </div>
-      
-        <!-- Third set of content (More Categories and Additional Links) -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <!-- First inner div -->
-          <div>
-            <h3 class=" font-semibold leading-6 text-sm text-custom-black">Kontorshotell</h3>
-            <ul role="list" class="mt-6 space-y-4">
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Item 1</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Item 2</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Item 3</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Item 4</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Item 5</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Item 6</a></li>
-            </ul>
-          </div>
-      
-          <!-- Second inner div -->
-          <div>
-            <h3 class=" font-semibold leading-6 text-sm text-custom-black">Kontorslokaler</h3>
-            <ul role="list" class="mt-6 space-y-4">
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Link A</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Link B</a></li>
-              <li><a href="#" class="leading-6 text-sm text-light-grey hover:text-gray-900">Link C</a></li>
-            </ul>
-          </div>
-        </div>
+        <% end %>
       </div>
-      
     </div>
     <div class="mt-16 border-t border-super-light pt-8 sm:mt-20 lg:mt-24">
       <p class="text-xs leading-5 text-light-grey">2024 Thrillgent AB / Dweller (Org. 559103-2726)</p>
