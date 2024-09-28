@@ -1,0 +1,35 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  listing: one
+  name: MyString
+  description: MyText
+  description_en: MyText
+  price: 1.5
+  desk_type: MyString
+  nb_days: 1
+  personal: false
+  area: 1.5
+  max_seats: 1
+  min_seats: 1
+  terms: 
+  status: 1
+  type: 1
+  category: 1
+
+two:
+  listing: two
+  name: MyString
+  description: MyText
+  description_en: MyText
+  price: 1.5
+  desk_type: MyString
+  nb_days: 1
+  personal: false
+  area: 1.5
+  max_seats: 1
+  min_seats: 1
+  terms: 
+  status: 1
+  type: 1
+  category: 1

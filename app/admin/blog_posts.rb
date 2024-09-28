@@ -1,4 +1,5 @@
 ActiveAdmin.register BlogPost do
+  menu parent: 'Blog', priority: 1
   # Ensure we're using ID for all ActiveAdmin routes
   controller do
     def find_resource
@@ -53,6 +54,7 @@ ActiveAdmin.register BlogPost do
         img_f.input :file, as: :file, hint: img_f.object.file.attached? ? image_tag(img_f.object.file.variant(resize_to_limit: [100, 100])) : content_tag(:span, 'No image yet')
         img_f.input :alt_text
         if img_f.object.persisted? && img_f.object.file.attached?
+          # Generate a permanent URL for the image
           img_f.input :image_url, input_html: { value: rails_blob_url(img_f.object.file, only_path: true), readonly: true }
         end
       end

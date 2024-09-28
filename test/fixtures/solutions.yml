@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  listing: one
+  size: 1
+  workspaces: 1
+  price: 1.5
+  original_price: 1.5
+  description: MyText
+  is_big_office: false
+
+two:
+  listing: two
+  size: 1
+  workspaces: 1
+  price: 1.5
+  original_price: 1.5
+  description: MyText
+  is_big_office: false

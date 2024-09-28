@@ -1,12 +1,19 @@
 Rails.application.routes.draw do
+  ActiveAdmin.routes(self)
+  devise_for :admin_users, controllers: { sessions: 'admin_users/sessions' }
+  devise_for :provider_users, controllers: { sessions: 'provider_users/sessions' }
+  
+  resources :brands, only: [:show]
+  resources :listings, only: [:show]
+
+  resources :brands, param: :slug
+  
   get "permutations/show"
   # Your existing routes
   get "blog_posts/index"
   get "blog_posts/show"
   get "blog_posts/category"
   get "blog_posts/feed"
-  devise_for :admin_users, ActiveAdmin::Devise.config
-  ActiveAdmin.routes(self)
   devise_for :administrators
   root 'home#index'
 

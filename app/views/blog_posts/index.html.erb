@@ -72,7 +72,7 @@
   </div>
 
   <div id="load-more" class="mt-12 text-center">
-    <% if @blog_posts.next_page %>
+    <% if @blog_posts&.next_page %>
       <%= link_to 'Ladda fler artiklar', blog_overview_path(page: @blog_posts.next_page),
                   class: 'secondary-button',
                   data: { turbo_stream: true } %>

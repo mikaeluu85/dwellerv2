@@ -1,9 +1,20 @@
 ActiveAdmin.register PremiseType do
-  permit_params :name
+  menu parent: 'Settings', priority: 2
+  permit_params :name, :slug
 
   controller do
     def find_resource
       scoped_collection.find_by(id: params[:id]) || scoped_collection.friendly.find(params[:id])
+    end
+
+    def create
+      super do |format|
+        if resource.persisted?
+          format.html { redirect_to admin_premise_type_path(resource) }
+        else
+          format.html { render :new }
+        end
+      end
     end
   end
 

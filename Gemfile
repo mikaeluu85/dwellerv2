@@ -60,7 +60,8 @@ gem 'mini_magick', '~> 4.11'
 gem 'rails-html-sanitizer' # For sanitizing HTML input
 gem 'sanitize' # For sanitizing inputs in a flexible way
 gem 'friendly_id', '~> 5.4.0' #Nice slugs
-gem 'kaminari' #For pagination
+gem 'kaminari' # For pagination
+gem 'paranoia' # For soft delete functionality
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -71,6 +72,9 @@ group :development, :test do
 
   # .env
   gem 'dotenv-rails'
+
+  # Best Practices
+  gem "rails_best_practices"
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false

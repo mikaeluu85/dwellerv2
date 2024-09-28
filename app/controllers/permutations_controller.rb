@@ -1,6 +1,7 @@
 class PermutationsController < ApplicationController
-  include BlogPostFetchable  # Include the BlogPostFetchable concern
-  
+  before_action :set_permutation, only: [:show]
+  before_action :authorize_permutation, only: [:show]
+
   def show
     @premise_type = PremiseType.friendly.find(params[:premise_type])
     @location = Location.friendly.find(params[:location_name])
@@ -18,5 +19,15 @@ class PermutationsController < ApplicationController
 
   def permutation_params
     params.require(:permutation).permit(:name, :introduction, :in_depth_description, :commuter_description, :header_image)
+  end
+
+  def set_permutation
+    @location = Location.friendly.find(params[:location_name])  # {{ edit_1 }}
+    @premise_type = PremiseType.friendly.find(params[:premise_type])  # {{ edit_2 }}
+    @permutation = Permutation.find_by(location: @location, premise_type: @premise_type)  # {{ edit_3 }}
+  end
+
+  def authorize_permutation
+    authorize @permutation
   end
 end

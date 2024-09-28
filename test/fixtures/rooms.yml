@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  listing: one
+  size: 1
+  workspaces: 1
+
+two:
+  listing: two
+  size: 1
+  workspaces: 1

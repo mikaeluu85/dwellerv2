@@ -1,4 +1,5 @@
 ActiveAdmin.register Image do
+  menu parent: 'Blog', priority: 3
   permit_params :alt_text, :file, :blog_post_id
 
   index do

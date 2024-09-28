@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  country: MyString
+  description: MyText
+  description_en: MyText
+  price_category: 1
+  founding_date: 2024-09-26
+  subscription: MyString
+  is_operator_page_active: false
+  operator_page_description_about: MyText
+  operator_page_description_about_en: MyText
+  operator_page_description_why: MyText
+  operator_page_description_why_en: MyText
+
+two:
+  name: MyString
+  country: MyString
+  description: MyText
+  description_en: MyText
+  price_category: 1
+  founding_date: 2024-09-26
+  subscription: MyString
+  is_operator_page_active: false
+  operator_page_description_about: MyText
+  operator_page_description_about_en: MyText
+  operator_page_description_why: MyText
+  operator_page_description_why_en: MyText

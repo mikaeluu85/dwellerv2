@@ -1,0 +1,12 @@
+# app/views/listings/show.html.erb
+<h1><%= @listing.name %></h1>
+<p><%= @listing.description %></p>
+<% if @listing.brand %>
+  <p>Brand: <%= link_to @listing.brand.name, brand_path(@listing.brand) %></p>
+<% end %>
+<p>Size: <%= @listing.size %> m²</p>
+<p>Status: <%= @listing.status %></p>
+<p>Source: <%= @listing.source %></p>
+<% if @listing.main_image.attached? %>
+  <%= image_tag url_for(@listing.main_image), height: '300' %>
+<% end %>
