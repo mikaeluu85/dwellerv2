@@ -61,7 +61,9 @@ gem 'rails-html-sanitizer' # For sanitizing HTML input
 gem 'sanitize' # For sanitizing inputs in a flexible way
 gem 'friendly_id', '~> 5.4.0' #Nice slugs
 gem 'kaminari' # For pagination
-gem 'paranoia' # For soft delete functionality
+gem 'paranoia' # For soft delete
+gem 'rack-attack' # For rate limiting
+gem 'postmark-rails' # For sending emails
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

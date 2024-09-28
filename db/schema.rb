@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_28_175015) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_28_195131) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -325,8 +325,17 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_28_175015) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "role"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "mobile_phone"
+    t.bigint "provider_id"
+    t.string "magic_token"
+    t.datetime "magic_token_expires_at"
+    t.datetime "magic_token_consumed_at"
     t.index ["deleted_at"], name: "index_provider_users_on_deleted_at"
     t.index ["email"], name: "index_provider_users_on_email", unique: true
+    t.index ["magic_token"], name: "index_provider_users_on_magic_token", unique: true
+    t.index ["provider_id"], name: "index_provider_users_on_provider_id"
     t.index ["reset_password_token"], name: "index_provider_users_on_reset_password_token", unique: true
   end
 
@@ -406,6 +415,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_28_175015) do
   add_foreign_key "offers", "listings"
   add_foreign_key "permutations", "locations"
   add_foreign_key "permutations", "premise_types"
+  add_foreign_key "provider_users", "providers"
   add_foreign_key "rooms", "listings"
   add_foreign_key "solution_rooms", "rooms"
   add_foreign_key "solution_rooms", "solutions"

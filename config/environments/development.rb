@@ -88,4 +88,12 @@ Rails.application.configure do
   }
 
   config.log_level = :debug
+
+  # Configure Action Mailer to use Postmark in development
+  config.action_mailer.delivery_method = :postmark
+  config.action_mailer.postmark_settings = { api_token: ENV['POSTMARK_API_TOKEN'] }
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+
 end

@@ -36,5 +36,8 @@ module Dwellerv2
     # Fallback to English if Swedish translation is missing
     config.i18n.fallbacks = [:en]
 
+    # Rack::Attack
+    config.middleware.use Rack::Attack
+
   end
 end

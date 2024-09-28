@@ -107,4 +107,11 @@ Rails.application.configure do
     expires_in: 1.hour,
     reconnect_attempts: 1
     }
+
+  # Configure Action Mailer to use Postmark
+  config.action_mailer.delivery_method = :postmark
+  config.action_mailer.postmark_settings = { api_key: ENV['POSTMARK_API_TOKEN'] }
+
+  # Ensure URLs in emails use HTTPS
+  config.action_mailer.default_url_options = { host: 'dweller.se', protocol: 'https' }
 end

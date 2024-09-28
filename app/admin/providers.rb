@@ -1,6 +1,6 @@
 ActiveAdmin.register Provider do
   menu parent: 'Customers', priority: 2
-  permit_params :name, :description, :ovid, :postal_code, :city, :invoice_notes, :organizational_number, :street, :invoice_email, :woid, :website, :contact_email, :deleted_at
+  permit_params :name, :description, :ovid, :postal_code, :city, :invoice_notes, :organizational_number, :street, :invoice_email, :woid, :website, :contact_email, :deleted_at, provider_user_ids: [] # Allow multiple provider_user_ids
 
   scope :all, default: true
   scope :active, -> { where(deleted_at: nil) }
@@ -36,8 +36,29 @@ ActiveAdmin.register Provider do
       f.input :woid
       f.input :website
       f.input :contact_email
-      f.input :deleted_at
+      f.input :provider_users, as: :select, collection: ProviderUser.all.collect { |pu| [pu.email, pu.id] }, multiple: true # Multi-select for provider users
     end
     f.actions
+  end
+
+  show do
+    attributes_table do
+      row :name
+      row :description
+      row :ovid
+      row :postal_code
+      row :city
+      row :invoice_notes
+      row :organizational_number
+      row :street
+      row :invoice_email
+      row :woid
+      row :website
+      row :contact_email
+      row :provider_users do |provider|
+        provider.provider_users.map(&:email).join(", ") # Display associated provider users
+      end
+    end
+    active_admin_comments
   end
 end

@@ -1,0 +1,46 @@
+class Provider::MagicLinksController < ApplicationController
+  skip_before_action :authenticate_provider_user!, only: [:new, :create, :show]
+  skip_after_action :verify_authorized, only: [:new, :create, :show]
+  before_action :redirect_if_authenticated, only: [:new, :create]
+
+  # Display the magic link request form
+  def new
+    @provider_user = ProviderUser.new
+  end
+
+  # Handle the magic link request
+  def create
+    Rails.logger.info "Starting create action"
+    provider_user = ProviderUser.find_by(email: params[:provider_user][:email])
+    Rails.logger.info "Provider user found: #{provider_user.present?}"
+
+    if provider_user.present?
+      Rails.logger.info "Attempting to send magic link email"
+      ProviderUserMailer.magic_link(provider_user).deliver_later
+      Rails.logger.info "Magic link email queued for delivery"
+    end
+
+    Rails.logger.info "Redirecting after create action"
+    redirect_to provider_new_magic_link_path, notice: 'If an account with that email exists, a magic login link has been sent.'
+  end
+
+  # Authenticate the user via magic link
+  def show
+    token = params[:token]
+    provider_user = ProviderUser.find_by(magic_token: token)
+
+    if provider_user&.magic_token_valid?(token)
+      sign_in(provider_user)
+      provider_user.consume_magic_token!
+      redirect_to provider_dashboard_path, notice: 'Successfully logged in.'
+    else
+      redirect_to provider_new_magic_link_path, alert: 'Invalid or expired magic link.'
+    end
+  end
+
+  private
+
+  def redirect_if_authenticated
+    redirect_to provider_dashboard_path if provider_user_signed_in?
+  end
+end

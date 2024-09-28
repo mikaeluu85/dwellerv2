@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Your Magic Login Link</title>
+  </head>
+  <body>
+    <p>Hello <%= @provider_user.full_name %>,</p>
+
+    <p>Click the link below to log in to your Provider Dashboard:</p>
+
+    <p><%= link_to 'Log in to Provider Dashboard', @magic_link_url %></p>
+
+    <p>This link will expire in 15 minutes and can only be used once.</p>
+
+    <p>If you did not request this link, please ignore this email.</p>
+
+    <p>Thanks,</p>
+    <p>Your Company Name</p>
+  </body>
+</html>
