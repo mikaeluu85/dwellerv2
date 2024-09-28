@@ -71,6 +71,7 @@ ActiveAdmin.setup do |config|
   #
   # This setting changes the method which Active Admin calls
   # within the application controller.
+
   config.authentication_method = :authenticate_admin_user!
 
   # == User Authorization
@@ -356,4 +357,13 @@ ActiveAdmin.setup do |config|
   # Register your custom stylesheet
   config.register_stylesheet 'admin/active_admin.css', media: 'screen'
 
+  # Use Pundit for authorization
+  config.authorization_adapter = ActiveAdmin::PunditAdapter
+  config.pundit_default_policy = "ApplicationPolicy"
+  config.pundit_policy_namespace = :active_admin
+
+  config.comments_menu = false
+
+  # Remove the line that sets the default policy
+  # config.pundit_default_policy = "AdminUserPolicy" # Remove this line
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_24_184832) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_28_175015) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -56,6 +56,19 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_24_184832) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "addresses", force: :cascade do |t|
+    t.bigint "listing_id", null: false
+    t.string "country"
+    t.string "city"
+    t.string "street"
+    t.string "locator"
+    t.string "postal_code"
+    t.string "postal_town"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["listing_id"], name: "index_addresses_on_listing_id"
+  end
+
   create_table "admin_users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -81,6 +94,14 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_24_184832) do
     t.index ["reset_password_token"], name: "index_administrators_on_reset_password_token", unique: true
   end
 
+  create_table "amenities", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_amenities_on_deleted_at"
+  end
+
   create_table "blog_posts", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -98,6 +119,25 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_24_184832) do
     t.index ["slug"], name: "index_blog_posts_on_slug", unique: true
   end
 
+  create_table "brands", force: :cascade do |t|
+    t.string "name"
+    t.bigint "provider_id", null: false
+    t.text "description"
+    t.boolean "is_featured"
+    t.string "slug"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: false
+    t.text "extended_description"
+    t.bigint "header_image_id"
+    t.bigint "logo_id"
+    t.index ["deleted_at"], name: "index_brands_on_deleted_at"
+    t.index ["header_image_id"], name: "index_brands_on_header_image_id"
+    t.index ["logo_id"], name: "index_brands_on_logo_id"
+    t.index ["provider_id"], name: "index_brands_on_provider_id"
+  end
+
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.string "slug"
@@ -106,6 +146,18 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_24_184832) do
     t.boolean "active", default: false
     t.text "svg_content"
     t.index ["slug"], name: "index_categories_on_slug", unique: true
+  end
+
+  create_table "external_listings", force: :cascade do |t|
+    t.bigint "listing_id", null: false
+    t.string "external_id"
+    t.string "source_url"
+    t.json "additional_data"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["deleted_at"], name: "index_external_listings_on_deleted_at"
+    t.index ["listing_id"], name: "index_external_listings_on_listing_id"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -119,12 +171,66 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_24_184832) do
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
+  create_table "geojsons", force: :cascade do |t|
+    t.bigint "listing_id", null: false
+    t.float "coordinates"
+    t.string "type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["listing_id"], name: "index_geojsons_on_listing_id"
+  end
+
   create_table "images", force: :cascade do |t|
     t.string "alt_text"
     t.bigint "blog_post_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["blog_post_id"], name: "index_images_on_blog_post_id"
+  end
+
+  create_table "listing_amenities", force: :cascade do |t|
+    t.bigint "listing_id", null: false
+    t.bigint "amenity_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["amenity_id"], name: "index_listing_amenities_on_amenity_id"
+    t.index ["listing_id"], name: "index_listing_amenities_on_listing_id"
+  end
+
+  create_table "listing_users", force: :cascade do |t|
+    t.bigint "listing_id", null: false
+    t.bigint "provider_user_id", null: false
+    t.string "role"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["listing_id"], name: "index_listing_users_on_listing_id"
+    t.index ["provider_user_id"], name: "index_listing_users_on_provider_user_id"
+  end
+
+  create_table "listings", force: :cascade do |t|
+    t.bigint "brand_id", null: false
+    t.integer "size"
+    t.float "cost_per_m2"
+    t.float "cost_per_user"
+    t.float "surface_per_user"
+    t.text "description"
+    t.text "description_en"
+    t.integer "number_of_meeting_rooms"
+    t.date "opened"
+    t.boolean "is_premium_listing"
+    t.string "conference_room_request_email"
+    t.string "name"
+    t.string "short_description"
+    t.string "short_description_en"
+    t.string "url"
+    t.string "showing_message"
+    t.integer "status"
+    t.integer "source"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["brand_id"], name: "index_listings_on_brand_id"
+    t.index ["deleted_at"], name: "index_listings_on_deleted_at"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -136,6 +242,56 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_24_184832) do
     t.boolean "prioritized", default: false
     t.string "preposition"
     t.index ["slug"], name: "index_locations_on_slug", unique: true
+  end
+
+  create_table "offer_excluded_amenities", force: :cascade do |t|
+    t.bigint "offer_id", null: false
+    t.bigint "amenity_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["amenity_id"], name: "index_offer_excluded_amenities_on_amenity_id"
+    t.index ["offer_id"], name: "index_offer_excluded_amenities_on_offer_id"
+  end
+
+  create_table "offer_paid_amenities", force: :cascade do |t|
+    t.bigint "offer_id", null: false
+    t.bigint "amenity_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["amenity_id"], name: "index_offer_paid_amenities_on_amenity_id"
+    t.index ["offer_id"], name: "index_offer_paid_amenities_on_offer_id"
+  end
+
+  create_table "offer_versions", force: :cascade do |t|
+    t.bigint "offer_id", null: false
+    t.integer "version_number"
+    t.json "offer_changes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["offer_id"], name: "index_offer_versions_on_offer_id"
+  end
+
+  create_table "offers", force: :cascade do |t|
+    t.bigint "listing_id", null: false
+    t.string "name"
+    t.text "description"
+    t.text "description_en"
+    t.float "price"
+    t.string "desk_type"
+    t.integer "nb_days"
+    t.boolean "personal"
+    t.float "area"
+    t.integer "max_seats"
+    t.integer "min_seats"
+    t.json "terms"
+    t.integer "status"
+    t.integer "type"
+    t.integer "category"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["deleted_at"], name: "index_offers_on_deleted_at"
+    t.index ["listing_id"], name: "index_offers_on_listing_id"
   end
 
   create_table "permutations", force: :cascade do |t|
@@ -159,11 +315,99 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_24_184832) do
     t.index ["slug"], name: "index_premise_types_on_slug", unique: true
   end
 
+  create_table "provider_users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "role"
+    t.index ["deleted_at"], name: "index_provider_users_on_deleted_at"
+    t.index ["email"], name: "index_provider_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_provider_users_on_reset_password_token", unique: true
+  end
+
+  create_table "providers", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "ovid"
+    t.string "postal_code"
+    t.string "city"
+    t.text "invoice_notes"
+    t.string "organizational_number"
+    t.string "street"
+    t.string "invoice_email"
+    t.string "woid"
+    t.string "website"
+    t.string "contact_email"
+    t.index ["deleted_at"], name: "index_providers_on_deleted_at"
+  end
+
+  create_table "rooms", force: :cascade do |t|
+    t.bigint "listing_id", null: false
+    t.integer "size"
+    t.integer "workspaces"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["listing_id"], name: "index_rooms_on_listing_id"
+  end
+
+  create_table "solution_rooms", force: :cascade do |t|
+    t.bigint "solution_id", null: false
+    t.bigint "room_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["room_id"], name: "index_solution_rooms_on_room_id"
+    t.index ["solution_id"], name: "index_solution_rooms_on_solution_id"
+  end
+
+  create_table "solutions", force: :cascade do |t|
+    t.bigint "listing_id", null: false
+    t.integer "size"
+    t.integer "workspaces"
+    t.float "price"
+    t.float "original_price"
+    t.text "description"
+    t.boolean "is_big_office"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_solutions_on_deleted_at"
+    t.index ["listing_id"], name: "index_solutions_on_listing_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "addresses", "listings"
   add_foreign_key "blog_posts", "admin_users"
   add_foreign_key "blog_posts", "categories"
+  add_foreign_key "brands", "active_storage_blobs", column: "header_image_id"
+  add_foreign_key "brands", "active_storage_blobs", column: "logo_id"
+  add_foreign_key "brands", "providers"
+  add_foreign_key "external_listings", "listings"
+  add_foreign_key "geojsons", "listings"
   add_foreign_key "images", "blog_posts"
+  add_foreign_key "listing_amenities", "amenities"
+  add_foreign_key "listing_amenities", "listings"
+  add_foreign_key "listing_users", "listings"
+  add_foreign_key "listing_users", "provider_users"
+  add_foreign_key "listings", "brands"
+  add_foreign_key "offer_excluded_amenities", "amenities"
+  add_foreign_key "offer_excluded_amenities", "offers"
+  add_foreign_key "offer_paid_amenities", "amenities"
+  add_foreign_key "offer_paid_amenities", "offers"
+  add_foreign_key "offer_versions", "offers"
+  add_foreign_key "offers", "listings"
   add_foreign_key "permutations", "locations"
   add_foreign_key "permutations", "premise_types"
+  add_foreign_key "rooms", "listings"
+  add_foreign_key "solution_rooms", "rooms"
+  add_foreign_key "solution_rooms", "solutions"
+  add_foreign_key "solutions", "listings"
 end

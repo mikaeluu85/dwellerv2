@@ -1,6 +1,7 @@
 class BlogPostsController < ApplicationController
-  include BlogPostFetchable
   include MarkdownHelper
+
+  before_action :authorize_blog_post, except: [:index, :show]
 
   def index
     @blog_posts = BlogPost.visible.recent.page(params[:page]).per(6)
@@ -12,8 +13,9 @@ class BlogPostsController < ApplicationController
 
   def show
     @blog_post = BlogPost.friendly.find(params[:slug])
+    authorize @blog_post  # Explicitly authorize the blog post
     redirect_to blog_overview_path unless @blog_post.visible?
-  
+
     set_meta_tags title: @blog_post.title,
                   description: @blog_post.meta_description,
                   og: {
@@ -28,7 +30,6 @@ class BlogPostsController < ApplicationController
   def category
     @category = Category.friendly.find(params[:category_slug])
     @blog_posts = @category.blog_posts.where(visible: true).order(created_at: :desc).page(params[:page]).per(6)
-    render :index
   end
 
   def feed
@@ -36,5 +37,13 @@ class BlogPostsController < ApplicationController
     respond_to do |format|
       format.rss { render layout: false }  # Renders feed.rss.builder
     end
+  end
+
+  private
+
+  def fetch_blog_posts(category: nil)
+    posts = BlogPost.visible.recent
+    posts = posts.by_category(category.id) if category
+    posts
   end
 end

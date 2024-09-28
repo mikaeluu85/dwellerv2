@@ -77,8 +77,6 @@
 
         <% if @permutation.header_image.attached? %>
           <% background_image = url_for(@permutation.header_image) %>
-        <% else %>
-          <% background_image = asset_path('default_image.png') %> <!-- Fallback image -->
         <% end %>
         <div class="hidden sm:hidden md:hidden lg:block mt-16 sm:mt-24 lg:mt-0 lg:flex-shrink-0 lg:flex-grow bg-cover bg-center rounded-lg" style="background-image: url('<%= background_image %>'); height: 400px;">
           <div class="flex items-center justify-center h-full">

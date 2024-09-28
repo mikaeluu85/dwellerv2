@@ -1,6 +1,7 @@
 <% category ||= nil %>
 <% top_stories ||= false %>
-<% blog_posts = fetch_blog_posts(category: category) %>
+<% blog_posts = BlogPost.visible.recent %>
+<% blog_posts = blog_posts.by_category(category.id) if category %>
 <% featured_post = top_stories ? blog_posts.top_stories.first : blog_posts.first %>
 <% latest_posts = top_stories ? blog_posts.top_stories.where.not(id: featured_post&.id).limit(5) : blog_posts.where.not(id: featured_post&.id).limit(5) %>
 

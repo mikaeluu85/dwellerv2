@@ -1,4 +1,5 @@
 class ErrorsController < ApplicationController
+  skip_after_action :verify_authorized
   layout 'error'  # Use the error layout
 
   def not_found

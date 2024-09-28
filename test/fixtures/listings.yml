@@ -1,0 +1,41 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  brand: one
+  size: 1
+  cost_per_m2: 1.5
+  cost_per_user: 1.5
+  surface_per_user: 1.5
+  description: MyText
+  description_en: MyText
+  number_of_meeting_rooms: 1
+  opened: 2024-09-26
+  is_premium_listing: false
+  conference_room_request_email: MyString
+  name: MyString
+  short_description: MyString
+  short_description_en: MyString
+  url: MyString
+  showing_message: MyString
+  status: 1
+  source: 1
+
+two:
+  brand: two
+  size: 1
+  cost_per_m2: 1.5
+  cost_per_user: 1.5
+  surface_per_user: 1.5
+  description: MyText
+  description_en: MyText
+  number_of_meeting_rooms: 1
+  opened: 2024-09-26
+  is_premium_listing: false
+  conference_room_request_email: MyString
+  name: MyString
+  short_description: MyString
+  short_description_en: MyString
+  url: MyString
+  showing_message: MyString
+  status: 1
+  source: 1

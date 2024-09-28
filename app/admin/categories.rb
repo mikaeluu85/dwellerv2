@@ -1,4 +1,5 @@
 ActiveAdmin.register Category do
+  menu parent: 'Blog', priority: 2
   permit_params :name, :active, :svg_content
 
   filter :name

@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  provider: one
+  has_active_listings: false
+  cities: MyString
+  description: MyText
+  is_featured: false
+  region: MyString
+  slug: MyString
+  num_listings: 1
+
+two:
+  name: MyString
+  provider: two
+  has_active_listings: false
+  cities: MyString
+  description: MyText
+  is_featured: false
+  region: MyString
+  slug: MyString
+  num_listings: 1
