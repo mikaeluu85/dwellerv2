@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
     unless current_provider_user
       Rails.logger.info "No current provider user, redirecting to magic link path"
       flash[:alert] = "You need to sign in or sign up before continuing."
-      redirect_to new_provider_magic_link_path
+      redirect_to provider.new_magic_link_path
     end
     Rails.logger.info "Provider user authenticated"
   end

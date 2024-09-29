@@ -21,7 +21,7 @@ class Provider::MagicLinksController < ApplicationController
     end
 
     Rails.logger.info "Redirecting after create action"
-    redirect_to provider_new_magic_link_path, notice: 'If an account with that email exists, a magic login link has been sent.'
+    redirect_to provider_new_magic_link_path, notice: 'Om det finns ett konto med denna e-postadress, har en magisk inloggningslänk skickats.'
   end
 
   # Authenticate the user via magic link
@@ -32,9 +32,9 @@ class Provider::MagicLinksController < ApplicationController
     if provider_user&.magic_token_valid?(token)
       sign_in(provider_user)
       provider_user.consume_magic_token!
-      redirect_to provider_dashboard_path, notice: 'Successfully logged in.'
+      redirect_to provider_dashboard_path, notice: 'Du är nu inloggad.'
     else
-      redirect_to provider_new_magic_link_path, alert: 'Invalid or expired magic link.'
+      redirect_to provider_new_magic_link_path, alert: 'Den här länken är ogiltig eller har gått ut. Begär en ny länk.'
     end
   end
 
