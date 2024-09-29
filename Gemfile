@@ -59,7 +59,7 @@ gem 'meta-tags' # For SEO meta tags
 gem 'mini_magick', '~> 4.11'
 gem 'rails-html-sanitizer' # For sanitizing HTML input
 gem 'sanitize' # For sanitizing inputs in a flexible way
-gem 'friendly_id', '~> 5.4.0' #Nice slugs
+gem 'friendly_id', '~> 5.5.1' #Nice slugs
 gem 'kaminari' # For pagination
 gem 'paranoia' # For soft delete
 gem 'rack-attack' # For rate limiting
