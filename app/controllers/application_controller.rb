@@ -1,6 +1,7 @@
 # app/controllers/application_controller.rb
 class ApplicationController < ActionController::Base
   include Pundit::Authorization
+  include DeviseHelpers
   
   before_action :authenticate_provider_user!
   after_action :verify_authorized, except: :index, unless: :skip_authorization?
@@ -40,14 +41,13 @@ class ApplicationController < ActionController::Base
     Rails.logger.info "Authenticating provider user"
     unless current_provider_user
       Rails.logger.info "No current provider user, redirecting to magic link path"
-      flash[:alert] = "You need to sign in or sign up before continuing."
-      redirect_to provider.new_magic_link_path
+      redirect_to provider_portal_new_magic_link_path, notice: "Please log in to access this page."
     end
     Rails.logger.info "Provider user authenticated"
   end
 
   def current_provider_user
-    @current_provider_user ||= ProviderUser.find_by(id: session[:provider_user_id])
+    @current_provider_user ||= ProviderUser.find_by(id: session[:provider_user_id]) if session[:provider_user_id]
   end
 
   helper_method :current_provider_user

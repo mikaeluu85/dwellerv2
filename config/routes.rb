@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   devise_for :admin_users, controllers: { sessions: 'admin_users/sessions' }
-  devise_for :provider_users, controllers: { sessions: 'provider_users/sessions' }, skip: [:sessions, :passwords, :registrations]
+  devise_for :provider_users, controllers: { sessions: 'provider_users/sessions' }, skip: [:passwords, :registrations]
   
   resources :brands, only: [:show]
   resources :listings, only: [:show]
@@ -31,7 +31,7 @@ Rails.application.routes.draw do
   get 'feed', to: 'blog_posts#feed', defaults: { format: 'rss' }
 
   # Provider Dashboard Routes
-  namespace :provider do
+  namespace :provider_portal do
     get 'dashboard', to: 'dashboard#index', as: :dashboard
 
     # Magic Links Routes
@@ -68,7 +68,6 @@ Rails.application.routes.draw do
   get '404', to: 'errors#not_found', as: :not_found
   get '500', to: 'errors#internal_server_error', as: :internal_server_error
 
-
   # Modify the catch-all route
   match '*path', to: 'errors#not_found', via: :all, 
     constraints: lambda { |req|
@@ -76,5 +75,5 @@ Rails.application.routes.draw do
       req.path.exclude?('rails/action_mailbox') &&
       !req.xhr? && req.format.html?
     }
-
+    
 end

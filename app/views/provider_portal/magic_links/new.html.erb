@@ -24,7 +24,7 @@
         </div>
       </div>
     <% end %>
-    <%= form_with url: provider_create_magic_link_path, local: true, class: "space-y-6" do |form| %>
+    <%= form_with url: provider_portal_create_magic_link_path, local: true, class: "space-y-6" do |form| %>
       <div>
         <%= form.label :email, 'Din e-post', class: "block text-sm font-medium leading-6 text-gray-900" %>
         <div class="mt-2">
@@ -33,10 +33,11 @@
       </div>
 
       <div>
-        <%= form.submit 'Skicka en magisk länk', class: "primary-button mx-auto block w-auto" %>
+        <div class="flex justify-center">
+          <%= form.submit "Skicka magisk länk", class: "primary-button w-auto" %>
+        </div>
       </div>
     <% end %>
-  </div>
   </div>
 </div>
 

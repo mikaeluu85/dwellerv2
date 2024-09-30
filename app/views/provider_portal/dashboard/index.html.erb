@@ -1,0 +1,18 @@
+<div class="overflow-hidden rounded-lg bg-white shadow">
+    <h2 class="sr-only" id="profile-overview-title">Kontrollpanel</h2>
+    <div class="bg-white p-6">
+      <div class="sm:flex sm:items-center sm:justify-between">
+        <div class="sm:flex sm:space-x-5">
+          <div class="flex-shrink-0">
+            <img class="mx-auto h-20 w-20 rounded-full" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+          </div>
+          <div class="mt-4 text-center sm:mt-0 sm:pt-1 sm:text-left">
+            <p class="text-sm font-medium text-gray-600">Välkommen tillbaka,</p>
+            <p class="text-xl font-bold text-gray-900 sm:text-2xl"><%= current_provider_user.first_name %> <%= current_provider_user.last_name %></p>
+            <p class="text-sm font-medium text-gray-600"><%= current_provider_user.provider.name %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

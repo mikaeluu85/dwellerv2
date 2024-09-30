@@ -16,12 +16,12 @@ class Provider::MagicLinksController < ApplicationController
 
     if provider_user.present?
       Rails.logger.info "Attempting to send magic link email"
-      ProviderUserMailer.magic_link(provider_user).deliver_later
+      ProviderUserMailer.magic_link(provider_user).deliver_now
       Rails.logger.info "Magic link email queued for delivery"
     end
 
     Rails.logger.info "Redirecting after create action"
-    redirect_to provider_new_magic_link_path, notice: 'Om det finns ett konto med denna e-postadress, har en magisk inloggningslänk skickats.'
+    redirect_to provider_portal_new_magic_link_path, notice: 'Om det finns ett konto med denna e-postadress, har en magisk inloggningslänk skickats.'
   end
 
   # Authenticate the user via magic link

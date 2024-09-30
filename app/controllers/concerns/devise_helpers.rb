@@ -13,11 +13,11 @@ module DeviseHelpers
     @current_provider_user ||= ProviderUser.find_by(id: session[:provider_user_id]) if session[:provider_user_id]
   end
 
-  def sign_in(provider_user)
+  def sign_in_provider_user(provider_user)
     session[:provider_user_id] = provider_user.id
   end
 
-  def sign_out
+  def sign_out_provider_user
     session.delete(:provider_user_id)
     @current_provider_user = nil
   end
