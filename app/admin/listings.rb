@@ -74,7 +74,7 @@ ActiveAdmin.register Listing do
         end
       end
       row :address do |listing|
-        listing.address.full_address if listing.address
+        listing.address&.full_address
       end
       row :amenities do |listing|
         listing.amenities.pluck(:name).join(", ")
