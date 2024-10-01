@@ -152,10 +152,12 @@ ActiveAdmin.register Listing do
                 as: :check_boxes
       end
       
-      f.has_many :offers, allow_destroy: true, new_record: 'Add Offer' do |o|
-        o.input :name
-        o.input :description
-        o.input :price
+      f.inputs 'Offers' do
+        f.has_many :offers, allow_destroy: true, new_record: 'Add Offer' do |o|
+          o.input :name
+          o.input :description
+          o.input :price
+        end
       end
     end
     f.actions
