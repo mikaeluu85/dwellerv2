@@ -7,9 +7,12 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
-AdminUser.create!(email: 'seed@seed.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+AdminUser.find_or_create_by!(email: 'seed@seed.com') do |user|
+  user.password = 'password'
+  user.password_confirmation = 'password'
+end if Rails.env.development?
 
-# First, ensure you have at least one AdminUser and Category
+# Create or find the example admin user
 admin_user = AdminUser.find_or_create_by!(email: 'admin@example.com') do |user|
   user.password = 'password123'
   user.password_confirmation = 'password123'
@@ -78,3 +81,138 @@ blog_posts.each do |post|
 end
 
 puts "Seed data created successfully!"
+
+# Clear existing data
+puts "Clearing existing data..."
+AdminUser.destroy_all
+puts "AdminUsers cleared"
+begin
+  Offer.destroy_all
+  puts "Offers cleared"
+  Listing.destroy_all
+  puts "Listings cleared"
+  Brand.destroy_all
+  puts "Brands cleared"
+  Provider.destroy_all
+  puts "Providers cleared"
+  # If you have a User model, include it here
+  # User.destroy_all
+  # puts "Users cleared"
+rescue => e
+  puts "Error during data clearing: #{e.message}"
+end
+
+# Seed Providers
+puts "Seeding Providers..."
+5.times do |i|
+  begin
+    Provider.create!(
+      name: "Provider #{i+1}",
+      description: "Description for Provider #{i+1}",
+      ovid: "OVID#{i+1}",
+      postal_code: "1234#{i+1}",
+      city: "City #{i+1}",
+      invoice_notes: "Invoice notes for Provider #{i+1}",
+      organizational_number: sprintf('%06d-%04d', rand(1000000), rand(10000)), # Format: XXXXXX-XXXX
+      street: "Street #{i+1}",
+      invoice_email: "invoice_#{i+1}@example.com",
+      woid: "WOID#{i+1}",
+      website: "http://provider#{i+1}.com",
+      contact_email: "contact_#{i+1}@example.com"
+    )
+    puts "Created Provider #{i+1}"
+  rescue ActiveRecord::RecordInvalid => e
+    puts "Failed to create Provider #{i+1}: #{e.message}"
+  end
+end
+
+# Seed Brands
+puts "Seeding Brands..."
+Provider.all.each do |provider|
+  2.times do |i|
+    Brand.create!(
+      name: "Brand #{i+1} of #{provider.name}",
+      provider: provider
+    )
+  end
+end
+
+# Seed Listings
+puts "Seeding Listings..."
+Brand.all.each do |brand|
+  3.times do |i|
+    listing = Listing.create!(
+      brand: brand,
+      name: "Listing #{i+1} of #{brand.name}",
+      size: rand(50..500),
+      cost_per_m2: rand(10.0..50.0).round(2),
+      cost_per_user: rand(100.0..500.0).round(2),
+      surface_per_user: rand(5.0..20.0).round(2),
+      description: "Description for Listing #{i+1} of #{brand.name}",
+      description_en: "English description for Listing #{i+1} of #{brand.name}",
+      number_of_meeting_rooms: rand(1..10),
+      opened: Date.today - rand(365).days,
+      is_premium_listing: [true, false].sample,
+      conference_room_request_email: "conference_#{brand.id}_#{i+1}@example.com",
+      short_description: "Short description for Listing #{i+1}",
+      short_description_en: "Short English description for Listing #{i+1}",
+      url: "http://#{brand.name.downcase.gsub(' ', '')}.com/listing#{i+1}",
+      showing_message: "Showing message for Listing #{i+1}",
+      status: Listing.statuses.keys.sample,
+      source: Listing.sources.keys.sample
+    )
+
+    # Create address for the listing
+    Address.create!(
+      listing: listing,
+      country: "Country #{i+1}",
+      city: "City #{i+1}",
+      street: "Street #{i+1}",
+      locator: "Locator #{i+1}",
+      postal_code: "PC#{i+1}",
+      postal_town: "Postal Town #{i+1}"
+    )
+  end
+end
+
+# Seed Offers
+puts "Seeding Offers..."
+Listing.all.each do |listing|
+  2.times do |i|
+    Offer.create!(
+      listing: listing,
+      name: "Offer #{i+1} for #{listing.name}",
+      description: "Description for Offer #{i+1}",
+      description_en: "English description for Offer #{i+1}",
+      price: rand(50.0..500.0).round(2),
+      desk_type: ["Standing", "Sitting", "Adjustable"].sample,
+      nb_days: rand(1..30),
+      personal: [true, false].sample,
+      area: rand(5.0..50.0).round(2),
+      max_seats: rand(1..10),
+      min_seats: rand(1..5),
+      terms: { "term1": "value1", "term2": "value2" },
+      status: Offer.statuses.keys.sample,
+      offer_type: Offer.offer_types.keys.sample,  # Changed from 'type' to 'offer_type'
+      category: Offer.categories.keys.sample
+    )
+  end
+end
+
+puts "Seeding completed!"
+
+# Near the end of your seed file, add this:
+puts "Creating AdminUser..."
+admin_email = 'admin@example.com'
+admin_password = 'password123'
+
+if AdminUser.find_by(email: admin_email)
+  puts "AdminUser with email #{admin_email} already exists. Skipping creation."
+else
+  AdminUser.create!(
+    email: admin_email,
+    password: admin_password,
+    password_confirmation: admin_password
+  )
+  puts "AdminUser created with email: #{admin_email}"
+end

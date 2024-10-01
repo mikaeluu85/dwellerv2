@@ -6,6 +6,25 @@ ActiveAdmin.register ProviderUser do
   scope :active, -> { where(deleted_at: nil) }
   scope :deleted, -> { where.not(deleted_at: nil) }
 
+  # Custom collection action for JSON response
+  collection_action :json_index, method: :get do
+    if params[:brand_id].present?
+      brand = Brand.find_by(id: params[:brand_id])
+      if brand
+        @provider_users = brand.provider.provider_users
+        Rails.logger.info "Found #{@provider_users.count} provider users for brand #{brand.name}"
+      else
+        Rails.logger.error "Brand not found with id #{params[:brand_id]}"
+        @provider_users = ProviderUser.none
+      end
+    else
+      Rails.logger.info "No brand_id provided, returning all provider users"
+      @provider_users = ProviderUser.all
+    end
+
+    render json: @provider_users.map { |pu| { id: pu.id, email: pu.email } }
+  end
+
   index do
     selectable_column
     id_column
@@ -14,7 +33,7 @@ ActiveAdmin.register ProviderUser do
     column :last_name
     column :mobile_phone
     column :role
-    column :provider # Add this line to display the associated provider
+    column :provider
     actions
   end
 
@@ -23,19 +42,18 @@ ActiveAdmin.register ProviderUser do
   filter :last_name
   filter :mobile_phone
   filter :role
-  filter :provider # Add this line to filter by provider
+  filter :provider
   filter :deleted_at, as: :select, collection: [['Active', nil], ['Deleted', true]]
 
   form do |f|
-    f.semantic_errors # Displays form errors at the top
-
+    f.semantic_errors
     f.inputs "Provider User Details" do
       f.input :email
       f.input :first_name
       f.input :last_name
       f.input :mobile_phone
       f.input :role, as: :select, collection: ProviderUser.roles.keys
-      f.input :provider, as: :select, collection: Provider.all.collect { |p| [p.name, p.id] } # Dropdown for providers
+      f.input :provider, as: :select, collection: Provider.all.collect { |p| [p.name, p.id] }
     end
     f.actions
   end
@@ -56,7 +74,7 @@ ActiveAdmin.register ProviderUser do
     private
 
     def generate_password
-      SecureRandom.hex(10) # Generates a 20-character random string
+      SecureRandom.hex(10)
     end
   end
 

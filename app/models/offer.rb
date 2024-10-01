@@ -1,5 +1,6 @@
 # app/models/offer.rb
 class Offer < ApplicationRecord
+  self.inheritance_column = :_type_disabled
   acts_as_paranoid
   belongs_to :listing
   has_many :offer_versions
@@ -9,7 +10,7 @@ class Offer < ApplicationRecord
   has_many :paid_amenities, through: :offer_paid_amenities, source: :amenity
   
   enum status: [:active, :inactive, :pending]
-  enum type: [:daily, :monthly, :yearly]
+  enum offer_type: [:daily, :monthly, :yearly]  # Make sure this is named 'offer_type'
   enum category: [:hot_desk, :dedicated_desk, :private_office]
 
   def self.ransackable_attributes(auth_object = nil)

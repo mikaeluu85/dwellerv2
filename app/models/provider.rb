@@ -2,6 +2,7 @@ class Provider < ApplicationRecord
     acts_as_paranoid
     has_many :brands
     has_many :provider_users
+    has_many :listings, through: :brands
     has_one_attached :logo
 
     validates :name, presence: true
@@ -20,5 +21,9 @@ class Provider < ApplicationRecord
 
     def self.ransackable_associations(auth_object = nil)
         ["brands", "provider_users", "logo_attachment", "logo_blob"]
+    end
+
+    def count_active_listings_with_active_offers
+        listings.active.joins(:offers).where(offers: { status: :active }).distinct.count
     end
 end

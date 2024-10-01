@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_28_195131) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_01_191023) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -229,8 +229,12 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_28_195131) do
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug"
+    t.text "area_description"
+    t.text "commuter_description"
     t.index ["brand_id"], name: "index_listings_on_brand_id"
     t.index ["deleted_at"], name: "index_listings_on_deleted_at"
+    t.index ["slug"], name: "index_listings_on_slug", unique: true
   end
 
   create_table "locations", force: :cascade do |t|
@@ -285,7 +289,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_28_195131) do
     t.integer "min_seats"
     t.json "terms"
     t.integer "status"
-    t.integer "type"
+    t.integer "offer_type"
     t.integer "category"
     t.datetime "deleted_at"
     t.datetime "created_at", null: false

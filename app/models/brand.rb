@@ -4,6 +4,9 @@ class Brand < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: :slugged
 
+  validates :name, presence: true, uniqueness: true
+  validates :slug, presence: true, uniqueness: true
+
   has_one_attached :header_image
   has_one_attached :logo
 
@@ -24,5 +27,10 @@ class Brand < ApplicationRecord
 
   def should_generate_new_friendly_id?
     slug.blank? || name_changed?
+  end
+
+  # Helper method to fetch active provider_users
+  def active_provider_users
+    provider&.provider_users&.active || ProviderUser.active
   end
 end
