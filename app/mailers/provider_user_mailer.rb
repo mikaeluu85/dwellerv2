@@ -6,7 +6,7 @@ class ProviderUserMailer < ApplicationMailer
     @provider_user = provider_user
     @magic_token = @provider_user.generate_magic_token!
     Rails.logger.info "Magic token generated: #{@magic_token}"
-    @magic_link_url = provider_magic_link_url(token: @magic_token)
+    @magic_link_url = provider_portal_magic_link_url(token: @magic_token)
     Rails.logger.info "Magic link URL generated: #{@magic_link_url}"
 
     mail(to: @provider_user.email, subject: 'Your Magic Login Link')

@@ -2,10 +2,10 @@
 class Listing < ApplicationRecord
   acts_as_paranoid
   extend FriendlyId
-  friendly_id :name, use: :slugged
+  friendly_id :name, use: [:slugged, :finders]
 
   belongs_to :brand, optional: true
-  has_one :address
+  has_one :address, dependent: :destroy
   has_one :geojson
   has_one :external_listing
   has_many :solutions
@@ -18,19 +18,38 @@ class Listing < ApplicationRecord
   has_one_attached :main_image
   has_many_attached :gallery_images
   
-  enum status: [:active, :inactive, :pending]
-  enum source: [:user_generated, :external, :imported]
+  enum status: { active: 0, inactive: 1, pending: 2 }
+  enum source: { user_generated: 0, external: 1, imported: 2 }
 
   scope :external, -> { where(source: :external) }
   scope :user_generated, -> { where(source: :user_generated) }
   scope :with_brand, -> { where.not(brand_id: nil) }
   scope :without_brand, -> { where(brand_id: nil) }
+  scope :active, -> { where(status: :active) }
 
   def self.ransackable_attributes(auth_object = nil)
-    ["created_at", "deleted_at", "id", "name", "slug", "updated_at", "status", "source"]
+    [
+      "area_description", "brand_id", "commuter_description", "conference_room_request_email",
+      "cost_per_m2", "cost_per_user", "created_at", "deleted_at", "description",
+      "description_en", "id", "is_premium_listing", "name", "number_of_meeting_rooms",
+      "opened", "short_description", "short_description_en", "showing_message", "size",
+      "slug", "source", "status", "surface_per_user", "updated_at", "url"
+    ]
   end
 
   def self.ransackable_associations(auth_object = nil)
-    ["address", "amenities", "brand", "external_listing", "geojson", "listings", "rooms", "solutions"]
+    ["address", "amenities", "brand", "external_listing", "geojson", "listings", "rooms", "solutions", "provider_users"]
   end
+
+  accepts_nested_attributes_for :address, allow_destroy: true
+  accepts_nested_attributes_for :offers, allow_destroy: true
+
+  def should_generate_new_friendly_id?
+    slug.blank? || name_changed?
+  end
+
+  # Optional: Add validations
+  validates :area_description, presence: true
+  validates :commuter_description, presence: true
+
 end

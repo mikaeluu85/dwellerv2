@@ -40,7 +40,7 @@ ActiveAdmin.register Offer do
       f.input :min_seats
       f.input :terms
       f.input :status, as: :select, collection: Offer.statuses
-      f.input :type, as: :select, collection: Offer.types
+      f.input :offer_type, as: :select, collection: Offer.offer_types.keys
       f.input :category, as: :select, collection: Offer.categories
       f.input :deleted_at
     end
