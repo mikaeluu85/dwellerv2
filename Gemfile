@@ -80,6 +80,9 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  # Use Faker in your seeds file
+  gem 'faker'
 end
 
 group :development do
@@ -94,6 +97,5 @@ group :test do
   gem 'rspec-rails'
   gem 'rails-controller-testing'
   gem 'factory_bot_rails'
-  gem 'faker'
   gem 'shoulda-matchers'
 end

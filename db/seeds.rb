@@ -1,3 +1,5 @@
+require 'faker'
+
 # This file should ensure the existence of records required to run the application in every environment (production,
 # development, test). The code here should be idempotent so that it can be executed at any point in every environment.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
@@ -7,6 +9,27 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+# Clear existing data
+
+puts "Clearing existing data..."
+AdminUser.destroy_all
+puts "AdminUsers cleared"
+begin
+  Offer.destroy_all
+  puts "Offers cleared"
+  Listing.destroy_all
+  puts "Listings cleared"
+  Brand.destroy_all
+  puts "Brands cleared"
+  Provider.destroy_all
+  puts "Providers cleared"
+  # If you have a User model, include it here
+  # User.destroy_all
+  # puts "Users cleared"
+rescue => e
+  puts "Error during data clearing: #{e.message}"
+end
+
 AdminUser.find_or_create_by!(email: 'seed@seed.com') do |user|
   user.password = 'password'
   user.password_confirmation = 'password'
@@ -80,28 +103,6 @@ blog_posts.each do |post|
   end
 end
 
-puts "Seed data created successfully!"
-
-# Clear existing data
-puts "Clearing existing data..."
-AdminUser.destroy_all
-puts "AdminUsers cleared"
-begin
-  Offer.destroy_all
-  puts "Offers cleared"
-  Listing.destroy_all
-  puts "Listings cleared"
-  Brand.destroy_all
-  puts "Brands cleared"
-  Provider.destroy_all
-  puts "Providers cleared"
-  # If you have a User model, include it here
-  # User.destroy_all
-  # puts "Users cleared"
-rescue => e
-  puts "Error during data clearing: #{e.message}"
-end
-
 # Seed Providers
 puts "Seeding Providers..."
 5.times do |i|
@@ -159,7 +160,9 @@ Brand.all.each do |brand|
       url: "http://#{brand.name.downcase.gsub(' ', '')}.com/listing#{i+1}",
       showing_message: "Showing message for Listing #{i+1}",
       status: Listing.statuses.keys.sample,
-      source: Listing.sources.keys.sample
+      source: Listing.sources.keys.sample,
+      area_description: Faker::Lorem.paragraph(sentence_count: 3),
+      commuter_description: Faker::Lorem.paragraph(sentence_count: 2)
     )
 
     # Create address for the listing
@@ -199,8 +202,6 @@ Listing.all.each do |listing|
   end
 end
 
-puts "Seeding completed!"
-
 # Near the end of your seed file, add this:
 puts "Creating AdminUser..."
 admin_email = 'admin@example.com'
@@ -216,3 +217,5 @@ else
   )
   puts "AdminUser created with email: #{admin_email}"
 end
+
+puts "Seeding completed!"
