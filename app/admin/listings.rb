@@ -109,16 +109,13 @@ ActiveAdmin.register Listing do
   end
 
   # Form view
-  form data: { controller: "provider-users" } do |f|
+  form do |f|
     f.inputs 'Listing Details' do
       f.input :name
       f.input :slug
       f.input :status, as: :select, collection: Listing.statuses.keys
       f.input :source, as: :select, collection: Listing.sources.keys
-      f.input :brand, input_html: { 
-        data: { action: "change->provider-users#update" },
-        id: 'listing_brand_id'
-      }
+      f.input :brand
       f.input :main_image, as: :file
       f.input :gallery_images, as: :file, input_html: { multiple: true }
       f.input :area_description
@@ -151,12 +148,8 @@ ActiveAdmin.register Listing do
       end
       
       f.inputs 'Provider Users' do
-        turbo_frame_tag 'provider_users_frame', data: { provider_users_target: "frame" } do
-          f.input :provider_users, 
-                  as: :check_boxes, 
-                  collection: (f.object.brand&.active_provider_users&.pluck(:email, :id) || []), 
-                  input_html: { id: 'provider_users_input' }
-        end
+        f.input :provider_users, 
+                as: :check_boxes
       end
       
       f.has_many :offers, allow_destroy: true, new_record: 'Add Offer' do |o|
