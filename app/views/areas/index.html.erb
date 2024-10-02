@@ -1,0 +1,28 @@
+<div class="min-h-screen flex flex-col">
+  <div class="bg-white flex-grow">
+    <div class="mx-auto max-w-screen-xl px-6 lg-px-8">
+      <h1 class="text-3xl font-bold text-custom-black mb-8">Våra områden</h1>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <% @locations.each do |location| %>
+          <% if location.permutations.any? %>
+            <div>
+              <h2 class="text-xl font-semibold text-custom-black mb-4"><%= location.name %></h2>
+              <ul class="space-y-2">
+                <% location.permutations.each do |permutation| %>
+                  <li>
+                    <%= link_to hyra_permutation_path(permutation.premise_type.name.parameterize, location.name.parameterize), class: "text-sm text-light-grey hover:text-gray-900" do %>
+                      <%= "#{permutation.premise_type.name.titleize} #{location.full_description}" %>
+                    <% end %>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <%= render 'shared/footer' %>
+</div>
