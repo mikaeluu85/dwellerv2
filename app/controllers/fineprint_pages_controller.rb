@@ -38,26 +38,23 @@ class FineprintPagesController < ApplicationController
   private
 
   def load_fineprint_pages_config
-    config_path = Rails.root.join('config', 'fineprint_pages.yml')
-    if File.exist?(config_path)
-      config_file = YAML.load_file(config_path)
-      # Om filen innehåller miljöspecifika nycklar
-      if config_file.key?(Rails.env)
-        config_file[Rails.env]
+    Rails.cache.fetch('fineprint_pages_config', expires_in: 12.hours) do
+      config_path = Rails.root.join('app', 'assets', 'text', 'fineprint_pages.yml')
+      if File.exist?(config_path)
+        config_file = YAML.load_file(config_path)
+        config_file.key?(Rails.env) ? config_file[Rails.env] : config_file
       else
-        config_file
+        Rails.logger.error("Configuration file not found at #{config_path}")
+        nil
       end
-    else
-      Rails.logger.error("Configuration file not found at #{config_path}")
+    rescue Psych::SyntaxError => e
+      Rails.logger.error("YAML syntax error occurred while loading fineprint_pages.yml: #{e.message}")
       nil
     end
-  rescue Psych::SyntaxError => e
-    Rails.logger.error("YAML syntax error occurred while loading fineprint_pages.yml: #{e.message}")
-    nil
   end
 
   def markdown(text)
-    renderer = Redcarpet::Render::HTML.new(hard_wrap: true, filter_html: true)
+    renderer = TailwindRenderer.new(hard_wrap: true, filter_html: true)
     markdown = Redcarpet::Markdown.new(renderer, {})
     markdown.render(text).html_safe
   end
