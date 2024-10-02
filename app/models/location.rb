@@ -31,7 +31,15 @@ class Location < ApplicationRecord
   
     def generate_permutations
       PremiseType.find_each do |premise_type|
-        Permutation.create!(location: self, premise_type: premise_type)
+        Permutation.create!(
+          location: self,
+          premise_type: premise_type,
+          introduction: "Default introduction for #{name} - #{premise_type.name}",
+          in_depth_description: "Default in-depth description for #{name} - #{premise_type.name}",
+          commuter_description: "Default commuter description for #{name} - #{premise_type.name}"
+        )
+      rescue ActiveRecord::RecordInvalid => e
+        Rails.logger.error "Failed to create permutation for Location #{id} and PremiseType #{premise_type.id}: #{e.message}"
       end
     end
 
