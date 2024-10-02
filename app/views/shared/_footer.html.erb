@@ -125,12 +125,12 @@
           <div class="md:grid md:grid-cols-2 md:gap-8">
             <% pair.each do |premise_type| %>
               <div>
-                <h3 class="font-semibold leading-6 text-xs text-custom-black"><%= premise_type.name.titleize %></h3>
+                <h3 class="font-semibold leading-6 text-sm text-custom-black"><%= premise_type.name.titleize %></h3>
                 <ul role="list" class="mt-6 space-y-4">
                   <% premise_type.permutations.includes(:location).each do |permutation| %>
                     <% if permutation.location.prioritized %>
                       <li>
-                        <a href="<%= hyra_permutation_path(premise_type.name.parameterize, permutation.location.name.parameterize) %>" class="leading-6 text-xs text-light-grey hover:text-gray-900">
+                        <a href="<%= hyra_permutation_path(premise_type.name.parameterize, permutation.location.name.parameterize) %>" class="leading-6 text-sm text-light-grey hover:text-gray-900">
                           <%= "#{permutation.premise_type.name.titleize} #{permutation.location.full_description}" %> <!-- Updated line -->
                         </a>
                       </li>
@@ -144,7 +144,7 @@
       </div>
     </div>
     <div class="mt-16 border-t border-super-light pt-8 sm:mt-20 lg:mt-24">
-      <p class="text-xs leading-5 text-light-grey">2024 Thrillgent AB / Dweller (Org. 559103-2726)</p>
+      <p class="text-sm leading-5 text-light-grey">2024 Thrillgent AB / Dweller (Org. 559103-2726)</p>
     </div>
   </div>
 </footer>
