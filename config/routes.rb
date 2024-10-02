@@ -64,7 +64,15 @@ Rails.application.routes.draw do
     end
   end
 
-    get 'omraden', to: 'areas#index'
+
+  #Permutations overview
+  get 'omraden', to: 'areas#index'  
+
+  #Fineprint pages
+  get '/annonsorsvillkor', to: 'fineprint_pages#show', page: 'annonsorsvillkor'
+  get '/integritetspolicy', to: 'fineprint_pages#show', page: 'integritetspolicy'
+  get '/anvandarvillkor', to: 'fineprint_pages#show', page: 'anvandarvillkor'
+  get '/cookies', to: 'fineprint_pages#show', page: 'cookies'
 
   # Define routes for error handling
   get '404', to: 'errors#not_found', as: :not_found

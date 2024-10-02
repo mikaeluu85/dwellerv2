@@ -56,13 +56,13 @@
                 <a href="#" class="text-sm leading-6 text-light-grey hover:text-gray-900">Om</a>
               </li>
               <li>
-                <a href="#" class="text-sm leading-6 text-light-grey hover:text-gray-900">Integritetspolicy</a>
+                <a href="<%= integritetspolicy_path %>" class="text-sm leading-6 text-light-grey hover:text-gray-900">Integritetspolicy</a>
               </li>
               <li>
-                <a href="#" class="text-sm leading-6 text-light-grey hover:text-gray-900">Allmänna villkor</a>
+                <a href="<%= anvandarvillkor_path %>" class="text-sm leading-6 text-light-grey hover:text-gray-900">Allmänna villkor</a>
               </li>
               <li>
-                <a href="#" class="text-sm leading-6 text-light-grey hover:text-gray-900">Cookies</a>
+                <a href="<%= cookies_path %>" class="text-sm leading-6 text-light-grey hover:text-gray-900">Cookies</a>
               </li>
             </ul>
           </div>
@@ -98,7 +98,7 @@
                 <a href="#" class="text-sm leading-6 text-light-grey hover:text-gray-900">Hyra ut kontor</a>
               </li>
               <li>
-                <a href="#" class="text-sm leading-6 text-light-grey hover:text-gray-900">Villkor för annonsör</a>
+                <a href="<%= annonsorsvillkor_path %>" class="text-sm leading-6 text-light-grey hover:text-gray-900">Villkor för annonsör</a>
               </li>
               <li>
                 <%= link_to "Logga in som annonsör", provider_portal_new_magic_link_path, class: "text-sm leading-6 text-light-grey hover:text-gray-900" %>
