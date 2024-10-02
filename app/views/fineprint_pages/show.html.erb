@@ -1,0 +1,11 @@
+<div class="min-h-screen flex flex-col">
+  <div class="bg-white flex-grow">
+    <div class="mx-auto max-w-screen-xl px-6 lg-px-8">
+      <h1 class="text-3xl font-bold text-custom-black mb-8"><%= @page_data['title'] %></h1>
+      <div class="fineprint-content mb-16">
+        <%= @content %>
+      </div>
+    </div>
+  </div>
+  <%= render 'shared/footer' %>
+</div>
