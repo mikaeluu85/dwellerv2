@@ -64,6 +64,7 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'varumarken', to: 'brand_overviews#index', as: 'brand_overviews'
 
   #Permutations overview
   get 'omraden', to: 'areas#index'  
