@@ -69,6 +69,8 @@ Rails.application.routes.draw do
   #Permutations overview
   get 'omraden', to: 'areas#index'  
 
+  get 'om-oss', to: 'about#index', as: 'about'
+
   #Fineprint pages
   get '/annonsorsvillkor', to: 'fineprint_pages#show', page: 'annonsorsvillkor'
   get '/integritetspolicy', to: 'fineprint_pages#show', page: 'integritetspolicy'
