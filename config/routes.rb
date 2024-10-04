@@ -83,6 +83,9 @@ Rails.application.routes.draw do
     end
   end
 
+  # Kontorshjälpen
+  get 'kontorshjalpen', to: 'search_helper/search_helper#index', as: :search_helper
+
   #Fineprint pages
   get '/annonsorsvillkor', to: 'fineprint_pages#show', page: 'annonsorsvillkor'
   get '/integritetspolicy', to: 'fineprint_pages#show', page: 'integritetspolicy'
@@ -100,8 +103,4 @@ Rails.application.routes.draw do
       req.path.exclude?('rails/action_mailbox') &&
       !req.xhr? && req.format.html?
     }
-    
-
-
-
 end
