@@ -1,0 +1,55 @@
+<div id="form-content" class="<%= 'hidden' if @show_success %>">
+    <div class="mb-6 text-center py-3">
+      <%= image_tag 'dweller_logo.svg', alt: 'Dweller', class:'h-5 w-auto' %>
+    </div>
+    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-6">Berätta mer om annonsering</h2>
+    <%= form_with(model: @advertiser_contact, url: submit_contact_advertisers_path, local: false, data: { action: "change->modal#validateForm" }) do |form| %>
+      <div class="mb-4">
+        <%= form.label :company_name, "Företagsnamn", class: "block text-sm font-medium text-gray-700" do %>
+          Företagsnamn <span class="text-negative-red">*</span>
+        <% end %>
+        <%= form.text_field :company_name, required: true, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-super-light focus:ring focus:ring-super-light focus:ring-opacity-50" %>
+      </div>
+
+      <div class="mb-4">
+        <%= form.label :org_number, "Organisationsnummer", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.text_field :org_number, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-super-light focus:ring focus:ring-super-light focus:ring-opacity-50" %>
+      </div>
+
+      <div class="mb-4">
+        <%= form.label :first_name, "Förnamn", class: "block text-sm font-medium text-gray-700" do %>
+          Förnamn <span class="text-negative-red">*</span>
+        <% end %>
+        <%= form.text_field :first_name, required: true, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-super-light focus:ring focus:ring-super-light focus:ring-opacity-50" %>
+      </div>
+
+      <div class="mb-4">
+        <%= form.label :last_name, "Efternamn", class: "block text-sm font-medium text-gray-700" do %>
+          Efternamn <span class="text-negative-red">*</span>
+        <% end %>
+        <%= form.text_field :last_name, required: true, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-super-light focus:ring focus:ring-super-light focus:ring-opacity-50" %>
+      </div>
+
+      <div class="mb-4">
+        <%= form.label :phone, "Telefon", class: "block text-sm font-medium text-gray-700" do %>
+          Telefon <span class="text-negative-red">*</span>
+        <% end %>
+        <%= form.telephone_field :phone, required: true, pattern: "^[0-9]{8,}$", class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-super-light focus:ring focus:ring-super-light focus:ring-opacity-50", data: { modal_target: "phoneInput" } %>
+        <p class="mt-1 text-sm text-red-600 hidden" data-modal-target="phoneError">Vänligen ange ett giltigt svenskt telefonnummer.</p>
+      </div>
+
+      <div class="mb-4">
+        <%= form.label :email, "E-post", class: "block text-sm font-medium text-gray-700" do %>
+          E-post <span class="text-negative-red">*</span>
+        <% end %>
+        <%= form.email_field :email, required: true, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-super-light focus:ring focus:ring-super-light focus:ring-opacity-50", data: { modal_target: "emailInput" } %>
+        <p class="mt-1 text-sm text-negative-red hidden" data-modal-target="emailError">Vänligen ange en giltig e-postadress.</p>
+      </div>
+
+      <%= form.submit "Skicka", class: "primary-button w-full", data: { modal_target: "submitButton" }, disabled: true %>
+      <p class="text-light-grey text-xs text-center mt-4">Din uppgifter hanteras enligt våra Allmänna villkor och Integritetspolicy.</p>
+    <% end %>
+  </div>
+  
+  <div id="success-message" class="<%= 'hidden' unless @show_success %>">
+    <!-- Success message content will be replaced here -->

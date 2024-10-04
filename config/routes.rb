@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "advertisers/index"
   ActiveAdmin.routes(self)
   devise_for :admin_users, controllers: { sessions: 'admin_users/sessions' }
   devise_for :provider_users, controllers: { sessions: 'provider_users/sessions' }, skip: [:passwords, :registrations]
@@ -64,12 +65,23 @@ Rails.application.routes.draw do
     end
   end
 
+  # Brands overview
   get 'varumarken', to: 'brand_overviews#index', as: 'brand_overviews'
 
   #Permutations overview
   get 'omraden', to: 'areas#index'  
 
   get 'om-oss', to: 'about#index', as: 'about'
+
+  # Advertisers landing page
+  get 'hyra-ut-kontor', to: 'advertisers#index', as: :advertiser_landing
+
+  resources :advertisers, only: [:index] do
+    collection do
+      get :contact_form
+      post :submit_contact
+    end
+  end
 
   #Fineprint pages
   get '/annonsorsvillkor', to: 'fineprint_pages#show', page: 'annonsorsvillkor'
@@ -89,4 +101,7 @@ Rails.application.routes.draw do
       !req.xhr? && req.format.html?
     }
     
+
+
+
 end
