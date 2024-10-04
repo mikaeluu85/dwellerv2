@@ -10,4 +10,8 @@
   .primary-button {
     @apply lg:w-1/2 w-full rounded-full bg-primary px-3.5 py-2.5 tracking-wide text-center text-sm uppercase font-medium text-custom-black shadow-sm hover:bg-primary-30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
   }
+
+  .primary-button:disabled {
+    @apply bg-gray-300 cursor-not-allowed text-gray-400;
+  }
 }
