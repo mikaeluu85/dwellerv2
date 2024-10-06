@@ -1,0 +1,26 @@
+<div id="form-content" class="<%= 'hidden' if @show_success %>">
+  <div class="mb-6 text-center py-3">
+    <%= image_tag 'dweller_logo.svg', alt: 'Dweller', class:'h-5 w-auto' %>
+  </div>
+  <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-6">Hitta ditt nya kontor</h2>
+  <%= form_with(model: @search_contact, url: submit_contact_search_helper_path, local: false, data: { action: "change->modal#validateForm" }) do |form| %>
+    <div class="mb-4">
+      <%= form.label :office_type, "Kontorstyp", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.select :office_type, options_for_select([['Eget kontor', 'private'], ['Coworking', 'coworking'], ['Hybrid', 'hybrid']]), { include_blank: 'Välj kontorstyp' }, { class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-super-light focus:ring focus:ring-super-light focus:ring-opacity-50" } %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :number_of_workspaces, "Antal arbetsplatser", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.number_field :number_of_workspaces, min: 1, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-super-light focus:ring focus:ring-super-light focus:ring-opacity-50" %>
+    </div>
+
+    <!-- Include the rest of the form fields similar to the advertisers form -->
+    
+    <%= form.submit "Skicka", class: "primary-button w-full", data: { modal_target: "submitButton" }, disabled: true %>
+    <p class="text-light-grey text-xs text-center mt-4">Din uppgifter hanteras enligt våra Allmänna villkor och Integritetspolicy.</p>
+  <% end %>
+</div>
+
+<div id="success-message" class="<%= 'hidden' unless @show_success %>">
+  <!-- Success message content will be replaced here -->
+</div>

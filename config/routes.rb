@@ -86,6 +86,12 @@ Rails.application.routes.draw do
   # Kontorshjälpen
   get 'kontorshjalpen', to: 'search_helper/search_helper#index', as: :search_helper
 
+  namespace :search_helper do
+    get '/', to: 'search_helper#index'
+    get 'contact_form', to: 'search_helper#contact_form'
+    post 'submit_contact', to: 'search_helper#submit_contact'
+  end
+
   #Fineprint pages
   get '/annonsorsvillkor', to: 'fineprint_pages#show', page: 'annonsorsvillkor'
   get '/integritetspolicy', to: 'fineprint_pages#show', page: 'integritetspolicy'

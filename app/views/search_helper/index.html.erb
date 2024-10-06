@@ -11,8 +11,7 @@
           <p class="mt-6 text-lg leading-8 text-gray-600">Vi hjälper dig kostnadsfritt att hitta det perfekta kontoret för din organisation.
         </p>
           <div class="mt-10 flex items-center gap-x-6">
-            <a href="#" class="primary-button inline-flex items-center justify-center px-4 py-2">Hitta ett nytt kontor</a>
-            <p class="text-sm font-semibold leading-6 text-gray-900">*Alltid helt gratis, jämt</p>
+            <%= link_to "Hitta ett nytt kontor", search_helper_contact_form_path, class: "primary-button inline-flex items-center justify-center px-4 py-2", data: { turbo_frame: "contact_form" } %>            <p class="text-sm font-semibold leading-6 text-gray-900">*Alltid helt gratis, jämt</p>
           </div>
         </div>
         <div class="mt-16 sm:mt-24 lg:mt-0 lg:flex-shrink-0 lg:flex-grow">
@@ -391,3 +390,4 @@
   
 
   <%= render 'shared/footer' %>
+  <%= turbo_frame_tag "contact_form" %>
