@@ -34,8 +34,6 @@ Rails.application.routes.draw do
   # Provider Dashboard Routes
   namespace :provider_portal do
     get 'dashboard', to: 'dashboard#index', as: :dashboard
-
-    # Magic Links Routes
     get 'login', to: 'magic_links#new', as: :new_magic_link
     post 'magic-login', to: 'magic_links#create', as: :create_magic_link
     get 'magic-login/:token', to: 'magic_links#show', as: :magic_link

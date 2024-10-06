@@ -3,7 +3,6 @@ class ApplicationController < ActionController::Base
   include Pundit::Authorization
   include DeviseHelpers
   
-  before_action :authenticate_provider_user!
   after_action :verify_authorized, except: :index, unless: :skip_authorization?
   
   before_action :set_locale
@@ -38,12 +37,10 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_provider_user!
-    Rails.logger.info "Authenticating provider user"
     unless current_provider_user
-      Rails.logger.info "No current provider user, redirecting to magic link path"
+      store_location_for(:provider_user, request.fullpath)
       redirect_to provider_portal_new_magic_link_path, notice: "Please log in to access this page."
     end
-    Rails.logger.info "Provider user authenticated"
   end
 
   def current_provider_user

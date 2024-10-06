@@ -17,26 +17,13 @@ class AdminUser < ApplicationRecord
     ["blog_posts", "avatar_attachment", "avatar_blob"]  # Valid association
   end
 
-  # Add this method
+  # Removed the 'to_sym' method and 'method_missing' override
+
   def administrator?
     true  # Assuming all AdminUsers are administrators
   end
 
   def admin?
     true  # Or any logic to determine if the user is an admin
-  end
-
-  def to_sym
-    :admin_user
-  end
-
-  def method_missing(method_name, *arguments, &block)
-    if method_name.to_s == 'to_sym'
-      Rails.logger.error "to_sym called on AdminUser instance"
-      Rails.logger.error caller.join("\n")
-      raise NoMethodError.new("undefined method `to_sym' for #{self.class}")
-    else
-      super
-    end
   end
 end
