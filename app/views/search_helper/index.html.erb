@@ -10,9 +10,11 @@
           <h1 class="mt-10 max-w-lg text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Dweller söker kontor, du <br> flyttar in</h1>
           <p class="mt-6 text-lg leading-8 text-gray-600">Vi hjälper dig kostnadsfritt att hitta det perfekta kontoret för din organisation.
         </p>
-          <div class="mt-10 flex items-center gap-x-6">
-            <%= link_to "Hitta ett nytt kontor", search_helper_contact_form_path, class: "primary-button", data: { turbo_frame: "contact_form" } %>
-            <p class="text-sm font-semibold leading-6 text-gray-900">*Alltid helt gratis, jämt</p>
+          <div class="mt-10 flex items-center gap-x-6 w-full">
+            <div class="flex flex-col sm:flex-row sm:items-center w-full">
+              <%= link_to "Hitta ett nytt kontor", search_helper_contact_form_path, class: "primary-button w-full sm:w-auto mb-2 sm:mb-0 sm:mr-4", data: { turbo_frame: "contact_form" } %>
+              <p class="text-sm font-semibold leading-6 text-gray-900 text-center">*Alltid helt gratis, jämt</p>
+            </div>
           </div>
         </div>
         <div class="mt-16 sm:mt-24 lg:mt-0 lg:flex-shrink-0 lg:flex-grow">

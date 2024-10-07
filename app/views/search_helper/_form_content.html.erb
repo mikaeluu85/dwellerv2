@@ -81,7 +81,7 @@
         Telefon <span class="text-negative-red">*</span>
       <% end %>
       <%= form.telephone_field :phone, required: true, pattern: "^[0-9]{8,}$", class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-super-light focus:ring focus:ring-super-light focus:ring-opacity-50", data: { modal_target: "phoneInput" } %>
-      <p class="mt-1 text-sm text-red-600 hidden" data-modal-target="phoneError">Vänligen ange ett giltigt svenskt telefonnummer.</p>
+      <p class="mt-1 text-sm text-negative-red hidden" data-modal-target="phoneError">Vänligen ange ett giltigt svenskt telefonnummer.</p>
     </div>
 
     <div class="mb-4">
@@ -92,7 +92,9 @@
       <p class="mt-1 text-sm text-negative-red hidden" data-modal-target="emailError">Vänligen ange en giltig e-postadress.</p>
     </div>
 
-    <%= form.submit "Skicka", class: "primary-button", data: { modal_target: "submitButton" }, disabled: true %>
+    <div class="flex justify-center">
+      <%= form.submit "Skicka", class: "primary-button", data: { modal_target: "submitButton" }, disabled: true %>
+    </div>
     <p class="text-light-grey text-xs text-center mt-4">Din uppgifter hanteras enligt våra Allmänna villkor och Integritetspolicy.</p>
   <% end %>
 </div>
