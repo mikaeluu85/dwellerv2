@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   include DeviseHelpers
   
   after_action :verify_authorized, except: :index, unless: :skip_authorization?
+  after_action :verify_policy_scoped, only: :index, unless: :skip_authorization?
   
   before_action :set_locale
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
@@ -20,7 +21,11 @@ class ApplicationController < ActionController::Base
   end
 
   def skip_authorization?
-    devise_controller? || active_admin_resource? || active_storage_controller?
+    devise_controller? || is_a?(ActiveAdmin::BaseController) || public_controller?
+  end
+
+  def public_controller?
+    controller_name == 'office_calculator' || controller_name == 'pages' # Add any other public controllers here
   end
 
   def active_admin_resource?

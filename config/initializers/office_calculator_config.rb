@@ -1,0 +1,1 @@
+OFFICE_CALCULATOR_CONFIG = YAML.load_file(Rails.root.join('config', 'office_calculator_config.yml'))

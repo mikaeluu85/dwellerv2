@@ -54,3 +54,4 @@ class Rack::Attack
                       end
       [429, { 'Content-Type' => 'application/json' }, [{ error: error_message }.to_json]]
     end
+  end

@@ -1,0 +1,259 @@
+constants:
+  hybrid_multiple: 0.6
+  small_size_multiple: 0.9
+  normal_size_multiple: 1
+  large_size_multiple: 1.15
+
+calculator_steps:
+  step_1:
+    current_employees:
+      question: "Hur många anställda är ni idag i ert företag som beräknas använda sig av kontoret?"
+      description: "The user is asked how many employees currently work at the company and will use the office."
+      input_type: "number"
+      placeholder: "Antal anställda idag"
+
+    future_employees:
+      question: "Hur många anställda beräknas ni vara om 3 år?"
+      description: "The user is asked to estimate how many employees they expect to have in 3 years."
+      input_type: "number"
+      placeholder: "Antal anställda om 3 år"
+
+    hybrid_work:
+      question: "Vill ni i eller jobbar ert företag redan i en hybridlösning?"
+      description: "The user is asked if they want to or already work in a hybrid solution."
+      input_type: "button"
+      options:
+        - "Ja"
+        - "Nej"
+
+    office_space_preference:
+      question: "Hur ser ni generellt på ert kontor och yta per person?"
+      description: "The user is asked about their general view on office space per person."
+      input_type: "dropdown"
+      options:
+        - name: "Mindre yta än normal (10-13kvm)"
+        - name: "Normal mängd yta (13-20kvm)"
+        - name: "Extra mängd yta (20kvm+)"
+
+    # location_preference:
+    #   question: "I vilken stadsdel söker ni främst lokal?"
+    #   description: "The user is asked which district they are primarily looking for a location in."
+    #   input_type: "dropdown"
+    #   placeholder: "Välj en stadsdel"
+    #   options:
+    #     - "Älvsjö"
+    #     - "Årsta"
+    #     - "Botkyrka"
+    #     # Add more districts as needed
+    #   room_size: null
+
+    renovation_budget:
+      question: "Hur stor budget finns det för renovering och egna anpassningar utöver hyreskostnad?"
+      description: "The user is asked about their budget for renovation and customizations beyond the rental cost."
+      input_type: "number"
+      placeholder: "Tillgänglig budget (kr)"
+      input_mode: "numeric"
+
+  step_2:
+    open_plan_workspaces:
+      question: "Hur många individuella arbetsplatser i öppet landskap vill ni ha?"
+      description: "The user is asked how many individual workplaces in an open-plan layout the company wants."
+      input_type: "number"
+      placeholder: "Antal"
+      room_size: null  # You can fill this in later
+    private_offices:
+      question: "Hur många privata kontor vill ni ha?"
+      description: "The user is asked how many private offices the company wants."
+      options:
+        executive_room:
+          name: "Exekutivt rum, 1 person"
+          input_type: "number"
+          room_size: null
+        standard_room:
+          name: "Standardrum, 1 person"
+          input_type: "number"
+          room_size: null
+        small_team_room:
+          name: "För mindre team, 3-6 personer"
+          input_type: "number"
+          room_size: null
+        meeting_capable_room:
+          name: "För 1 person med mötesmöjligheter"
+          input_type: "number"
+          room_size: null
+
+  step_3:
+    reception:
+      question: "Vad för reception vill ni ha?"
+      description: "The user is asked what type of reception the company wants."
+      options:
+        simple_desk:
+          name: "Enkel reception med skrivbord"
+          input_type: "number"
+          room_size: null
+        small_reception:
+          name: "Mindre reception, upp till 4 personer"
+          input_type: "number"
+          room_size: null
+        large_reception:
+          name: "Större reception, upp till 8 personer"
+          input_type: "number"
+          room_size: null
+        waiting_room:
+          name: "Väntrum, 5-10 personer"
+          input_type: "number"
+          room_size: null
+
+  step_4:
+    meeting_spaces:
+      question: "Vad för typ av mötesytor söker ni?"
+      description: "The user is asked what types of meeting spaces the company is looking for."
+      options:
+        phone_booth:
+          name: "Telefonbås för 1-2 personer"
+          input_type: "number"
+          room_size: null
+        meeting_room_4:
+          name: "Mötesrum för 4 personer"
+          input_type: "number"
+          room_size: null
+        meeting_room_6:
+          name: "Mötesrum för 6 personer"
+          input_type: "number"
+          room_size: null
+        meeting_room_8:
+          name: "Mötesrum för 8 personer"
+          input_type: "number"
+          room_size: null
+        meeting_room_10_12:
+          name: "Mötesrum för 10-12 personer"
+          input_type: "number"
+          room_size: null
+        meeting_room_16_plus:
+          name: "Mötesrum för 16 personer eller mer"
+          input_type: "number"
+          room_size: null
+
+  step_5:
+    common_spaces:
+      question: "Vad för typ av gemensamma ytor önskar ni?"
+      description: "The user is asked what types of shared common spaces the company is looking for."
+      options:
+        small_pantry:
+          name: "Ett mindre pentry, 3-6 personer"
+          input_type: "number"
+          room_size: null
+        large_pantry:
+          name: "Ett större pentry, upp till 10 personer"
+          input_type: "number"
+          room_size: null
+        small_lounge:
+          name: "Mindre loungeyta/breakout, 10-20 personer"
+          input_type: "number"
+          room_size: null
+        large_lounge:
+          name: "Större loungeyta/breakout, 20-40 personer"
+          input_type: "number"
+          room_size: null
+        full_kitchen:
+          name: "Fullständigt kök"
+          input_type: "number"
+          room_size: null
+        small_dining:
+          name: "Mindre matsal, upp till 20 personer"
+          input_type: "number"
+          room_size: null
+        large_dining:
+          name: "Större matsal, upp till 40 personer"
+          input_type: "number"
+          room_size: null
+
+  step_6:
+    miscellaneous_spaces:
+      question: "Vad för typ av övriga ytor önskar ni?"
+      description: "The user is asked what types of other miscellaneous spaces the company is looking for."
+      options:
+        small_server_room:
+          name: "Mindre serverrum"
+          input_type: "number"
+          room_size: null
+        large_server_room:
+          name: "Större serverrum"
+          input_type: "number"
+          room_size: null
+        printer_room:
+          name: "Printer-, kopiator- och faxrum"
+          input_type: "number"
+          room_size: null
+        small_storage:
+          name: "Mindre förvaringsrum"
+          input_type: "number"
+          room_size: null
+        large_storage:
+          name: "Större förvarningsrum"
+          input_type: "number"
+          room_size: null
+
+  step_7:
+    additional_services:
+      question: "Finns det några vanliga tillägg som ni önskar till lokalen?"
+      description: "The user is asked if there are any common additional items or services the company would like included in the office space."
+      input_type: "checkbox"
+      options:
+        office_insurance:
+          name: "Lokalförsäkring"
+          per_sqm_cost: null
+        waste_management:
+          name: "Sophantering, en gång i veckan"
+          per_person_cost: null
+        premises_alarm:
+          name: "Larm för lokalen"
+          per_month_cost: null
+        desks:
+          name: "Skrivbord, för 1 personer"
+          one_off_cost: null
+        work_chairs:
+          name: "Arbetsstolar för 1 personer"
+          one_off_cost: null
+        printer:
+          name: "Skrivare"
+          per_month_cost: null
+        cleaning:
+          name: "Städning, 2 gånger i veckan"
+          per_person_cost: null
+        internet_connection:
+          name: "Internetanslutning"
+          per_month_cost: null
+        coffee_machine_rental:
+          name: "Hyra av kaffemaskin"
+          per_month_cost: null
+
+  step_8:
+    contact_form:
+      question: "Kontaktinformation"
+      description: "The user is asked to provide their contact information."
+      fields:
+        first_name:
+          name: "Förnamn"
+          input_type: "text"
+          required: true
+        last_name:
+          name: "Efternamn"
+          input_type: "text"
+          required: true
+        company:
+          name: "Företag"
+          input_type: "text"
+          required: true
+        email:
+          name: "E-post"
+          input_type: "email"
+          required: true
+        phone:
+          name: "Telefon"
+          input_type: "tel"
+          required: true
+        terms_acceptance:
+          name: "Jag accepterar Dwellers användaravtal och integritetspolicyn."
+          input_type: "checkbox"
+          required: true

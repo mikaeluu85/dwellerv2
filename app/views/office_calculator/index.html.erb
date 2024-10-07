@@ -1,0 +1,31 @@
+<%# # Result Page: Create a result page that displays a summary of all the inputs and potentially calculates some metrics based on the user's responses.
+# Data Validation: Implement server-side validation to ensure that all required fields are filled and the data is in the correct format.
+# Progress Indicator: Add a progress bar or step indicator to show users how far along they are in the calculator process.
+# Back Button: Implement functionality to allow users to go back to previous steps and edit their responses.
+# Save Progress: Consider adding a feature to save the user's progress, perhaps using browser local storage or by creating user accounts.
+# Responsive Design: Ensure that the calculator works well on mobile devices as well as desktop.
+# Accessibility: Review and improve the accessibility of your form, ensuring it works well with screen readers and keyboard navigation.
+# Testing: Write unit and integration tests for your calculator to ensure it continues to function correctly as you make further changes.
+# Is there a specific area you'd like to focus on next? Or do you have any questions about implementing any of these features?
+# Add active state on Locations, add cost per location %>
+
+
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold mb-6">Kontorskalkylatorn</h1>
+    
+    <div class="bg-white shadow-lg rounded-lg p-6">
+      <h2 class="text-2xl font-semibold mb-4">Beräkna ditt kontorsbehov</h2>
+      <p class="text-gray-600 mb-6">
+        Hur stort kontor behöver du? Skapa ett diskussionsunderlag för ditt kontorsbehov på några minuter. 
+        Få insikter i storlek, behov och kostnader på några minuter.
+      </p>
+      
+      <%= turbo_frame_tag "calculator_content" do %>
+        <% if @current_step == 'start' %>
+          <%= button_to "Börja räkna", start_office_calculator_path, method: :post, class: "bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" %>
+        <% else %>
+          <%= render partial: @current_step, locals: { questions: @questions, current_step: @current_step } %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
