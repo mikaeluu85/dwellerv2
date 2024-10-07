@@ -1,4 +1,5 @@
 ActiveAdmin.register SearchContact do
+menu parent: 'Leads', priority: 1
   permit_params :company_name, :first_name, :last_name, :phone, :email, :number_of_workspaces, :office_type, location_ids: []
 
   index do
