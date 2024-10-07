@@ -1,0 +1,15 @@
+<!-- app/views/search_contact_mailer/new_contact.text.erb -->
+
+Ny Kontorsförfrågan
+
+Företagsnamn: <%= @search_contact.company_name %>
+Förnamn: <%= @search_contact.first_name %>
+Efternamn: <%= @search_contact.last_name %>
+Email: <%= @search_contact.email %>
+Telefon: <%= @search_contact.phone %>
+Antal Arbetsplatser: <%= @search_contact.number_of_workspaces %>
+Kontorstyp: <%= @search_contact.office_type.capitalize %>
+Önskade Platser:
+<% @search_contact.locations.each do |location| %>
+- <%= location.name %>
+<% end %>

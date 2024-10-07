@@ -1,0 +1,17 @@
+<!-- app/views/search_contact_mailer/new_contact.html.erb -->
+
+<h1>Ny Kontorsförfrågan</h1>
+
+<p>Företagsnamn: <%= @search_contact.company_name %></p>
+<p>Förnamn: <%= @search_contact.first_name %></p>
+<p>Efternamn: <%= @search_contact.last_name %></p>
+<p>Email: <%= @search_contact.email %></p>
+<p>Telefon: <%= @search_contact.phone %></p>
+<p>Antal Arbetsplatser: <%= @search_contact.number_of_workspaces %></p>
+<p>Kontorstyp: <%= @search_contact.office_type %></p>
+<p>Önskade Platser:</p>
+<ul>
+  <% @search_contact.locations.each do |location| %>
+    <li><%= location.name %></li>
+  <% end %>
+</ul>
