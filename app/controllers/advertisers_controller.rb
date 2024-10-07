@@ -1,6 +1,5 @@
 class AdvertisersController < ApplicationController
-  skip_before_action :authenticate_provider_user!
-  skip_after_action :verify_authorized
+  skip_after_action :verify_authorized, only: [:index, :contact_form]
 
   def index
   end

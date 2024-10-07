@@ -34,8 +34,6 @@ Rails.application.routes.draw do
   # Provider Dashboard Routes
   namespace :provider_portal do
     get 'dashboard', to: 'dashboard#index', as: :dashboard
-
-    # Magic Links Routes
     get 'login', to: 'magic_links#new', as: :new_magic_link
     post 'magic-login', to: 'magic_links#create', as: :create_magic_link
     get 'magic-login/:token', to: 'magic_links#show', as: :magic_link
@@ -83,6 +81,13 @@ Rails.application.routes.draw do
     end
   end
 
+  # Kontorshjälpen
+  get 'kontorshjalpen', to: 'search_helper#index', as: :search_helper
+
+  get 'search_helper', to: 'search_helper#index'
+  get 'search_helper/contact_form', to: 'search_helper#contact_form'
+  post 'search_helper/submit_contact', to: 'search_helper#submit_contact', as: :submit_contact_search_helper
+
   #Fineprint pages
   get '/annonsorsvillkor', to: 'fineprint_pages#show', page: 'annonsorsvillkor'
   get '/integritetspolicy', to: 'fineprint_pages#show', page: 'integritetspolicy'
@@ -100,8 +105,4 @@ Rails.application.routes.draw do
       req.path.exclude?('rails/action_mailbox') &&
       !req.xhr? && req.format.html?
     }
-    
-
-
-
 end

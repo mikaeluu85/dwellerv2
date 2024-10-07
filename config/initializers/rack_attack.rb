@@ -1,4 +1,10 @@
 class Rack::Attack
+    # Use Redis for storing rate limit data (recommended for production)
+    # Rack::Attack.cache.store = Redis.new
+
+    # Or use Rails.cache (memory store, suitable for development)
+    Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
+
     # Throttle by IP address - 5 requests per minute
     throttle('limit_magic_links/ip', limit: 1, period: 60) do |req|
       if req.path == '/provider/magic-login' && req.post?
@@ -12,9 +18,24 @@ class Rack::Attack
         req.params['provider_user']['email'].downcase
       end
     end
-  
-    # Customize the response for throttled requests
-    self.throttled_response = lambda do |env|
-      [429, { 'Content-Type' => 'application/json' }, [{ error: "Du har begärt en magisk länk för inloggning flera gånger. Vänligen försök igen senare." }.to_json]]
+
+    # Throttle POST requests to /search_helper/submit_contact
+    throttle('search_helper/submit_contact', limit: 5, period: 1.hour) do |req|
+      if req.path == '/search_helper/submit_contact' && req.post?
+          req.ip
+      end
     end
-  end
+    
+    # Customize the response for throttled requests based on the request path
+    self.throttled_response = lambda do |env|
+      request = Rack::Request.new(env)
+      error_message = case request.path
+                      when '/provider/magic-login'
+                        "Du har begärt en magisk länk för inloggning flera gånger. Vänligen försök igen senare."
+                      when '/search_helper/submit_contact'
+                        "Du har överskridit antalet tillåtna förfrågningar. Vänligen försök igen senare."
+                      else
+                        "Något gick fel, vänligen försök igen senare."
+                      end
+      [429, { 'Content-Type' => 'application/json' }, [{ error: error_message }.to_json]]
+    end

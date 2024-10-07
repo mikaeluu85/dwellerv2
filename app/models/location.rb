@@ -4,6 +4,7 @@ class Location < ApplicationRecord
   
     has_many :permutations
     has_many :premise_types, through: :permutations
+    has_and_belongs_to_many :search_contacts
 
     validates :name, presence: true
     validates :geojson, presence: true
