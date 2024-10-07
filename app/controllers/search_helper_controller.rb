@@ -32,6 +32,10 @@ class SearchHelperController < ApplicationController
           format.turbo_stream { render turbo_stream: turbo_stream.replace("modal-content", partial: "search_helper/form_content"), status: :unprocessable_entity }
         end
       end
+    rescue Rack::Attack::Throttle => e
+      respond_to do |format|
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("modal-content", partial: "search_helper/rate_limit_error"), status: :too_many_requests }
+      end
     end
 
     private
