@@ -21,6 +21,15 @@ class SearchHelperController < ApplicationController
     private
 
     def search_contact_params
-      params.require(:search_contact).permit(:company_name, :first_name, :last_name, :phone, :email, :number_of_workspaces, :office_type, location_ids: [])
+      params.require(:search_contact).permit(
+        :company_name, 
+        :first_name, 
+        :last_name, 
+        :phone, 
+        :email, 
+        :number_of_workspaces, 
+        :office_type, 
+        location_ids: []
+      )
     end
 end

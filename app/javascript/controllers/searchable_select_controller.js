@@ -1,74 +1,61 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["search", "dropdown", "input", "selected"]
+  static targets = ["search", "dropdown", "inputs", "selected"]
 
-  connect() {
-    this.selectedItems = new Set()
-    document.addEventListener("click", this.closeDropdown.bind(this))
-  }
-
-  disconnect() {
-    document.removeEventListener("click", this.closeDropdown.bind(this))
-  }
-
-  search(event) {
-    const searchTerm = event.target.value.toLowerCase()
-    this.dropdownTarget.classList.remove("hidden")
-    this.dropdownTarget.querySelectorAll("div").forEach(item => {
-      const text = item.textContent.toLowerCase()
-      item.style.display = text.includes(searchTerm) ? "block" : "none"
-    })
-  }
-
-  toggleDropdown(event) {
-    event.preventDefault()
+  toggleDropdown() {
     this.dropdownTarget.classList.toggle("hidden")
   }
 
+  search(event) {
+    const query = event.target.value.toLowerCase()
+    this.dropdownTarget.querySelectorAll("div").forEach(option => {
+      const text = option.textContent.toLowerCase()
+      option.style.display = text.includes(query) ? "block" : "none"
+    })
+  }
+
   select(event) {
-    const id = event.currentTarget.dataset.value
-    const name = event.currentTarget.textContent
+    const selectedId = event.currentTarget.dataset.value
+    const selectedName = event.currentTarget.textContent.trim()
 
-    if (this.selectedItems.has(id)) {
-      this.selectedItems.delete(id)
-      this.removeSelectedItem(id)
-    } else {
-      this.selectedItems.add(id)
-      this.addSelectedItem(id, name)
-    }
+    // Prevent duplicate selections
+    if (this.selectedIds().includes(selectedId)) return
 
-    this.updateInputValue()
+    // Create a hidden input for the selected location
+    const hiddenInput = document.createElement("input")
+    hiddenInput.type = "hidden"
+    hiddenInput.name = "search_contact[location_ids][]"
+    hiddenInput.value = selectedId
+    this.inputsTarget.appendChild(hiddenInput)
+
+    // Create a tag to display the selected location
+    const tag = document.createElement("span")
+    tag.className = "inline-flex items-center px-2.5 py-1 rounded-full text-sm font-medium bg-gray-200 text-gray-800"
+    tag.textContent = selectedName
+
+    // Create a remove button for the tag
+    const removeBtn = document.createElement("button")
+    removeBtn.type = "button"
+    removeBtn.className = "ml-1 text-grey-500 hover:text-grey-700"
+    removeBtn.innerHTML = "&times;"
+    
+    // Add event listener to remove the tag and hidden input
+    removeBtn.addEventListener("click", () => {
+      hiddenInput.remove()
+      tag.remove()
+    })
+
+    tag.appendChild(removeBtn)
+    this.selectedTarget.appendChild(tag)
+
+    // Clear the search input and hide the dropdown
     this.searchTarget.value = ""
-    this.dropdownTarget.classList.add("hidden")
+    this.toggleDropdown()
   }
 
-  addSelectedItem(id, name) {
-    const item = document.createElement("div")
-    item.classList.add("inline-flex", "items-center", "bg-gray-200", "rounded-full", "px-3", "py-1", "text-sm", "font-semibold", "text-gray-700")
-    item.innerHTML = `${name} <button type="button" class="ml-1 focus:outline-none" data-action="click->searchable-select#removeItem" data-id="${id}">&times;</button>`
-    this.selectedTarget.appendChild(item)
-  }
-
-  removeSelectedItem(id) {
-    this.selectedTarget.querySelector(`[data-id="${id}"]`).parentElement.remove()
-  }
-
-  removeItem(event) {
-    event.preventDefault()
-    const id = event.currentTarget.dataset.id
-    this.selectedItems.delete(id)
-    this.removeSelectedItem(id)
-    this.updateInputValue()
-  }
-
-  updateInputValue() {
-    this.inputTarget.value = Array.from(this.selectedItems).join(",")
-  }
-
-  closeDropdown(event) {
-    if (!this.element.contains(event.target)) {
-      this.dropdownTarget.classList.add("hidden")
-    }
+  selectedIds() {
+    return Array.from(this.inputsTarget.querySelectorAll('input[name="search_contact[location_ids][]"]'))
+      .map(input => input.value)
   }
 }
