@@ -25,7 +25,20 @@ class Rack::Attack
           req.ip
       end
     end
-    
+    # Throttle POST requests to /advertisers/submit_contact
+    throttle('limit_advertiser_contact/ip', limit: 5, period: 60) do |req|
+      if req.path == '/advertisers/submit_contact' && req.post?
+        req.ip
+      end
+    end
+
+    # Throttle POST requests to /advertisers/submit_contact by email
+    throttle('limit_advertiser_contact/email', limit: 3, period: 1.hour) do |req|
+      if req.path == '/advertisers/submit_contact' && req.post? && req.params['advertiser_contact'] && req.params['advertiser_contact']['email'].present?
+        req.params['advertiser_contact']['email'].downcase
+      end
+    end
+
     # Customize the response for throttled requests based on the request path
     self.throttled_response = lambda do |env|
       request = Rack::Request.new(env)
@@ -34,6 +47,8 @@ class Rack::Attack
                         "Du har begärt en magisk länk för inloggning flera gånger. Vänligen försök igen senare."
                       when '/search_helper/submit_contact'
                         "Du har överskridit antalet tillåtna förfrågningar. Vänligen försök igen senare."
+                      when '/advertisers/submit_contact'
+                        "Du har överskridit antalet tillåtna förfrågningar för kontaktformuläret. Vänligen försök igen senare."
                       else
                         "Något gick fel, vänligen försök igen senare."
                       end

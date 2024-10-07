@@ -1,5 +1,5 @@
 class AdvertisersController < ApplicationController
-  skip_after_action :verify_authorized, only: [:index, :contact_form]
+  skip_after_action :verify_authorized
 
   def index
   end
@@ -24,8 +24,12 @@ class AdvertisersController < ApplicationController
       end
     else
       respond_to do |format|
-        format.turbo_stream { render turbo_stream: turbo_stream.replace("modal-content", partial: "form_content") }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("modal-content", partial: "form_content"), status: :unprocessable_entity }
       end
+    end
+  rescue Rack::Attack::Throttle => e
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: turbo_stream.replace("modal-content", partial: "advertisers/rate_limit_error"), status: :too_many_requests }
     end
   end
 
