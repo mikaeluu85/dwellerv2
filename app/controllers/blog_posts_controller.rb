@@ -1,8 +1,6 @@
 class BlogPostsController < ApplicationController
   include MarkdownHelper
 
-  skip_before_action :authenticate_provider_user!, only: [:index, :show]
-
   def index
     @blog_posts = BlogPost.visible.recent.page(params[:page]).per(6)
     respond_to do |format|
