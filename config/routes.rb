@@ -82,13 +82,11 @@ Rails.application.routes.draw do
   end
 
   # Kontorshjälpen
-  get 'kontorshjalpen', to: 'search_helper/search_helper#index', as: :search_helper
+  get 'kontorshjalpen', to: 'search_helper#index', as: :search_helper
 
-  namespace :search_helper do
-    get '/', to: 'search_helper#index'
-    get 'contact_form', to: 'search_helper#contact_form'
-    post 'submit_contact', to: 'search_helper#submit_contact'
-  end
+  get 'search_helper', to: 'search_helper#index'
+  get 'search_helper/contact_form', to: 'search_helper#contact_form'
+  post 'search_helper/submit_contact', to: 'search_helper#submit_contact', as: :submit_contact_search_helper
 
   #Fineprint pages
   get '/annonsorsvillkor', to: 'fineprint_pages#show', page: 'annonsorsvillkor'

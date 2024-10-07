@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_03_205722) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_06_204623) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -259,6 +259,13 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_03_205722) do
     t.index ["slug"], name: "index_locations_on_slug", unique: true
   end
 
+  create_table "locations_search_contacts", id: false, force: :cascade do |t|
+    t.bigint "search_contact_id", null: false
+    t.bigint "location_id", null: false
+    t.index ["location_id", "search_contact_id"], name: "index_locations_search_contacts"
+    t.index ["search_contact_id", "location_id"], name: "index_search_contacts_locations"
+  end
+
   create_table "offer_excluded_amenities", force: :cascade do |t|
     t.bigint "offer_id", null: false
     t.bigint "amenity_id", null: false
@@ -380,6 +387,18 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_03_205722) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["listing_id"], name: "index_rooms_on_listing_id"
+  end
+
+  create_table "search_contacts", force: :cascade do |t|
+    t.string "company_name"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "phone"
+    t.string "email"
+    t.integer "number_of_workspaces"
+    t.string "office_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "solution_rooms", force: :cascade do |t|
