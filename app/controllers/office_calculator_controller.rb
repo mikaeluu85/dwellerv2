@@ -1,6 +1,7 @@
 class OfficeCalculatorController < ApplicationController
     before_action :load_calculator_config
     before_action :set_current_step, only: [:index, :start, :next_step, :previous_step]
+    before_action :load_or_create_session, except: [:index]
 
     def index
         session[:current_step] = 'start'
@@ -8,19 +9,17 @@ class OfficeCalculatorController < ApplicationController
     end
 
     def start
-        session[:current_step] = 'step_1'
         @current_step = 1
+        update_cache(current_step: @current_step)
         set_questions
         set_active_locations
         render_step
     end
 
     def next_step
-        @current_step = params[:current_step].to_s.gsub('step_', '').to_i
-        save_form_data_to_session  # Ensure this is called to save data to the session
+        @current_step = params[:current_step].to_i
+        save_form_data_to_cache
         next_step_number = @current_step + 1
-
-        Rails.logger.info "Session data after saving for step #{@current_step}: #{session.to_hash.select { |key, _| key.start_with?('calculator_') }}"
 
         if next_step_number > 8
             render plain: "No next step found", status: :not_found
@@ -31,7 +30,7 @@ class OfficeCalculatorController < ApplicationController
 
         if @calculator_config['calculator_steps'].key?(@next_step)
             @current_step = next_step_number
-            session[:current_step] = "step_#{@current_step}"
+            update_cache(current_step: @current_step)
             set_questions
             set_active_locations
             render_step
@@ -41,40 +40,30 @@ class OfficeCalculatorController < ApplicationController
     end
 
     def previous_step
-        @current_step = params[:step].to_s.gsub('step_', '').to_i
+        @current_step = params[:step].to_i
         @current_step -= 1
         @current_step = 1 if @current_step < 1
-        session[:current_step] = "step_#{@current_step}"
+        update_cache(current_step: @current_step)
         set_questions
         set_active_locations
         render_step
     end
 
     def submit
-        steps_data = {}
-        (1..7).each do |step|
-            step_data = {}
-            @calculator_config['calculator_steps']["step_#{step}"].each do |field, _|
-                session_key = "calculator_#{step}_#{field}"
-                step_data[field] = session[session_key] if session[session_key].present?
-            end
-            steps_data["step_#{step}"] = step_data unless step_data.empty?
-        end
+        @current_step = 8
+        cache_data = get_cache_data
+        
+        submission_params = params.permit(:first_name, :last_name, :company, :email, :phone, :terms_acceptance, :location_id)
+        submission_params[:location_id] = cache_data["calculator_location_id"] if submission_params[:location_id].blank?
+        
+        @calculation = OfficeCalculation.new(submission_params.merge(steps_data: cache_data))
 
-        Rails.logger.info "Session data before submission: #{session.to_hash.select { |key, _| key.start_with?('calculator_') }}"
-        Rails.logger.info "Steps data being submitted: #{steps_data}"
-
-        @office_calculation = OfficeCalculation.new(office_calculation_params)
-        @office_calculation.steps_data = steps_data
-        @office_calculation.location_id = session["calculator_location_id"] if @office_calculation.location_id.blank?
-
-        if @office_calculation.save
-            session.keys.each { |key| session.delete(key) if key.to_s.start_with?('calculator_') }
-            redirect_to office_calculator_thank_you_path, notice: 'Your calculation has been submitted successfully!'
+        if @calculation.save
+            # Clear the cache after successful submission
+            Rails.cache.delete(@cache_key)
+            render :success
         else
-            flash[:alert] = 'There was an error submitting your calculation. Please try again.'
-            @current_step = 8
-            @questions = load_questions_for_step(@current_step)
+            set_questions
             render :index
         end
     end
@@ -113,26 +102,44 @@ class OfficeCalculatorController < ApplicationController
         end
     end
 
-    def save_form_data_to_session
+    def save_form_data_to_cache
         current_step_config = @calculator_config['calculator_steps']["step_#{@current_step}"]
         
         Rails.logger.info "Saving data for step #{@current_step}: #{current_step_config.inspect}"
         Rails.logger.info "Received params for step #{@current_step}: #{params.inspect}"
 
+        cache_data = Rails.cache.fetch(@cache_key) || {}
+
         current_step_config&.each do |field, data|
-            session_key = "calculator_#{@current_step}_#{field}"
-            session_value = params[session_key]
-            session[session_key] = session_value if session_value.present?
-            Rails.logger.info "Saved #{session_key}: #{session_value}"
+            if data['options'].is_a?(Hash)
+                data['options'].each do |option_key, option_data|
+                    cache_key = "calculator_#{@current_step}_#{field}_#{option_key}"
+                    cache_value = params[cache_key]
+                    cache_data[cache_key] = cache_value if cache_value.present?
+                end
+            else
+                cache_key = "calculator_#{@current_step}_#{field}"
+                cache_value = params[cache_key]
+                cache_data[cache_key] = cache_value if cache_value.present?
+            end
         end
 
-        # Save the selected location if present
         if params[:calculator_location_id].present?
-            session["calculator_location_id"] = params[:calculator_location_id]
-            Rails.logger.info "Saved calculator_location_id: #{params[:calculator_location_id]}"
+            cache_data["calculator_location_id"] = params[:calculator_location_id]
         end
 
-        Rails.logger.info "Complete session data after saving for step #{@current_step}: #{session.to_hash.select { |key, _| key.start_with?('calculator_') }}"
+        Rails.cache.write(@cache_key, cache_data, expires_in: 1.hour)
+        Rails.logger.info "Complete cache data after saving for step #{@current_step}: #{cache_data}"
+    end
+
+    def update_cache(data)
+        cache_data = Rails.cache.fetch(@cache_key) || {}
+        cache_data.merge!(data)
+        Rails.cache.write(@cache_key, cache_data, expires_in: 1.hour)
+    end
+
+    def get_cache_data
+        Rails.cache.fetch(@cache_key) || {}
     end
 
     def office_calculation_params
@@ -141,5 +148,10 @@ class OfficeCalculatorController < ApplicationController
 
     def load_questions_for_step(step)
         @calculator_config.dig('calculator_steps', "step_#{step}") || {}
+    end
+
+    def load_or_create_session
+        session[:calculator_id] ||= SecureRandom.uuid
+        @cache_key = "office_calculator_#{session[:calculator_id]}"
     end
 end
