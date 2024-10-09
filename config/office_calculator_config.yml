@@ -35,18 +35,6 @@ calculator_steps:
         - name: "Normal mängd yta (13-20kvm)"
         - name: "Extra mängd yta (20kvm+)"
 
-    # location_preference:
-    #   question: "I vilken stadsdel söker ni främst lokal?"
-    #   description: "The user is asked which district they are primarily looking for a location in."
-    #   input_type: "dropdown"
-    #   placeholder: "Välj en stadsdel"
-    #   options:
-    #     - "Älvsjö"
-    #     - "Årsta"
-    #     - "Botkyrka"
-    #     # Add more districts as needed
-    #   room_size: null
-
     renovation_budget:
       question: "Hur stor budget finns det för renovering och egna anpassningar utöver hyreskostnad?"
       description: "The user is asked about their budget for renovation and customizations beyond the rental cost."

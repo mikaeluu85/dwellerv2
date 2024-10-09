@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_06_204623) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_09_141523) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -316,6 +316,21 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_06_204623) do
     t.index ["listing_id"], name: "index_offers_on_listing_id"
   end
 
+  create_table "office_calculations", force: :cascade do |t|
+    t.jsonb "steps_data", default: {}, null: false
+    t.bigint "location_id", null: false
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.string "company", null: false
+    t.string "email", null: false
+    t.string "phone", null: false
+    t.boolean "terms_acceptance", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["location_id"], name: "index_office_calculations_on_location_id"
+    t.index ["steps_data"], name: "index_office_calculations_on_steps_data", using: :gin
+  end
+
   create_table "permutations", force: :cascade do |t|
     t.bigint "location_id", null: false
     t.bigint "premise_type_id", null: false
@@ -447,6 +462,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_06_204623) do
   add_foreign_key "offer_paid_amenities", "offers"
   add_foreign_key "offer_versions", "offers"
   add_foreign_key "offers", "listings"
+  add_foreign_key "office_calculations", "locations"
   add_foreign_key "permutations", "locations"
   add_foreign_key "permutations", "premise_types"
   add_foreign_key "provider_users", "providers"
