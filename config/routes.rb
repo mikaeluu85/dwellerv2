@@ -99,6 +99,7 @@ Rails.application.routes.draw do
   post 'kontorskalkylatorn/start', to: 'office_calculator#start', as: :start_office_calculator
   post 'kontorskalkylatorn/next_step', to: 'office_calculator#next_step', as: :office_calculator_next_step
   get 'kontorskalkylatorn/result', to: 'office_calculator#result', as: :office_calculator_result
+  get 'kontorskalkylatorn/previous_step', to: 'office_calculator#previous_step', as: :office_calculator_previous_step
 
   # Define routes for error handling
   get '404', to: 'errors#not_found', as: :not_found
@@ -112,4 +113,6 @@ Rails.application.routes.draw do
       !req.xhr? && req.format.html?
     }
 
+  # Add route for previous step
+  
 end

@@ -1,0 +1,51 @@
+<%= turbo_frame_tag "calculator_content" do %>
+<%= form_with url: office_calculator_next_step_path, method: :post do |form| %>
+  <% if @questions.present? %>
+    <% @questions.each do |field, data| %>
+      <div class="mb-6">
+        <label class="block text-lg font-medium text-gray-700 mb-2"><%= data['question'] %></label>
+        <p class="text-sm text-gray-500 mb-3"><%= data['description'] %></p>
+
+        <% case data['input_type'] %>
+        <% when 'number' %>
+          <%= form.number_field field, placeholder: data['placeholder'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+        
+        <% when 'button' %>
+          <div class="mt-2">
+            <% data['options'].each do |option| %>
+              <%= form.radio_button field, option, class: "sr-only peer" %>
+              <%= form.label "#{field}_#{option.downcase}", option, class: "px-4 py-2 rounded-lg border border-gray-300 cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-2 peer-checked:ring-indigo-500 peer-checked:border-transparent" %>
+            <% end %>
+          </div>
+        
+        <% when 'dropdown' %>
+          <%= form.select field, options_for_select(data['options'].map { |o| o.is_a?(Hash) ? o['name'] : o }), { prompt: data['placeholder'] }, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+        
+        <% when 'checkbox' %>
+          <div class="mt-2">
+            <% data['options'].each do |option_key, option_data| %>
+              <div class="flex items-start mb-2">
+                <%= form.check_box "#{field}_#{option_key}", class: "h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" %>
+                <%= form.label "#{field}_#{option_key}", option_data['name'], class: "ml-2 block text-sm text-gray-900" %>
+              </div>
+            <% end %>
+          </div>
+        
+        <% else %>
+          <%= form.text_field field, placeholder: data['placeholder'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+        <% end %>
+      </div>
+    <% end %>
+  <% else %>
+    <p>No questions available for this step.</p>
+  <% end %>
+
+  <%= form.hidden_field :current_step, value: @current_step %>
+  <div class="mt-4 flex justify-between items-center">
+    <% if @current_step > 1 %>
+      <%= link_to "Gå tillbaka", office_calculator_previous_step_path(step: @current_step - 1), class: "px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500", data: { turbo_frame: "calculator_content" } %>
+    <% end %>
+    <%= form.submit "Nästa", class: "px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+  </div>
+<% end %>
+<% end %>
