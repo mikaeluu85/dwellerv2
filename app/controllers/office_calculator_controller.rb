@@ -10,27 +10,40 @@ class OfficeCalculatorController < ApplicationController
     end
 
     def start
+        Rails.logger.debug "Start action called"
         session[:current_step] = 'step_1'
         @current_step = 'step_1'
         set_questions
         set_active_locations
+        Rails.logger.debug "Current step set to: #{@current_step}"
+        Rails.logger.debug "Questions: #{@questions.inspect}"
+        Rails.logger.debug "Active locations: #{@active_locations.inspect}"
         render_step
     end
 
     def next_step
+        Rails.logger.debug "Received params: #{params.inspect}"
         @current_step = params[:current_step]
         save_form_data_to_session
         next_step_number = @current_step.split('_').last.to_i + 1
         @next_step = "step_#{next_step_number}"
 
+        Rails.logger.debug "Current step: #{@current_step}, Next step: #{@next_step}"
+
         if @calculator_config['calculator_steps'].key?(@next_step)
             @current_step = @next_step
             session[:current_step] = @current_step
             set_questions
+            Rails.logger.debug "Rendering next step: #{@current_step}"
             render_step
         else
+            Rails.logger.debug "Redirecting to result page"
             redirect_to office_calculator_result_path
         end
+    end
+
+    def result
+        @calculator_config = load_calculator_config
     end
 
     private
@@ -57,19 +70,19 @@ class OfficeCalculatorController < ApplicationController
     end
 
     def set_active_locations
-        @active_locations ||= Location.find_each.to_a if @current_step == 'step_1'
+        @active_locations ||= Location.all if @current_step == 'step_1'
     end
 
     def render_step
-        respond_to do |format|
-            format.turbo_stream do
-                render turbo_stream: turbo_stream.replace(
-                    "calculator_content",
-                    partial: @current_step,
-                    locals: { questions: @questions, current_step: @current_step }
-                )
-            end
-            format.html { render partial: @current_step, locals: { questions: @questions, current_step: @current_step } }
+        Rails.logger.debug "Rendering step: #{@current_step}"
+        begin
+            render partial: "office_calculator/#{@current_step}", locals: { questions: @questions, current_step: @current_step }
+        rescue ActionView::MissingTemplate => e
+            Rails.logger.error "Failed to render partial: #{e.message}"
+            render plain: "Error: Partial not found", status: :not_found
+        rescue StandardError => e
+            Rails.logger.error "Error rendering partial: #{e.message}"
+            render plain: "An error occurred", status: :internal_server_error
         end
     end
 
@@ -84,8 +97,8 @@ class OfficeCalculatorController < ApplicationController
                 session["calculator_#{field}"] = params[field]
             end
         end
-        
-        # Add this line to save the selected location
+
+        # Save the selected location if present
         session["calculator_location_id"] = params[:location_id] if params[:location_id].present?
     end
 end
