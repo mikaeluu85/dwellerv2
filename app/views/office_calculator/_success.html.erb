@@ -1,0 +1,10 @@
+<%= turbo_frame_tag "calculator_content" do %>
+  <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4" role="alert">
+    <p class="font-bold">Tack för din rapport!</p>
+    <p>Vi har mottagit din rapport och kommer att kontakta dig snart.</p>
+  </div>
+
+  <div class="mt-4">
+    <%= link_to "Tillbaka till startsidan", root_path, class: "px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+  </div>
+<% end %>

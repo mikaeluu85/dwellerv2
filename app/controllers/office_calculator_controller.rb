@@ -53,15 +53,14 @@ class OfficeCalculatorController < ApplicationController
         @current_step = 8
         cache_data = get_cache_data
         
-        submission_params = params.permit(:first_name, :last_name, :company, :email, :phone, :terms_acceptance, :location_id)
+        submission_params = params.permit(:authenticity_token, :commit, :first_name, :last_name, :company, :email, :phone, :terms_acceptance, :location_id)
         submission_params[:location_id] = cache_data["calculator_location_id"] if submission_params[:location_id].blank?
         
-        @calculation = OfficeCalculation.new(submission_params.merge(steps_data: cache_data))
+        @calculation = OfficeCalculation.new(submission_params.except(:authenticity_token, :commit).merge(steps_data: cache_data))
 
         if @calculation.save
-            # Clear the cache after successful submission
             Rails.cache.delete(@cache_key)
-            render :success
+            render partial: 'success', locals: { calculation: @calculation }
         else
             set_questions
             render :index
