@@ -121,6 +121,10 @@ calculator_steps:
           name: "Mötesrum för 16 personer eller mer"
           input_type: "number"
           room_size: null
+        meeting_room_20_plus:
+          name: "Mötesrum för 20 personer eller mer"
+          input_type: "number"
+          room_size: null
 
   step_5:
     common_spaces:

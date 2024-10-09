@@ -52,19 +52,26 @@ class OfficeCalculatorController < ApplicationController
     def submit
         @current_step = 8
         cache_data = get_cache_data
-        
+
         submission_params = params.permit(:authenticity_token, :commit, :first_name, :last_name, :company, :email, :phone, :terms_acceptance, :location_id)
         submission_params[:location_id] = cache_data["calculator_location_id"] if submission_params[:location_id].blank?
-        
-        @calculation = OfficeCalculation.new(submission_params.except(:authenticity_token, :commit).merge(steps_data: cache_data))
+
+        # Structure the cache_data before assigning to steps_data
+        structured_steps_data = OfficeCalculation.structure_steps_data(cache_data)
+
+        @calculation = OfficeCalculation.new(submission_params.except(:authenticity_token, :commit).merge(steps_data: structured_steps_data))
 
         if @calculation.save
             Rails.cache.delete(@cache_key)
             render partial: 'success', locals: { calculation: @calculation }
         else
+            Rails.logger.error "Validation failed: #{@calculation.errors.full_messages.join(', ')}"
             set_questions
             render :index
         end
+    rescue StandardError => e
+        Rails.logger.error "Failed to save office calculation: #{e.message}"
+        redirect_to new_office_calculation_path, alert: 'There was an error saving your data.'
     end
 
     private
@@ -73,6 +80,7 @@ class OfficeCalculatorController < ApplicationController
         config_file = Rails.root.join('config', 'office_calculator_config.yml')
         @calculator_config = YAML.load_file(config_file)
     rescue => e
+        Rails.logger.error "Failed to load calculator config: #{e.message}"
         @calculator_config = {}
     end
 
@@ -96,14 +104,15 @@ class OfficeCalculatorController < ApplicationController
             render partial: "office_calculator/step_#{@current_step}", locals: { questions: @questions, current_step: @current_step }
         rescue ActionView::MissingTemplate
             render plain: "Error: Partial not found", status: :not_found
-        rescue StandardError
+        rescue StandardError => e
+            Rails.logger.error "Error rendering step #{@current_step}: #{e.message}"
             render plain: "An error occurred", status: :internal_server_error
         end
     end
 
     def save_form_data_to_cache
         current_step_config = @calculator_config['calculator_steps']["step_#{@current_step}"]
-        
+
         Rails.logger.info "Saving data for step #{@current_step}: #{current_step_config.inspect}"
         Rails.logger.info "Received params for step #{@current_step}: #{params.inspect}"
 
@@ -112,14 +121,14 @@ class OfficeCalculatorController < ApplicationController
         current_step_config&.each do |field, data|
             if data['options'].is_a?(Hash)
                 data['options'].each do |option_key, option_data|
-                    cache_key = "calculator_#{@current_step}_#{field}_#{option_key}"
-                    cache_value = params[cache_key]
-                    cache_data[cache_key] = cache_value if cache_value.present?
+                    cache_key_field = "calculator_#{@current_step}_#{field}_#{option_key}"
+                    cache_value = params[cache_key_field]
+                    cache_data[cache_key_field] = cache_value if cache_value.present?
                 end
             else
-                cache_key = "calculator_#{@current_step}_#{field}"
-                cache_value = params[cache_key]
-                cache_data[cache_key] = cache_value if cache_value.present?
+                cache_key_field = "calculator_#{@current_step}_#{field}"
+                cache_value = params[cache_key_field]
+                cache_data[cache_key_field] = cache_value if cache_value.present?
             end
         end
 
@@ -142,7 +151,7 @@ class OfficeCalculatorController < ApplicationController
     end
 
     def office_calculation_params
-        params.permit(:first_name, :last_name, :company, :email, :phone, :terms_acceptance)
+        params.require(:office_calculation).permit(:first_name, :last_name, :company, :email, :phone, :terms_acceptance, :location_id)
     end
 
     def load_questions_for_step(step)

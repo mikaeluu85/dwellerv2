@@ -3,7 +3,7 @@ class OfficeCalculation < ApplicationRecord
   belongs_to :location
 
   # JSON column to store steps 1-7 data
-  attribute :steps_data, :json
+  attribute :steps_data, :jsonb
 
   # Regular columns for step 8 (contact form)
   validates :first_name, presence: true
@@ -25,9 +25,39 @@ class OfficeCalculation < ApplicationRecord
     ["location"]
   end
 
+  # Class method to structure session data into nested steps data
+  def self.structure_steps_data(session_data)
+    Rails.logger.debug "Structuring steps data from session: #{session_data.inspect}"
+    calculator_data = {}
+
+    session_data.each do |key, value|
+      next unless key.start_with?('calculator_')
+      next if key == 'current_step'
+
+      parts = key.split('_')
+      step = parts[1]
+      field = parts[2..].join('_')
+
+      calculator_key = "calculator_#{step}"
+      calculator_data[calculator_key] ||= {}
+      calculator_data[calculator_key][field] = value  # Corrected line
+    end
+
+    Rails.logger.debug "Structured steps data: #{calculator_data.inspect}"
+    calculator_data
+  rescue StandardError => e
+    Rails.logger.error "Error structuring steps data: #{e.message}"
+    {}
+  end
+
   private
 
   def validate_steps_data
-    # Add validations for steps 1-7 data as needed
+    # Implement necessary validations for steps 1-7 data
+    # Example:
+    if steps_data.blank? || !steps_data.is_a?(Hash)
+      errors.add(:steps_data, 'must be a valid JSON object with calculator steps.')
+    end
+    # Additional validations can be added here based on requirements
   end
 end

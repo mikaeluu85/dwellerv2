@@ -36,7 +36,12 @@ ActiveAdmin.register OfficeCalculation do
         row :created_at
         row :updated_at
         row :steps_data do |calc|
-          pre code: JSON.pretty_generate(calc.steps_data)
+          begin
+            parsed_data = JSON.parse(calc.steps_data.to_json)
+            pre { code JSON.pretty_generate(parsed_data) }
+          rescue JSON::ParserError => e
+            div "Error parsing JSON: #{e.message}"
+          end
         end
       end
     end
