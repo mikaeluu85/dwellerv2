@@ -13,9 +13,6 @@ class OfficeCalculatorController < ApplicationController
         session[:current_step] = 'step_1'
         @current_step = 'step_1'
         @questions = @calculator_config['calculator_steps'][@current_step]
-        
-        # Add this line to fetch active locations for step 1
-        @active_locations = Location.where(prioritized: true)
 
         respond_to do |format|
             format.turbo_stream do
@@ -39,10 +36,7 @@ class OfficeCalculatorController < ApplicationController
         if @calculator_config['calculator_steps'].key?(@next_step)
             @current_step = @next_step
             @questions = @calculator_config['calculator_steps'][@current_step]
-            
-            # Add this line to fetch active locations
-            @active_locations = Location.where(prioritized: true)
-
+        
             respond_to do |format|
                 format.turbo_stream do
                     render turbo_stream: turbo_stream.replace(
