@@ -1,3 +1,8 @@
+#Validations
+#Thank you
+#Going back and retaining form data
+#GUI
+
 class OfficeCalculatorController < ApplicationController
     before_action :load_calculator_config
     before_action :set_current_step, only: [:index, :start, :next_step, :previous_step]
@@ -148,14 +153,6 @@ class OfficeCalculatorController < ApplicationController
 
     def get_cache_data
         Rails.cache.fetch(@cache_key) || {}
-    end
-
-    def office_calculation_params
-        params.require(:office_calculation).permit(:first_name, :last_name, :company, :email, :phone, :terms_acceptance, :location_id)
-    end
-
-    def load_questions_for_step(step)
-        @calculator_config.dig('calculator_steps', "step_#{step}") || {}
     end
 
     def load_or_create_session
