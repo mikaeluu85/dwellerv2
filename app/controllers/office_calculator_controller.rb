@@ -58,8 +58,9 @@ class OfficeCalculatorController < ApplicationController
     end
 
     def set_current_step
-        @current_step = (params[:step].presence || params[:current_step].presence || 'step_1').to_s.gsub('step_', '').to_i
-        @current_step = 1 if @current_step < 1
+        @current_step = (params[:step].presence || params[:current_step].presence || session[:current_step].presence || 'start').to_s
+        @current_step = @current_step.gsub('step_', '').to_i if @current_step != 'start'
+        session[:current_step] = @current_step
     end
 
     def set_questions

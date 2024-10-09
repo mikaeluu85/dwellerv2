@@ -1,6 +1,5 @@
 <%# # Result Page: Create a result page that displays a summary of all the inputs and potentially calculates some metrics based on the user's responses.
 # Data Validation: Implement server-side validation to ensure that all required fields are filled and the data is in the correct format.
-# Progress Indicator: Add a progress bar or step indicator to show users how far along they are in the calculator process.
 # Back Button: Implement functionality to allow users to go back to previous steps and edit their responses.
 # Save Progress: Consider adding a feature to save the user's progress, perhaps using browser local storage or by creating user accounts.
 # Responsive Design: Ensure that the calculator works well on mobile devices as well as desktop.
@@ -21,10 +20,13 @@
       </p>
       
       <%= turbo_frame_tag "calculator_content" do %>
+        <!-- Progress Bar -->
+        <%= render partial: "progress_bar", locals: { current_step: @current_step } %>
+        
         <% if @current_step == 'start' %>
           <%= button_to "Börja räkna", start_office_calculator_path, method: :post, class: "bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" %>
         <% else %>
-          <%= render partial: @current_step, locals: { questions: @questions, current_step: @current_step } %>
+          <%= render partial: "step_#{@current_step}", locals: { questions: @questions, current_step: @current_step } %>
         <% end %>
       <% end %>
     </div>
