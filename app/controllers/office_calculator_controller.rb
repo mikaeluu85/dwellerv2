@@ -19,6 +19,12 @@ class OfficeCalculatorController < ApplicationController
         @current_step = params[:current_step].to_s.gsub('step_', '').to_i
         save_form_data_to_session
         next_step_number = @current_step + 1
+
+        if next_step_number > 8
+            render plain: "No next step found", status: :not_found
+            return
+        end
+
         @next_step = "step_#{next_step_number}"
 
         if @calculator_config['calculator_steps'].key?(@next_step)
