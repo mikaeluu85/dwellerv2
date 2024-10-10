@@ -9,6 +9,7 @@ class OfficeCalculatorController < ApplicationController
     before_action :initialize_cached_data
 
     def index
+        @current_step = params[:step] || 'start'
         session[:current_step] = 'start'
         @current_step = 'start'
     end

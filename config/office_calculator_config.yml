@@ -6,6 +6,9 @@ constants:
 
 calculator_steps:
   step_1:
+    headline: "Grundläggande information"
+    description: "Låt oss börja med några grundläggande frågor om ditt företag och dina kontorsbehov."
+    
     current_employees:
       question: "Hur många anställda är ni idag i ert företag som beräknas använda sig av kontoret?"
       description: "The user is asked how many employees currently work at the company and will use the office."
@@ -48,6 +51,9 @@ calculator_steps:
       required: false
 
   step_2:
+    headline: "Steg 2 - Arbetsplatser"
+    description: "Okej, då ska vi se vad ni tror om antalet arbetsplatser och kontorsrum. Kom ihåg att du har 232 person/er som behöver en plats."
+
     open_plan_workspaces:
       question: "Hur många individuella arbetsplatser i öppet landskap vill ni ha?"
       description: "The user is asked how many individual workplaces in an open-plan layout the company wants."

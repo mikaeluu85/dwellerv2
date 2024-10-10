@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["step", "prevButton", "nextButton", "submit", "seatCounter"]
+  static targets = ["step", "prevButton", "nextButton", "submit", "seatCounter", "input", "errorIcon", "errorMessage"]
   static values = {
     currentEmployees: Number,
     currentStep: Number
@@ -85,5 +85,46 @@ export default class extends Controller {
 
   updateSeatCount() {
     this.validateSeats()
+  }
+
+  validateField(event) {
+    const field = event.target;
+    const container = field.closest('.relative');
+    const errorIcon = container.querySelector('[data-office-calculator-target="errorIcon"]');
+    const dropdownIcon = container.querySelector('[data-office-calculator-target="dropdownIcon"]');
+    const errorMessage = field.closest('.sm\\:col-span-4').querySelector('[data-office-calculator-target="errorMessage"]');
+
+    if (!field.checkValidity()) {
+      field.classList.add('text-red-900', 'ring-red-300', 'placeholder:text-red-300');
+      field.classList.remove('ring-gray-300');
+      errorIcon.classList.remove('hidden');
+      dropdownIcon.classList.add('hidden');
+      errorMessage.classList.remove('hidden');
+      errorMessage.textContent = field.validationMessage || "Please fill out this field";
+      
+      // Add this condition for select elements
+      if (field.tagName === 'SELECT') {
+        field.classList.add('text-red-300');
+      }
+    } else {
+      field.classList.remove('text-red-900', 'ring-red-300', 'placeholder:text-red-300', 'text-red-300');
+      field.classList.add('ring-gray-300');
+      errorIcon.classList.add('hidden');
+      dropdownIcon.classList.remove('hidden');
+      errorMessage.classList.add('hidden');
+    }
+  }
+
+  validateForm(event) {
+    let isValid = true
+    this.inputTargets.forEach(input => {
+      if (!input.checkValidity()) {
+        isValid = false
+        this.validateField({ target: input })
+      }
+    })
+    if (!isValid) {
+      event.preventDefault()
+    }
   }
 }
