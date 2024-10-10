@@ -127,12 +127,12 @@ class OfficeCalculatorController < ApplicationController
             if data['options'].is_a?(Hash)
                 data['options'].each do |option_key, option_data|
                     cache_key_field = "calculator_#{@current_step}_#{field}_#{option_key}"
-                    cache_value = params[cache_key_field]
+                    cache_value = sanitize_value(params[cache_key_field])
                     cache_data[cache_key_field] = cache_value if cache_value.present?
                 end
             else
                 cache_key_field = "calculator_#{@current_step}_#{field}"
-                cache_value = params[cache_key_field]
+                cache_value = sanitize_value(params[cache_key_field])
                 cache_data[cache_key_field] = cache_value if cache_value.present?
             end
         end
@@ -162,5 +162,20 @@ class OfficeCalculatorController < ApplicationController
 
     def initialize_cached_data
         @cached_data = session[:calculator_data] || {}
+    end
+
+    private
+
+    def sanitize_value(value)
+        case value
+        when String
+            ActionController::Base.helpers.sanitize(value)
+        when Array
+            value.map { |v| sanitize_value(v) }
+        when Hash
+            value.transform_values { |v| sanitize_value(v) }
+        else
+            value
+        end
     end
 end
