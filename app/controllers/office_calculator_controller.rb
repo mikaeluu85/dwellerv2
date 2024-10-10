@@ -47,7 +47,6 @@ class OfficeCalculatorController < ApplicationController
 
     def previous_step
         @current_step = params[:step].to_i
-        @current_step -= 1
         @current_step = 1 if @current_step < 1
         update_cache(current_step: @current_step)
         set_questions
