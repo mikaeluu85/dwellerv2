@@ -11,17 +11,20 @@ calculator_steps:
       description: "The user is asked how many employees currently work at the company and will use the office."
       input_type: "number"
       placeholder: "Antal anställda idag"
+      required: true
 
     future_employees:
       question: "Hur många anställda beräknas ni vara om 3 år?"
       description: "The user is asked to estimate how many employees they expect to have in 3 years."
       input_type: "number"
       placeholder: "Antal anställda om 3 år"
+      required: true
 
     hybrid_work:
       question: "Vill ni i eller jobbar ert företag redan i en hybridlösning?"
       description: "The user is asked if they want to or already work in a hybrid solution."
       input_type: "button"
+      required: true
       options:
         - "Ja"
         - "Nej"
@@ -30,6 +33,7 @@ calculator_steps:
       question: "Hur ser ni generellt på ert kontor och yta per person?"
       description: "The user is asked about their general view on office space per person."
       input_type: "dropdown"
+      required: true
       options:
         - name: "Mindre yta än normal (10-13kvm)"
         - name: "Normal mängd yta (13-20kvm)"
@@ -41,6 +45,7 @@ calculator_steps:
       input_type: "number"
       placeholder: "Tillgänglig budget (kr)"
       input_mode: "numeric"
+      required: false
 
   step_2:
     open_plan_workspaces:
@@ -49,6 +54,7 @@ calculator_steps:
       input_type: "number"
       placeholder: "Antal"
       room_size: null  # You can fill this in later
+
     private_offices:
       question: "Hur många privata kontor vill ni ha?"
       description: "The user is asked how many private offices the company wants."

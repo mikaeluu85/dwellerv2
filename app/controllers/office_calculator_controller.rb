@@ -1,6 +1,5 @@
 #Validations
 #Thank you
-#Going back and retaining form data
 #GUI
 
 class OfficeCalculatorController < ApplicationController
