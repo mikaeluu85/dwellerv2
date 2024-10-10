@@ -16,6 +16,9 @@ class OfficeCalculation < ApplicationRecord
   # Validation for steps_data
   validate :validate_steps_data
 
+  # Sanitize the steps_data before saving
+  before_save :sanitize_steps_data
+
   # Ransack configuration
   def self.ransackable_attributes(auth_object = nil)
     ["id", "first_name", "last_name", "company", "email", "phone", "created_at", "updated_at", "terms_acceptance"]
@@ -60,4 +63,23 @@ class OfficeCalculation < ApplicationRecord
     end
     # Additional validations can be added here based on requirements
   end
+
+  def sanitize_steps_data
+    return unless steps_data.is_a?(Hash)
+
+    steps_data.each do |step, step_data|
+      next unless step_data.is_a?(Hash)
+      step_data.transform_values! do |value|
+        case value
+        when String
+          ActionController::Base.helpers.sanitize(value)
+        when Array
+          value.map { |v| v.is_a?(String) ? ActionController::Base.helpers.sanitize(v) : v }
+        else
+          value
+        end
+      end
+    end
+  end
+
 end

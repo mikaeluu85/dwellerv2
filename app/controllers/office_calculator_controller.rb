@@ -57,7 +57,9 @@ class OfficeCalculatorController < ApplicationController
         @current_step = 8
         cache_data = get_cache_data
 
-        submission_params = params.permit(:authenticity_token, :commit, :first_name, :last_name, :company, :email, :phone, :terms_acceptance, :location_id)
+        submission_params = params.permit(:authenticity_token, :commit, :first_name, :last_name, :company, :email, :phone, :terms_acceptance, :location_id).transform_values do |value|
+          value.is_a?(String) ? ActionController::Base.helpers.sanitize(value) : value
+        end
         submission_params[:location_id] = cache_data["calculator_location_id"] if submission_params[:location_id].blank?
 
         # Structure the cache_data before assigning to steps_data
