@@ -54,6 +54,7 @@ calculator_steps:
       input_type: "number"
       placeholder: "Antal"
       room_size: null  # You can fill this in later
+      seat_count: 1
 
     private_offices:
       question: "Hur många privata kontor vill ni ha?"
@@ -63,19 +64,22 @@ calculator_steps:
           name: "Exekutivt rum, 1 person"
           input_type: "number"
           room_size: null
+          seat_count: 1
         standard_room:
           name: "Standardrum, 1 person"
           input_type: "number"
           room_size: null
+          seat_count: 1
         small_team_room:
           name: "För mindre team, 3-6 personer"
           input_type: "number"
           room_size: null
+          seat_count: 6
         meeting_capable_room:
           name: "För 1 person med mötesmöjligheter"
           input_type: "number"
           room_size: null
-
+          seat_count: 1
   step_3:
     reception:
       question: "Vad för reception vill ni ha?"
