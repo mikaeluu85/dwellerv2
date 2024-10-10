@@ -10,11 +10,11 @@ class OfficeCalculation < ApplicationRecord
   validates :last_name, presence: true
   validates :company, presence: true
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :phone, presence: true
+  validates :phone, presence: true, format: { with: /\A(?:\+46|0)(?:[1-9]\d{1,2}[-\s]?)?\d{6,8}\z/, message: "must be a valid Swedish phone number" }
   validates :terms_acceptance, acceptance: true
 
   # Validation for steps_data
-  validate :validate_steps_data
+  validate :validate_step_1_fields
 
   # Sanitize the steps_data before saving
   before_save :sanitize_steps_data
@@ -55,13 +55,25 @@ class OfficeCalculation < ApplicationRecord
 
   private
 
-  def validate_steps_data
-    # Implement necessary validations for steps 1-7 data
-    # Example:
-    if steps_data.blank? || !steps_data.is_a?(Hash)
-      errors.add(:steps_data, 'must be a valid JSON object with calculator steps.')
+  def validate_step_1_fields
+    return unless steps_data.is_a?(Hash) && steps_data['calculator_1'].is_a?(Hash)
+
+    step_1_data = steps_data['calculator_1']
+    step_1_config = OFFICE_CALCULATOR_CONFIG['calculator_steps']['step_1']
+
+    step_1_config&.each do |field, config|
+      next if config.nil?
+      value = step_1_data[field]
+
+      if config['required'] && value.blank?
+        errors.add(:steps_data, "#{config['question']} is required")
+      elsif value.present?
+        case config['input_type']
+        when 'number'
+          errors.add(:steps_data, "#{config['question']} must be a number") unless value.to_s =~ /\A\d+\z/
+        end
+      end
     end
-    # Additional validations can be added here based on requirements
   end
 
   def sanitize_steps_data
