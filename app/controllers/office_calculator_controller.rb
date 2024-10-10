@@ -7,6 +7,7 @@ class OfficeCalculatorController < ApplicationController
     before_action :load_calculator_config
     before_action :set_current_step, only: [:index, :start, :next_step, :previous_step]
     before_action :load_or_create_session, except: [:index]
+    before_action :initialize_cached_data
 
     def index
         session[:current_step] = 'start'
@@ -105,14 +106,13 @@ class OfficeCalculatorController < ApplicationController
     end
 
     def render_step
-        begin
-            render partial: "office_calculator/step_#{@current_step}", locals: { questions: @questions, current_step: @current_step }
-        rescue ActionView::MissingTemplate
-            render plain: "Error: Partial not found", status: :not_found
-        rescue StandardError => e
-            Rails.logger.error "Error rendering step #{@current_step}: #{e.message}"
-            render plain: "An error occurred", status: :internal_server_error
-        end
+        cached_data = get_cache_data
+        render partial: "office_calculator/step_#{@current_step}", 
+               locals: { 
+                 questions: @questions, 
+                 current_step: @current_step, 
+                 cached_data: cached_data 
+               }
     end
 
     def save_form_data_to_cache
@@ -158,5 +158,9 @@ class OfficeCalculatorController < ApplicationController
     def load_or_create_session
         session[:calculator_id] ||= SecureRandom.uuid
         @cache_key = "office_calculator_#{session[:calculator_id]}"
+    end
+
+    def initialize_cached_data
+        @cached_data = session[:calculator_data] || {}
     end
 end

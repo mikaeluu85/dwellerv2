@@ -5,41 +5,50 @@
 <% end %>
 
 <%= turbo_frame_tag "calculator_content" do %>
-<%= form_with model: @calculation, url: office_calculator_submit_path, method: :post do |form| %>
-  <% if @questions.present? %>
-    <% @questions.each do |field, data| %>
-      <div class="mb-6">
-        <label class="block text-lg font-medium text-gray-700 mb-2"><%= data['question'] %></label>
-        <p class="text-sm text-gray-500 mb-3"><%= data['description'] %></p>
+  <!-- Progress Bar -->
+  <%= render partial: "progress_bar", locals: { current_step: @current_step } %>
 
-        <% if field == 'contact_form' %>
-          <% data['fields'].each do |sub_field, sub_data| %>
-            <div class="mb-4">
-              <label class="block text-sm font-medium text-gray-700"><%= sub_data['name'] %></label>
-              <% case sub_data['input_type'] %>
-              <% when 'text', 'email', 'tel' %>
-                <%= form.text_field sub_field, required: sub_data['required'], class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
-              <% when 'checkbox' %>
-                <div class="flex items-start mt-2">
-                  <%= form.check_box sub_field, required: sub_data['required'], class: "h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" %>
-                  <%= form.label sub_field, sub_data['name'], class: "ml-2 block text-sm text-gray-900" %>
-                </div>
-              <% end %>
-            </div>
+  <%= form_with model: @calculation, url: office_calculator_submit_path, method: :post do |form| %>
+    <% if @questions.present? %>
+      <% @questions.each do |field, data| %>
+        <div class="mb-6">
+          <label class="block text-lg font-medium text-gray-700 mb-2"><%= data['question'] %></label>
+          <p class="text-sm text-gray-500 mb-3"><%= data['description'] %></p>
+
+          <% if field == 'contact_form' %>
+            <% data['fields'].each do |sub_field, sub_data| %>
+              <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700"><%= sub_data['name'] %></label>
+                <% case sub_data['input_type'] %>
+                <% when 'text', 'email', 'tel' %>
+                  <%= form.text_field sub_field, 
+                                      value: cached_data["calculator_#{@current_step}_contact_form_#{sub_field}"],
+                                      required: sub_data['required'], 
+                                      class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" %>
+                <% when 'checkbox' %>
+                  <div class="flex items-start mt-2">
+                    <%= form.check_box sub_field, 
+                                       checked: cached_data["calculator_#{@current_step}_contact_form_#{sub_field}"] == "1",
+                                       required: sub_data['required'], 
+                                       class: "h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" %>
+                    <%= form.label sub_field, sub_data['name'], class: "ml-2 block text-sm text-gray-900" %>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          <% else %>
+            <!-- Handle other fields if necessary -->
           <% end %>
-        <% else %>
-          <!-- Handle other fields if necessary -->
-        <% end %>
-      </div>
+        </div>
+      <% end %>
+    <% else %>
+      <p>No questions available for this step.</p>
     <% end %>
-  <% else %>
-    <p>No questions available for this step.</p>
-  <% end %>
 
-  <%= form.hidden_field :location_id, value: get_calculator_cache_data["calculator_location_id"] %>
-  <div class="mt-4 flex justify-between items-center">
-    <%= link_to "Gå tillbaka", office_calculator_previous_step_path(step: @current_step - 1), class: "px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500", data: { turbo_frame: "calculator_content" } %>
-    <%= form.submit "Skicka min rapport", class: "px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
-  </div>
-<% end %>
+    <%= form.hidden_field :location_id, value: cached_data["calculator_location_id"] %>
+    <div class="mt-4 flex justify-between items-center">
+      <%= link_to "Gå tillbaka", office_calculator_previous_step_path(step: @current_step - 1), class: "px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500", data: { turbo_frame: "calculator_content" } %>
+      <%= form.submit "Skicka min rapport", class: "px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+    </div>
+  <% end %>
 <% end %>
