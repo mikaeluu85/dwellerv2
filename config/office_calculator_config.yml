@@ -51,8 +51,8 @@ calculator_steps:
       required: false
 
   step_2:
-    headline: "Steg 2 - Arbetsplatser"
-    description: "Okej, då ska vi se vad ni tror om antalet arbetsplatser och kontorsrum. Kom ihåg att du har 232 person/er som behöver en plats."
+    headline: "Arbetsplatser"
+    description: "Okej, då ska vi se vad ni tror om antalet arbetsplatser och kontorsrum."
 
     open_plan_workspaces:
       question: "Hur många individuella arbetsplatser i öppet landskap vill ni ha?"
@@ -87,6 +87,9 @@ calculator_steps:
           room_size: null
           seat_count: 1
   step_3:
+    headline: "Reception"
+    description: "Är ni i behov av någon typ av reception?"
+
     reception:
       question: "Vad för reception vill ni ha?"
       description: "The user is asked what type of reception the company wants."
@@ -109,6 +112,9 @@ calculator_steps:
           room_size: null
 
   step_4:
+    headline: "Mötesrum"
+    description: "Hur många och hur stora mötesrum behover ni?"
+
     meeting_spaces:
       question: "Vad för typ av mötesytor söker ni?"
       description: "The user is asked what types of meeting spaces the company is looking for."
@@ -143,6 +149,9 @@ calculator_steps:
           room_size: null
 
   step_5:
+    headline: "Gemensamma ytor"
+    description: "Vilka gemensamma ytor önskar ni?"
+
     common_spaces:
       question: "Vad för typ av gemensamma ytor önskar ni?"
       description: "The user is asked what types of shared common spaces the company is looking for."
@@ -177,6 +186,9 @@ calculator_steps:
           room_size: null
 
   step_6:
+    headline: "Övriga ytor"
+    description: "Vilka övriga ytor önskar ni i ert kontor?"
+
     miscellaneous_spaces:
       question: "Vad för typ av övriga ytor önskar ni?"
       description: "The user is asked what types of other miscellaneous spaces the company is looking for."
@@ -203,6 +215,9 @@ calculator_steps:
           room_size: null
 
   step_7:
+    headline: "Andra bekvämligheter"
+    description: "Se och beräkna pris på några vanliga bekvämligheter att inkludera."
+
     additional_services:
       question: "Finns det några vanliga tillägg som ni önskar till lokalen?"
       description: "The user is asked if there are any common additional items or services the company would like included in the office space."
@@ -237,6 +252,9 @@ calculator_steps:
           per_month_cost: null
 
   step_8:
+    headline: "Nästan klart!"
+    description: "Din rapport är färdig. Lämna dina uppgifter så mailar vi din sparade rapport direkt till din inbox."
+
     contact_form:
       question: "Kontaktinformation"
       description: "The user is asked to provide their contact information."
