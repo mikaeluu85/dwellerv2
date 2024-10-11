@@ -16,7 +16,7 @@
         controller: "office-calculator form-validation" 
       }, class: "space-y-8" do |form| %>
         <% @questions.except('headline', 'description').each do |field, data| %>
-          <div class="mb-6">
+          <div class="mb-4">
             <label for="calculator_<%= @current_step %>_<%= field %>" class="block text-sm font-medium leading-6 text-gray-900"><%= data['question'] %></label>
             <div class="relative mt-2 rounded-md shadow-sm">
               <% case data['input_type'] %>
@@ -41,7 +41,7 @@
                 <%= form.number_field "calculator_#{@current_step}_#{field}", 
                     value: cached_data["calculator_#{@current_step}_#{field}"], 
                     placeholder: data['placeholder'], 
-                    class: "block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
+                    class: "block w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
                     required: true,
                     data: {
                       action: "blur->office-calculator#validateField",
@@ -51,7 +51,7 @@
                 <%= form.select "calculator_#{@current_step}_#{field}", 
                     options_for_select(data['options'].map { |o| o.is_a?(Hash) ? o['name'] : o }, cached_data["calculator_#{@current_step}_#{field}"]), 
                     { prompt: "Välj din preferens" }, 
-                    class: "block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
+                    class: "block w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
                     required: true,
                     data: {
                       action: "change->office-calculator#validateField",
@@ -61,7 +61,7 @@
                 <%= form.text_field "calculator_#{@current_step}_#{field}", 
                     value: cached_data["calculator_#{@current_step}_#{field}"], 
                     placeholder: data['placeholder'], 
-                    class: "block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
+                    class: "block w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
                     required: true,
                     data: {
                       action: "blur->office-calculator#validateField",
@@ -91,7 +91,7 @@
             <%= form.select :calculator_location_id, 
                 options_from_collection_for_select(@active_locations, :id, :name, cached_data["calculator_location_id"]), 
                 { prompt: "Välj en plats" }, 
-                class: "block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
+                class: "block w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
                 required: true,
                 data: {
                   action: "change->office-calculator#validateField",

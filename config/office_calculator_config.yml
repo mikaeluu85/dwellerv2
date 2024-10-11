@@ -280,6 +280,6 @@ calculator_steps:
           input_type: "tel"
           required: true
         terms_acceptance:
-          name: "Jag accepterar Dwellers användaravtal och integritetspolicyn."
+          name: "Ja, det gör jag"
           input_type: "checkbox"
           required: true

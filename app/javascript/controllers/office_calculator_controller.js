@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["step", "prevButton", "nextButton", "submit", "seatCounter", "input", "errorIcon", "errorMessage", "dropdownIcon"]
+  static targets = ["step", "nextButton", "submit", "seatCounter", "input", "errorIcon", "errorMessage", "dropdownIcon"]
   static values = {
     currentEmployees: Number,
     currentStep: Number
@@ -45,7 +45,6 @@ export default class extends Controller {
   }
 
   updateButtonVisibility() {
-    this.prevButtonTarget.classList.toggle('hidden', this.currentStep === 0)
     this.nextButtonTarget.classList.toggle('hidden', this.currentStep === this.stepTargets.length - 1)
     this.submitTarget.classList.toggle('hidden', this.currentStep !== this.stepTargets.length - 1)
   }
@@ -89,7 +88,7 @@ export default class extends Controller {
 
   validateField(event) {
     const field = event.target;
-    const container = field.closest('.mb-6') || field.closest('.sm\\:col-span-4');
+    const container = field.closest('.mb-4') || field.closest('.sm\\:col-span-4');
     const errorIcon = container.querySelector('[data-office-calculator-target="errorIcon"]');
     const dropdownIcon = container.querySelector('[data-office-calculator-target="dropdownIcon"]');
     const errorMessage = container.querySelector('[data-office-calculator-target="errorMessage"]');
