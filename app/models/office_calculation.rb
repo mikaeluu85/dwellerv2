@@ -38,7 +38,6 @@ class OfficeCalculation < ApplicationRecord
     end
     structured_data
   end
-
   private
 
   def validate_step_1_fields

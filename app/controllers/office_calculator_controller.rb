@@ -63,10 +63,9 @@ class OfficeCalculatorController < ApplicationController
         end
         submission_params[:location_id] = cache_data["calculator_location_id"] if submission_params[:location_id].blank?
 
-        # Structure the cache_data before assigning to steps_data
         structured_steps_data = OfficeCalculation.structure_steps_data(cache_data)
 
-        @calculation = OfficeCalculation.new(
+        @office_calculation = OfficeCalculation.new(
           first_name: submission_params[:contact_form_first_name],
           last_name: submission_params[:contact_form_last_name],
           company: submission_params[:contact_form_company],
@@ -77,17 +76,31 @@ class OfficeCalculatorController < ApplicationController
           steps_data: structured_steps_data
         )
 
-        if @calculation.save
+        if @office_calculation.save
             Rails.cache.delete(@cache_key)
-            render partial: 'success', locals: { calculation: @calculation }
+            render turbo_stream: turbo_stream.replace("calculator_content", partial: 'success', locals: { office_calculation: @office_calculation })
         else
-            Rails.logger.error "Validation failed: #{@calculation.errors.full_messages.join(', ')}"
+            Rails.logger.error "Validation failed: #{@office_calculation.errors.full_messages.join(', ')}"
             set_questions
-            render :index
+            render :index, status: :unprocessable_entity
         end
     rescue StandardError => e
         Rails.logger.error "Failed to save office calculation: #{e.message}"
         redirect_to office_calculator_path, alert: 'There was an error saving your data.'
+    end
+
+    def create
+        @office_calculation = OfficeCalculation.new(office_calculation_params)
+
+        if @office_calculation.save
+            redirect_to office_calculator_thank_you_path(calculation_id: @office_calculation.id), turbo_frame: "calculator_content"
+        else
+            render :new, status: :unprocessable_entity
+        end
+    end
+
+    def thank_you
+        @office_calculation = OfficeCalculation.find(params[:calculation_id])
     end
 
     private
@@ -187,5 +200,9 @@ class OfficeCalculatorController < ApplicationController
         else
             value
         end
+    end
+
+    def office_calculation_params
+        params.require(:office_calculation).permit(:first_name, :email)
     end
 end
