@@ -81,7 +81,7 @@
           <% if @current_step > 1 %>
             <%= link_to "Gå tillbaka", office_calculator_previous_step_path(step: @current_step - 1), class: "px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500", data: { turbo_frame: "calculator_content" } %>
           <% end %>
-          <%= form.submit "Nästa", class: "primary-button w-auto" %>
+          <%= form.submit "Nästa steg", class: "primary-button w-auto" %>
         </div>
       <% end %>
     </div>
