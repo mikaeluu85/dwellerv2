@@ -100,9 +100,7 @@ Rails.application.routes.draw do
   post 'kontorskalkylatorn/next_step', to: 'office_calculator#next_step', as: :office_calculator_next_step
   get 'kontorskalkylatorn/result', to: 'office_calculator#result', as: :office_calculator_result
   get 'kontorskalkylatorn/previous_step', to: 'office_calculator#previous_step', as: :office_calculator_previous_step
-  post 'kontorskalkylatorn/submit', to: 'office_calculator#submit', as: :office_calculator_submit
-  get 'kontorskalkylatorn/thank_you', to: 'office_calculator#thank_you', as: :office_calculator_thank_you
-  
+  post 'kontorskalkylatorn/submit', to: 'office_calculator#submit', as: :office_calculator_submit  
 
   # Define routes for error handling
   get '404', to: 'errors#not_found', as: :not_found

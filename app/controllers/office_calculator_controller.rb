@@ -89,20 +89,6 @@ class OfficeCalculatorController < ApplicationController
         redirect_to office_calculator_path, alert: 'There was an error saving your data.'
     end
 
-    def create
-        @office_calculation = OfficeCalculation.new(office_calculation_params)
-
-        if @office_calculation.save
-            redirect_to office_calculator_thank_you_path(calculation_id: @office_calculation.id), turbo_frame: "calculator_content"
-        else
-            render :new, status: :unprocessable_entity
-        end
-    end
-
-    def thank_you
-        @office_calculation = OfficeCalculation.find(params[:calculation_id])
-    end
-
     private
 
     def load_calculator_config
