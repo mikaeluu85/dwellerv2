@@ -19,7 +19,7 @@
         <% if @questions.present? %>
           <% @questions.each do |field, data| %>
             <div class="mb-6">
-              <label class="block text-lg font-medium text-gray-700 mb-2"><%= data['question'] %></label>
+              <label class="block text-lg font-medium text-gray-700 mb-4"><%= data['question'] %></label>
 
               <% if data['options'].is_a?(Hash) %>
                 <% data['options'].each do |option_key, option_data| %>
@@ -70,7 +70,7 @@
         
         <div class="mt-4 flex justify-between items-center">
           <% if @current_step > 1 %>
-            <%= link_to "Gå tillbaka", office_calculator_previous_step_path(step: @current_step - 1), class: "px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500", data: { turbo_frame: "calculator_content" } %>
+            <%= link_to "Gå tillbaka", office_calculator_previous_step_path(step: @current_step - 1), class: "back-button", data: { turbo_frame: "calculator_content" } %>
           <% end %>
           <div class="flex items-center space-x-4">
             <div class="flex items-center space-x-2">
@@ -79,7 +79,7 @@
               </svg>
               <p data-office-calculator-target="seatCounter" class="text-sm text-gray-500"></p>
             </div>
-            <%= form.submit "Nästa steg", 
+            <%= form.submit "Nästa", 
                             class: "primary-button w-auto", 
                             data: { 
                               office_calculator_target: "nextButton",

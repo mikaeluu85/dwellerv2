@@ -112,12 +112,6 @@
         <%= form.hidden_field :current_step, value: @current_step %>
         
         <div class="mt-6 flex items-center justify-end gap-x-6">
-          <% if @current_step.to_i > 1 %>
-            <%= link_to "Gå tillbaka", 
-                office_calculator_previous_step_path(step: @current_step.to_i - 1), 
-                class: "text-sm font-semibold leading-6 text-gray-900", 
-                data: { turbo_frame: "calculator_content" } %>
-          <% end %>
           <%= form.submit "Nästa steg", 
               class: "primary-button w-auto",
               data: { action: "click->office-calculator#validateForm" } %>

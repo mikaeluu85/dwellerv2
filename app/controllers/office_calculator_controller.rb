@@ -58,7 +58,7 @@ class OfficeCalculatorController < ApplicationController
         @current_step = 8
         cache_data = get_cache_data
 
-        submission_params = params.permit(:authenticity_token, :commit, :first_name, :last_name, :company, :email, :phone, :terms_acceptance, :location_id).transform_values do |value|
+        submission_params = params.permit(:authenticity_token, :commit, :contact_form_first_name, :contact_form_last_name, :contact_form_company, :contact_form_email, :contact_form_phone, :contact_form_terms_acceptance, :location_id).transform_values do |value|
           value.is_a?(String) ? ActionController::Base.helpers.sanitize(value) : value
         end
         submission_params[:location_id] = cache_data["calculator_location_id"] if submission_params[:location_id].blank?
@@ -66,7 +66,16 @@ class OfficeCalculatorController < ApplicationController
         # Structure the cache_data before assigning to steps_data
         structured_steps_data = OfficeCalculation.structure_steps_data(cache_data)
 
-        @calculation = OfficeCalculation.new(submission_params.except(:authenticity_token, :commit).merge(steps_data: structured_steps_data))
+        @calculation = OfficeCalculation.new(
+          first_name: submission_params[:contact_form_first_name],
+          last_name: submission_params[:contact_form_last_name],
+          company: submission_params[:contact_form_company],
+          email: submission_params[:contact_form_email],
+          phone: submission_params[:contact_form_phone],
+          terms_acceptance: submission_params[:contact_form_terms_acceptance],
+          location_id: submission_params[:location_id],
+          steps_data: structured_steps_data
+        )
 
         if @calculation.save
             Rails.cache.delete(@cache_key)
@@ -78,7 +87,7 @@ class OfficeCalculatorController < ApplicationController
         end
     rescue StandardError => e
         Rails.logger.error "Failed to save office calculation: #{e.message}"
-        redirect_to new_office_calculation_path, alert: 'There was an error saving your data.'
+        redirect_to office_calculator_path, alert: 'There was an error saving your data.'
     end
 
     private

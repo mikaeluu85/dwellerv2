@@ -8,7 +8,7 @@ calculator_steps:
   step_1:
     headline: "Grundläggande information"
     description: "Låt oss börja med några grundläggande frågor om ditt företag och dina kontorsbehov."
-    
+
     current_employees:
       question: "Hur många anställda är ni idag i ert företag som beräknas använda sig av kontoret?"
       description: "The user is asked how many employees currently work at the company and will use the office."
@@ -256,7 +256,7 @@ calculator_steps:
     description: "Din rapport är färdig. Lämna dina uppgifter så mailar vi din sparade rapport direkt till din inbox."
 
     contact_form:
-      question: "Kontaktinformation"
+      questions: "Kontaktinformation"
       description: "The user is asked to provide their contact information."
       fields:
         first_name:
@@ -280,6 +280,6 @@ calculator_steps:
           input_type: "tel"
           required: true
         terms_acceptance:
-          name: "Ja, det gör jag"
+          name: "Jag godkänner allmänna villkor och integritetspolicy"
           input_type: "checkbox"
           required: true

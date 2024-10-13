@@ -29,28 +29,14 @@ class OfficeCalculation < ApplicationRecord
   end
 
   # Class method to structure session data into nested steps data
-  def self.structure_steps_data(session_data)
-    Rails.logger.debug "Structuring steps data from session: #{session_data.inspect}"
-    calculator_data = {}
-
-    session_data.each do |key, value|
-      next unless key.start_with?('calculator_')
-      next if key == 'current_step'
-
-      parts = key.split('_')
-      step = parts[1]
-      field = parts[2..].join('_')
-
-      calculator_key = "calculator_#{step}"
-      calculator_data[calculator_key] ||= {}
-      calculator_data[calculator_key][field] = value  # Corrected line
+  def self.structure_steps_data(cache_data)
+    structured_data = {}
+    cache_data.each do |key, value|
+      step, field = key.to_s.split('_', 3)[1..-1]
+      structured_data[step] ||= {}
+      structured_data[step][field] = value
     end
-
-    Rails.logger.debug "Structured steps data: #{calculator_data.inspect}"
-    calculator_data
-  rescue StandardError => e
-    Rails.logger.error "Error structuring steps data: #{e.message}"
-    {}
+    structured_data
   end
 
   private

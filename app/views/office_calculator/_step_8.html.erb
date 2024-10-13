@@ -22,8 +22,8 @@
         controller: "office-calculator" 
       }, class: "space-y-8" do |form| %>
         <% @questions.except('headline', 'description').each do |field, data| %>
-          <div class="mb-4">
-            <label for="calculator_<%= @current_step %>_<%= field %>" class="block text-sm font-medium leading-6 text-gray-900">
+          <div class="mb-6">
+            <label for="calculator_<%= @current_step %>_<%= field %>" class="block text-lg font-medium text-gray-700 mb-4">
               <%= data['question'] %>
             </label>
             <div class="relative mt-2 rounded-md">
@@ -101,7 +101,7 @@
 
         <%= form.hidden_field :current_step, value: @current_step %>
         <div class="mt-6 flex items-center justify-between">
-          <%= link_to "Gå tillbaka", office_calculator_previous_step_path(step: @current_step - 1), class: "px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500", data: { turbo_frame: "calculator_content" } %>
+          <%= link_to "Gå tillbaka", office_calculator_previous_step_path(step: @current_step - 1), class: "back-button", data: { turbo_frame: "calculator_content" } %>
           <%= form.submit "Skicka min rapport", class: "primary-button w-auto", data: { action: "click->office-calculator#validateForm" } %>
         </div>
       <% end %>
