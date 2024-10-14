@@ -2,7 +2,7 @@
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
     <!-- Header -->
     <div class="text-center mb-12">
-    <%= image_tag 'dweller_logo.svg', alt: 'Dweller', width: '120' %>
+      <%= image_tag 'dweller_logo.svg', alt: 'Dweller', width: '120' %>
       <h1 class="text-3xl font-bold text-gray-900 sm:text-4xl mb-4">Kontorskalkyl</h1>
       <p class="text-lg text-gray-600">
         Här är din kontorskalkyl baserat på dina uppgifter. Uppgifterna är ett estimat och vi har därför angivit ett spann för storlek och kostnad baserat på behov.
@@ -10,7 +10,7 @@
     </div>
 
     <!-- Two-column section -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
       <!-- Map column -->
       <div class="bg-gray-100 rounded-lg p-4">
         <!-- Replace this with your actual map component -->
@@ -52,45 +52,179 @@
             </div>
           </dl>
         </div>
-        
-        <div>
-          <h2 class="text-2xl font-semibold text-gray-900 mb-4">Beräkningar</h2>
-          <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
-            <div>
-              <dt class="text-sm font-medium text-gray-500">Beräknad total yta</dt>
-              <dd class="mt-1 text-sm text-gray-900"><%= "#{@total_area[:min]}-#{@total_area[:max]}" %> m²</dd>
-            </div>
-            <div>
-              <dt class="text-sm font-medium text-gray-500">Månatlig bashyra</dt>
-              <dd class="mt-1 text-sm text-gray-900"><%= "#{@bashyra_range[:min]}-#{@bashyra_range[:max]}" %> SEK</dd>
-            </div>
-            <div>
-              <dt class="text-sm font-medium text-gray-500">Månatlig elkostnad</dt>
-              <dd class="mt-1 text-sm text-gray-900"><%= "#{@electricity_range[:min]}-#{@electricity_range[:max]}" %> SEK</dd>
-            </div>
-            <div>
-              <dt class="text-sm font-medium text-gray-500">Månatlig kostnad för värme/kyla</dt>
-              <dd class="mt-1 text-sm text-gray-900"><%= "#{@heat_cooling_range[:min]}-#{@heat_cooling_range[:max]}" %> SEK</dd>
-            </div>
-            <div>
-              <dt class="text-sm font-medium text-gray-500">Månatliga tillvalskostnader</dt>
-              <dd class="mt-1 text-sm text-gray-900"><%= "#{@recurring_addons[:total][:min]}-#{@recurring_addons[:total][:max]}" %> SEK</dd>
+      </div>
+    </div>
+
+    <!-- Summary row -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+      <!-- Total size card -->
+      <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">Estimerad total yta</h3>
+        </div>
+        <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+          <dl class="sm:divide-y sm:divide-gray-200">
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm font-medium text-gray-500">Yta</dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"><%= "#{@total_area[:min]}-#{@total_area[:max]}" %> m²</dd>
             </div>
           </dl>
         </div>
-        
-        <div class="mt-8">
-          <h3 class="text-xl font-semibold text-gray-900 mb-4">Detaljerade tillvalskostnader (per månad)</h3>
-          <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
-            <% @recurring_addons[:addons].each do |addon, cost| %>
-              <% if cost[:min] > 0 || cost[:max] > 0 %>
-                <div>
-                  <dt class="text-sm font-medium text-gray-500"><%= t("office_calculator.addons.#{addon}") %></dt>
-                  <dd class="mt-1 text-sm text-gray-900"><%= "#{(cost[:min] / 12.0).round}-#{(cost[:max] / 12.0).round}" %> SEK</dd>
-                </div>
-              <% end %>
-            <% end %>
+      </div>
+
+      <!-- Total cost card -->
+      <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">Estimerad total månadskostnad</h3>
+        </div>
+        <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+          <dl class="sm:divide-y sm:divide-gray-200">
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm font-medium text-gray-500">Kostnad</dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <%
+                  min_total = @bashyra_range[:min] +
+                              @electricity_range[:min] +
+                              @heat_cooling_range[:min] +
+                              @recurring_addons[:total][:min] +
+                              @one_off_costs[:monthly]
+
+                  max_total = @bashyra_range[:max] +
+                              @electricity_range[:max] +
+                              @heat_cooling_range[:max] +
+                              @recurring_addons[:total][:max] +
+                              @one_off_costs[:monthly]
+                %>
+                <%= "#{min_total}-#{max_total}" %> SEK
+              </dd>
+            </div>
           </dl>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cost breakdown section -->
+    <div class="mt-12">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-6">Kostnadsfördelning</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Base cost card -->
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+          <div class="px-4 py-5 sm:p-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-2">Bashyra</h3>
+            <p class="text-3xl font-bold text-gray-900">
+              <%= "#{@bashyra_range[:min]}-#{@bashyra_range[:max]}" %> SEK
+            </p>
+            <p class="mt-1 text-sm text-gray-500">per månad</p>
+          </div>
+        </div>
+
+        <!-- Updated Electricity and Heating/Cooling cost card -->
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+          <div class="px-4 py-5 sm:p-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-2">El och Värme/Kyla</h3>
+            <p class="text-3xl font-bold text-gray-900">
+              <%= "#{@electricity_range[:min] + @heat_cooling_range[:min]}-#{@electricity_range[:max] + @heat_cooling_range[:max]}" %> SEK
+            </p>
+            <p class="mt-1 text-sm text-gray-500">per månad</p>
+          </div>
+        </div>
+
+        <!-- Recurring addons cost card -->
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+          <div class="px-4 py-5 sm:p-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-2">Återkommande tillägg</h3>
+            <p class="text-3xl font-bold text-gray-900">
+              <%= "#{@recurring_addons[:total][:min]}-#{@recurring_addons[:total][:max]}" %> SEK
+            </p>
+            <p class="mt-1 text-sm text-gray-500">per månad</p>
+          </div>
+        </div>
+
+        <!-- One-off costs card -->
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+          <div class="px-4 py-5 sm:p-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-2">Engångskostnader</h3>
+            <p class="text-3xl font-bold text-gray-900">
+              <%= @one_off_costs[:monthly] %> SEK
+            </p>
+            <p class="mt-1 text-sm text-gray-500">per månad (fördelat över 36 månader)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detailed cost breakdown -->
+    <div class="mt-16">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-6">Detaljerad kostnadsöversikt</h2>
+
+      <!-- Additional costs -->
+      <div class="mb-8">
+        <h3 class="text-xl font-semibold text-gray-900 mb-4">Tillägg</h3>
+        <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+          <div>
+            <dt class="text-sm font-medium text-gray-500">El</dt>
+            <dd class="mt-1 text-sm text-gray-900"><%= "#{@electricity_range[:min]}-#{@electricity_range[:max]}" %> SEK/månad</dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Värme/kyla</dt>
+            <dd class="mt-1 text-sm text-gray-900"><%= "#{@heat_cooling_range[:min]}-#{@heat_cooling_range[:max]}" %> SEK/månad</dd>
+          </div>
+        </dl>
+        <div class="mt-4 pt-4 border-t border-gray-200">
+          <dt class="text-sm font-medium text-gray-500">Summa tillägg</dt>
+          <dd class="mt-1 text-sm font-semibold text-gray-900">
+            <%= "#{@electricity_range[:min] + @heat_cooling_range[:min]}-#{@electricity_range[:max] + @heat_cooling_range[:max]}" %> SEK/månad
+          </dd>
+        </div>
+      </div>
+
+      <!-- One-off costs -->
+      <div class="mb-8">
+        <h3 class="text-xl font-semibold text-gray-900 mb-4">Engångskostnader</h3>
+        <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-3">
+          <% @one_off_costs[:costs].each do |item, cost| %>
+            <% if cost > 0 %>
+              <div>
+                <dt class="text-sm font-medium text-gray-500"><%= t("office_calculator.one_off_costs.#{item}") %></dt>
+                <dd class="mt-1 text-sm text-gray-900">
+                  <%= cost %> SEK
+                  <span class="text-xs text-gray-500">
+                    (<%= (cost / 36.0).round %> SEK/månad över 36 månader)
+                  </span>
+                </dd>
+              </div>
+            <% end %>
+          <% end %>
+        </dl>
+        <div class="mt-4 pt-4 border-t border-gray-200">
+          <dt class="text-sm font-medium text-gray-500">Summa engångskostnader</dt>
+          <dd class="mt-1 text-sm font-semibold text-gray-900">
+            <%= @one_off_costs[:total] %> SEK
+            <span class="text-sm font-normal text-gray-500">
+              (<%= @one_off_costs[:monthly] %> SEK/månad över 36 månader)
+            </span>
+          </dd>
+        </div>
+      </div>
+
+      <!-- Recurring costs -->
+      <div class="mb-8">
+        <h3 class="text-xl font-semibold text-gray-900 mb-4">Återkommande kostnader</h3>
+        <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+          <% @recurring_addons[:addons].each do |addon, cost| %>
+            <% if cost[:min] > 0 || cost[:max] > 0 %>
+              <div>
+                <dt class="text-sm font-medium text-gray-500"><%= t("office_calculator.addons.#{addon}") %></dt>
+                <dd class="mt-1 text-sm text-gray-900"><%= "#{cost[:min]}-#{cost[:max]}" %> SEK/månad</dd>
+              </div>
+            <% end %>
+          <% end %>
+        </dl>
+        <div class="mt-4 pt-4 border-t border-gray-200">
+          <dt class="text-sm font-medium text-gray-500">Summa återkommande kostnader</dt>
+          <dd class="mt-1 text-sm font-semibold text-gray-900">
+            <%= "#{@recurring_addons[:total][:min]}-#{@recurring_addons[:total][:max]}" %> SEK/månad
+          </dd>
         </div>
       </div>
     </div>

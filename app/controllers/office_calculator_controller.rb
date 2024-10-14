@@ -107,6 +107,7 @@ class OfficeCalculatorController < ApplicationController
             @electricity_range = calculate_electricity_range(@total_area)
             @heat_cooling_range = calculate_heat_cooling_range(@bashyra_range)
             @recurring_addons = calculate_recurring_addons(@total_area, @steps_data)
+            @one_off_costs = calculate_one_off_costs(@steps_data)
         else
             redirect_to office_calculator_path, alert: 'Beräkningen kunde inte hittas eller e-postadressen matchar inte.'
         end
@@ -368,6 +369,44 @@ class OfficeCalculatorController < ApplicationController
       {
         addons: addons,
         total: { min: (total_min / 12.0).round, max: (total_max / 12.0).round }
+      }
+    end
+
+    def calculate_one_off_costs(steps_data)
+      addon_config = @calculator_config['calculator_steps']['step_7']['additional_services']['options']
+      current_employees = steps_data['1']['current_employees'].to_i
+
+      one_off_costs = {
+        desks: 0,
+        work_chairs: 0,
+        printer: 0
+      }
+
+      total_cost = 0
+
+      steps_data['7']&.each do |key, value|
+        next unless value == '1' # Check if the addon is selected
+
+        case key
+        when 'additional_services_desks'
+          cost = addon_config['desks']['one_off_cost'] * current_employees
+          one_off_costs[:desks] = cost
+          total_cost += cost
+        when 'additional_services_work_chairs'
+          cost = addon_config['work_chairs']['one_off_cost'] * current_employees
+          one_off_costs[:work_chairs] = cost
+          total_cost += cost
+        when 'additional_services_printer'
+          cost = addon_config['printer']['per_month_cost'] * 12
+          one_off_costs[:printer] = cost
+          total_cost += cost
+        end
+      end
+
+      {
+        costs: one_off_costs,
+        total: total_cost,
+        monthly: (total_cost / 36.0).round
       }
     end
 
