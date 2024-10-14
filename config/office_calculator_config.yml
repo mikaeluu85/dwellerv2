@@ -3,6 +3,8 @@ constants:
   small_size_multiple: 0.9
   normal_size_multiple: 1
   large_size_multiple: 1.15
+  va_tax_sqm_price: 0.12
+  electricity_sqm_price: 50
 
 calculator_steps:
   step_1:
@@ -59,7 +61,7 @@ calculator_steps:
       description: "The user is asked how many individual workplaces in an open-plan layout the company wants."
       input_type: "number"
       placeholder: "Antal"
-      room_size: null  # You can fill this in later
+      room_size: 12
       seat_count: 1
 
     private_offices:
@@ -69,22 +71,22 @@ calculator_steps:
         executive_room:
           name: "Exekutivt rum, 1 person"
           input_type: "number"
-          room_size: null
+          room_size: 15
           seat_count: 1
         standard_room:
           name: "Standardrum, 1 person"
           input_type: "number"
-          room_size: null
+          room_size: 10
           seat_count: 1
         small_team_room:
           name: "För mindre team, 3-6 personer"
           input_type: "number"
-          room_size: null
+          room_size: 30
           seat_count: 6
         meeting_capable_room:
           name: "För 1 person med mötesmöjligheter"
           input_type: "number"
-          room_size: null
+          room_size: 15
           seat_count: 1
   step_3:
     headline: "Reception"
@@ -97,19 +99,23 @@ calculator_steps:
         simple_desk:
           name: "Enkel reception med skrivbord"
           input_type: "number"
-          room_size: null
+          room_size: 5
         small_reception:
           name: "Mindre reception, upp till 4 personer"
           input_type: "number"
-          room_size: null
+          room_size: 10
         large_reception:
           name: "Större reception, upp till 8 personer"
           input_type: "number"
-          room_size: null
+          room_size: 25
         waiting_room:
           name: "Väntrum, 5-10 personer"
           input_type: "number"
-          room_size: null
+          room_size: 15
+        custom_lounge:
+          name: "Lounge, 5-10 personer"
+          input_type: "number"
+          room_size: 25
 
   step_4:
     headline: "Mötesrum"
@@ -122,31 +128,31 @@ calculator_steps:
         phone_booth:
           name: "Telefonbås för 1-2 personer"
           input_type: "number"
-          room_size: null
+          room_size: 2
         meeting_room_4:
           name: "Mötesrum för 4 personer"
           input_type: "number"
-          room_size: null
+          room_size: 12
         meeting_room_6:
           name: "Mötesrum för 6 personer"
           input_type: "number"
-          room_size: null
+          room_size: 15
         meeting_room_8:
           name: "Mötesrum för 8 personer"
           input_type: "number"
-          room_size: null
+          room_size: 24
         meeting_room_10_12:
           name: "Mötesrum för 10-12 personer"
           input_type: "number"
-          room_size: null
+          room_size: 40
         meeting_room_16_plus:
           name: "Mötesrum för 16 personer eller mer"
           input_type: "number"
-          room_size: null
+          room_size: 40
         meeting_room_20_plus:
           name: "Mötesrum för 20 personer eller mer"
           input_type: "number"
-          room_size: null
+          room_size: 60
 
   step_5:
     headline: "Gemensamma ytor"
@@ -159,31 +165,31 @@ calculator_steps:
         small_pantry:
           name: "Ett mindre pentry, 3-6 personer"
           input_type: "number"
-          room_size: null
+          room_size: 12
         large_pantry:
           name: "Ett större pentry, upp till 10 personer"
           input_type: "number"
-          room_size: null
+          room_size: 24
         small_lounge:
           name: "Mindre loungeyta/breakout, 10-20 personer"
           input_type: "number"
-          room_size: null
+          room_size: 25
         large_lounge:
           name: "Större loungeyta/breakout, 20-40 personer"
           input_type: "number"
-          room_size: null
+          room_size: 50
         full_kitchen:
           name: "Fullständigt kök"
           input_type: "number"
-          room_size: null
+          room_size: 50
         small_dining:
           name: "Mindre matsal, upp till 20 personer"
           input_type: "number"
-          room_size: null
+          room_size: 30
         large_dining:
           name: "Större matsal, upp till 40 personer"
           input_type: "number"
-          room_size: null
+          room_size: 60
 
   step_6:
     headline: "Övriga ytor"
@@ -196,23 +202,23 @@ calculator_steps:
         small_server_room:
           name: "Mindre serverrum"
           input_type: "number"
-          room_size: null
+          room_size: 10
         large_server_room:
           name: "Större serverrum"
           input_type: "number"
-          room_size: null
+          room_size: 25
         printer_room:
           name: "Printer-, kopiator- och faxrum"
           input_type: "number"
-          room_size: null
+          room_size: 10
         small_storage:
           name: "Mindre förvaringsrum"
           input_type: "number"
-          room_size: null
+          room_size: 5
         large_storage:
           name: "Större förvarningsrum"
           input_type: "number"
-          room_size: null
+          room_size: 15
 
   step_7:
     headline: "Andra bekvämligheter"
@@ -225,31 +231,31 @@ calculator_steps:
       options:
         office_insurance:
           name: "Lokalförsäkring"
-          per_sqm_cost: null
+          per_sqm_cost: 50
         waste_management:
           name: "Sophantering, en gång i veckan"
-          per_person_cost: null
+          per_person_cost: 150
         premises_alarm:
           name: "Larm för lokalen"
-          per_month_cost: null
+          per_month_cost: 600
         desks:
           name: "Skrivbord, för 1 personer"
-          one_off_cost: null
+          one_off_cost: 3000
         work_chairs:
           name: "Arbetsstolar för 1 personer"
-          one_off_cost: null
+          one_off_cost: 2000
         printer:
           name: "Skrivare"
-          per_month_cost: null
+          per_month_cost: 1500
         cleaning:
           name: "Städning, 2 gånger i veckan"
-          per_person_cost: null
+          per_person_cost: 200
         internet_connection:
           name: "Internetanslutning"
-          per_month_cost: null
+          per_month_cost: 1000
         coffee_machine_rental:
           name: "Hyra av kaffemaskin"
-          per_month_cost: null
+          per_month_cost: 1500
 
   step_8:
     headline: "Nästan klart!"

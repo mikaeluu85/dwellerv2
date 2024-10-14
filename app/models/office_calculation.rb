@@ -12,6 +12,8 @@ class OfficeCalculation < ApplicationRecord
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :phone, presence: true, format: { with: /\A(?:\+46|0)(?:[1-9]\d{1,2}[-\s]?)?\d{6,8}\z/, message: "must be a valid Swedish phone number" }
   validates :terms_acceptance, acceptance: true
+  validates :uuid, presence: true, uniqueness: true
+
 
   # Validation for steps_data
   validate :validate_step_1_fields
@@ -21,7 +23,7 @@ class OfficeCalculation < ApplicationRecord
 
   # Ransack configuration
   def self.ransackable_attributes(auth_object = nil)
-    ["id", "first_name", "last_name", "company", "email", "phone", "created_at", "updated_at", "terms_acceptance"]
+    ["id", "first_name", "last_name", "company", "email", "phone", "created_at", "updated_at", "terms_acceptance", "uuid"]
   end
 
   def self.ransackable_associations(auth_object = nil)

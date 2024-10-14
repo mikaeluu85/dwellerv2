@@ -1,10 +1,11 @@
 # app/admin/office_calculations.rb
 ActiveAdmin.register OfficeCalculation do
-    permit_params :location_id, :first_name, :last_name, :company, :email, :phone, :terms_acceptance, steps_data: {}
+    permit_params :location_id, :first_name, :last_name, :company, :email, :phone, :terms_acceptance, :uuid, steps_data: {}
 
     index do
       selectable_column
       id_column
+      column :uuid
       column :first_name
       column :last_name
       column :company
@@ -15,6 +16,7 @@ ActiveAdmin.register OfficeCalculation do
       actions
     end
 
+    filter :uuid
     filter :first_name
     filter :last_name
     filter :company
@@ -26,6 +28,7 @@ ActiveAdmin.register OfficeCalculation do
     show do
       attributes_table do
         row :id
+        row :uuid
         row :first_name
         row :last_name
         row :company
@@ -48,6 +51,7 @@ ActiveAdmin.register OfficeCalculation do
 
     form do |f|
       f.inputs "Contact Information" do
+        f.input :uuid
         f.input :first_name
         f.input :last_name
         f.input :company

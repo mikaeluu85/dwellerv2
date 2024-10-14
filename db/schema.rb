@@ -256,6 +256,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_09_141523) do
     t.datetime "updated_at", null: false
     t.boolean "prioritized", default: false
     t.string "preposition"
+    t.decimal "bashyra", precision: 10, scale: 2
     t.index ["slug"], name: "index_locations_on_slug", unique: true
   end
 
@@ -327,8 +328,10 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_09_141523) do
     t.boolean "terms_acceptance", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "uuid"
     t.index ["location_id"], name: "index_office_calculations_on_location_id"
     t.index ["steps_data"], name: "index_office_calculations_on_steps_data", using: :gin
+    t.index ["uuid"], name: "index_office_calculations_on_uuid", unique: true
   end
 
   create_table "permutations", force: :cascade do |t|

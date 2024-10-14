@@ -45,7 +45,7 @@ class Location < ApplicationRecord
     end
 
     def self.ransackable_attributes(auth_object = nil)
-      ["created_at", "id", "name", "slug", "geojson", "updated_at", "prioritized", "preposition"] # Ensure preposition is included
+      ["created_at", "id", "name", "slug", "geojson", "updated_at", "prioritized", "preposition", "bashyra"] # Ensure preposition is included
     end
 
     def self.ransackable_associations(auth_object = nil)

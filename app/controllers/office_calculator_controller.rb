@@ -1,6 +1,7 @@
 #Validations
 #Thank you
 #GUI
+# Add limiter on fetch reports
 
 class OfficeCalculatorController < ApplicationController
     before_action :load_calculator_config
@@ -73,7 +74,8 @@ class OfficeCalculatorController < ApplicationController
           phone: submission_params[:contact_form_phone],
           terms_acceptance: submission_params[:contact_form_terms_acceptance],
           location_id: submission_params[:location_id],
-          steps_data: structured_steps_data
+          steps_data: structured_steps_data,
+          uuid: SecureRandom.uuid
         )
 
         if @office_calculation.save
@@ -87,6 +89,27 @@ class OfficeCalculatorController < ApplicationController
     rescue StandardError => e
         Rails.logger.error "Failed to save office calculation: #{e.message}"
         redirect_to office_calculator_path, alert: 'There was an error saving your data.'
+    end
+
+    def result
+        @office_calculation = OfficeCalculation.find_by(uuid: params[:uuid], email: params[:email])
+        
+        if @office_calculation
+            @location = @office_calculation.location
+            @steps_data = @office_calculation.steps_data
+            @step_1_data = @steps_data['1'] || {}
+            
+            # Perform calculations
+            @total_area = calculate_total_area(@steps_data)
+            @bashyra_range = calculate_bashyra_range(@total_area, @location)
+            
+            # New calculations
+            @electricity_range = calculate_electricity_range(@total_area)
+            @heat_cooling_range = calculate_heat_cooling_range(@bashyra_range)
+            @recurring_addons = calculate_recurring_addons(@total_area, @steps_data)
+        else
+            redirect_to office_calculator_path, alert: 'Beräkningen kunde inte hittas eller e-postadressen matchar inte.'
+        end
     end
 
     private
@@ -191,4 +214,162 @@ class OfficeCalculatorController < ApplicationController
     def office_calculation_params
         params.require(:office_calculation).permit(:first_name, :email)
     end
+
+    def calculate_total_area(steps_data)
+        base_total_area = 0
+        
+        office_space_preference = steps_data.dig('1', 'office_space_preference')
+        Rails.logger.debug "Office Space Preference: #{office_space_preference}"
+        
+        if office_space_preference.present?
+            office_space_preference_multiplier = get_office_space_preference_multiplier(office_space_preference)
+        else
+            Rails.logger.error "Missing 'office_space_preference' in steps_data['1']"
+            office_space_preference_multiplier = 1.0
+        end
+
+        Rails.logger.debug "Steps Data: #{steps_data.inspect}"
+
+        @calculator_config['calculator_steps'].each do |step, step_data|
+            Rails.logger.debug "Processing step: #{step}"
+            next if step == 'step_1' || step == 'step_8'  # Skip steps without room sizes
+
+            step_key = step.gsub('step_', '')
+
+            step_data.each do |field, field_data|
+                Rails.logger.debug "Processing field: #{field}"
+
+                if field_data.is_a?(Hash) && field_data['room_size']
+                    # Handle direct fields like open_plan_workspaces
+                    if steps_data[step_key] && steps_data[step_key][field]
+                        count = steps_data[step_key][field].to_i
+                        area = field_data['room_size'] * count
+                        base_total_area += area
+                        Rails.logger.debug "Added area for #{field}: #{area} (#{field_data['room_size']} * #{count})"
+                    end
+                elsif field_data.is_a?(Hash) && field_data['options'].is_a?(Hash)
+                    # Handle nested options like in private_offices
+                    field_data['options'].each do |option, option_data|
+                        if option_data['room_size'] && steps_data[step_key] && steps_data[step_key]["#{field}_#{option}"]
+                            count = steps_data[step_key]["#{field}_#{option}"].to_i
+                            area = option_data['room_size'] * count
+                            base_total_area += area
+                            Rails.logger.debug "Added area for #{field}_#{option}: #{area} (#{option_data['room_size']} * #{count})"
+                        end
+                    end
+                end
+            end
+        end
+
+        Rails.logger.debug "Final Base Total Area: #{base_total_area}"
+        Rails.logger.debug "Office Space Preference Multiplier: #{office_space_preference_multiplier}"
+
+        adjusted_area = base_total_area * office_space_preference_multiplier
+        min_area = (adjusted_area * 0.9).round
+        max_area = (adjusted_area * 1.1).round
+
+        Rails.logger.debug "Adjusted Area: #{adjusted_area}"
+        Rails.logger.debug "Min Area: #{min_area}, Max Area: #{max_area}"
+
+        { min: min_area, max: max_area }
+    end
+
+    def get_office_space_preference_multiplier(preference)
+        case preference
+        when "Mindre yta än normal (10-13kvm)"
+            0.9
+        when "Normal mängd yta (13-20kvm)"
+            1.0
+        when "Extra mängd yta (20kvm+)"
+            1.15
+        else
+            1.0  # Default to normal if preference is not recognized
+        end
+    end
+
+    def calculate_bashyra_range(total_area, location)
+        return { min: 0, max: 0 } unless location&.bashyra
+
+        min_bashyra = (total_area[:min] * location.bashyra / 12).round
+        max_bashyra = (total_area[:max] * location.bashyra / 12).round
+
+        { min: min_bashyra, max: max_bashyra }
+    end
+
+    def calculate_electricity_range(total_area)
+        electricity_sqm_price = @calculator_config['constants']['electricity_sqm_price']
+        
+        min_electricity = (total_area[:min] * electricity_sqm_price / 12).round
+        max_electricity = (total_area[:max] * electricity_sqm_price / 12).round
+
+        { min: min_electricity, max: max_electricity }
+    end
+
+    def calculate_heat_cooling_range(bashyra_range)
+        va_tax_sqm_price = @calculator_config['constants']['va_tax_sqm_price']
+        
+        min_heat_cooling = (bashyra_range[:min] * va_tax_sqm_price).round
+        max_heat_cooling = (bashyra_range[:max] * va_tax_sqm_price).round
+
+        { min: min_heat_cooling, max: max_heat_cooling }
+    end
+
+    def calculate_recurring_addons(total_area, steps_data)
+      addon_config = @calculator_config['calculator_steps']['step_7']['additional_services']['options']
+      current_employees = steps_data['1']['current_employees'].to_i
+
+      addons = {
+        office_insurance: { min: 0, max: 0 },
+        waste_management: { min: 0, max: 0 },
+        premises_alarm: { min: 0, max: 0 },
+        printer: { min: 0, max: 0 },
+        cleaning: { min: 0, max: 0 },
+        internet_connection: { min: 0, max: 0 },
+        coffee_machine_rental: { min: 0, max: 0 }
+      }
+
+      total_min = 0
+      total_max = 0
+
+      steps_data['7']&.each do |key, value|
+        next unless value == '1' # Check if the addon is selected
+
+        case key
+        when 'additional_services_office_insurance'
+          min = (total_area[:min] * addon_config['office_insurance']['per_sqm_cost']).round
+          max = (total_area[:max] * addon_config['office_insurance']['per_sqm_cost']).round
+          addons[:office_insurance] = { min: min, max: max }
+        when 'additional_services_waste_management'
+          cost = current_employees * addon_config['waste_management']['per_person_cost'] * 12
+          addons[:waste_management] = { min: cost, max: cost }
+        when 'additional_services_premises_alarm'
+          cost = addon_config['premises_alarm']['per_month_cost'] * 12
+          addons[:premises_alarm] = { min: cost, max: cost }
+        when 'additional_services_printer'
+          cost = addon_config['printer']['per_month_cost'] * 12
+          addons[:printer] = { min: cost, max: cost }
+        when 'additional_services_cleaning'
+          cost = current_employees * addon_config['cleaning']['per_person_cost'] * 12
+          addons[:cleaning] = { min: cost, max: cost }
+        when 'additional_services_internet_connection'
+          cost = addon_config['internet_connection']['per_month_cost'] * 12
+          addons[:internet_connection] = { min: cost, max: cost }
+        when 'additional_services_coffee_machine_rental'
+          cost = addon_config['coffee_machine_rental']['per_month_cost'] * 12
+          addons[:coffee_machine_rental] = { min: cost, max: cost }
+        end
+      end
+
+      addons.each_value do |value|
+        total_min += value[:min]
+        total_max += value[:max]
+      end
+
+      {
+        addons: addons,
+        total: { min: (total_min / 12.0).round, max: (total_max / 12.0).round }
+      }
+    end
+
+    # ... other calculation methods ...
 end
