@@ -1,5 +1,5 @@
 <div class="bg-white">
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+  <div class="mx-auto max-w-7xl px-6 py-12">
     <!-- Header -->
     <div class="mb-12">
       <h1 class="text-3xl font-bold text-gray-900 sm:text-4xl mb-4">Kontorskalkyl</h1>
@@ -18,32 +18,32 @@
 
       <!-- Details column -->
       <div class="space-y-8">
-        <div>
+        <div class="h-full flex flex-col">
           <h2 class="text-2xl font-semibold text-gray-900 mb-4">Företagsdetaljer</h2>
-          <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
-            <div>
+          <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-grow">
+            <div class="flex flex-col justify-center bg-gray-50 p-4 rounded-lg h-32">
               <dt class="text-sm font-medium text-gray-500">Antal anställda</dt>
-              <dd class="mt-1 text-sm text-gray-900"><%= @step_1_data['current_employees'] %></dd>
+              <dd class="mt-1 text-xl font-semibold text-gray-900"><%= @step_1_data['current_employees'] %></dd>
             </div>
-            <div>
+            <div class="flex flex-col justify-center bg-gray-50 p-4 rounded-lg h-32">
               <dt class="text-sm font-medium text-gray-500">Framtida anställda</dt>
-              <dd class="mt-1 text-sm text-gray-900"><%= @step_1_data['future_employees'] %></dd>
+              <dd class="mt-1 text-xl font-semibold text-gray-900"><%= @step_1_data['future_employees'] %></dd>
             </div>
-            <div>
+            <div class="flex flex-col justify-center bg-gray-50 p-4 rounded-lg h-32">
               <dt class="text-sm font-medium text-gray-500">Önskat område</dt>
-              <dd class="mt-1 text-sm text-gray-900"><%= @location.name %></dd>
+              <dd class="mt-1 text-xl font-semibold text-gray-900"><%= @location.name %></dd>
             </div>
-            <div>
-              <dt class="text-sm font-medium text-gray-500">Ytbehov</dt>
-              <dd class="mt-1 text-sm text-gray-900"><%= @steps_data.dig('1', 'office_space_preference') %></dd>
+            <div class="flex flex-col justify-center bg-gray-50 p-4 rounded-lg h-32">
+              <dt class="text-sm font-medium text-gray-500">Storlekspreferens</dt>
+              <dd class="mt-1 text-xl font-semibold text-gray-900"><%= @steps_data.dig('1', 'office_space_preference') %></dd>
             </div>
-            <div>
+            <div class="flex flex-col justify-center bg-gray-50 p-4 rounded-lg h-32">
               <dt class="text-sm font-medium text-gray-500">Hybridarbete</dt>
-              <dd class="mt-1 text-sm text-gray-900"><%= @step_1_data['hybrid_work'] == 'Ja' ? 'Ja' : 'Nej' %></dd>
+              <dd class="mt-1 text-xl font-semibold text-gray-900"><%= @step_1_data['hybrid_work'] == 'Ja' ? 'Ja' : 'Nej' %></dd>
             </div>
-            <div>
+            <div class="flex flex-col justify-center bg-gray-50 p-4 rounded-lg h-32">
               <dt class="text-sm font-medium text-gray-500">Renoveringsbudget</dt>
-              <dd class="mt-1 text-sm text-gray-900"><%= @step_1_data['renovation_budget'] %></dd>
+              <dd class="mt-1 text-xl font-semibold text-gray-900"><%= @step_1_data['renovation_budget'] %> kr</dd>
             </div>
           </dl>
         </div>
@@ -52,16 +52,16 @@
 
     <!-- Summary row -->
     <h2 class="text-2xl font-semibold text-gray-900 mb-6">Storlek och kostnad</h2>
-    <dl class="mx-auto grid grid-cols-1 gap-px bg-gray-900/5 sm:grid-cols-2 lg:grid-cols-2 mb-12">
-      <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
-        <dt class="text-sm font-medium leading-6 text-gray-500">Estimerad total yta</dt>
-        <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">
+    <dl class="mx-auto grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-2 mb-12">
+      <div class="flex flex-col justify-between gap-y-2 bg-gray-50 rounded-lg px-4 py-10">
+        <dt class="text-sm font-medium leading-6 text-gray-500">Estimerad total yta, kvadratmeter</dt>
+        <dd class="text-3xl font-medium leading-10 tracking-tight text-gray-900">
           <%= "#{@total_area[:min]}-#{@total_area[:max]}" %> m²
         </dd>
       </div>
-      <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
-        <dt class="text-xs font-medium text-gray-700">Kr/mån</dt>
-        <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">
+      <div class="flex flex-col justify-between gap-y-2 bg-gray-50 rounded-lg px-4 py-10">
+        <dt class="text-xs font-medium text-gray-700">Totalhyra, kr/mån</dt>
+        <dd class="text-3xl font-medium leading-10 tracking-tight text-gray-900">
           <%
             min_total = @bashyra_range[:min] +
                         @electricity_range[:min] +
@@ -83,31 +83,31 @@
     <!-- Cost breakdown section -->
     <div class="mt-12">
       <h2 class="text-2xl font-semibold text-gray-900 mb-6">Kostnadsfördelning</h2>
-      <dl class="mx-auto grid grid-cols-1 gap-px bg-gray-900/5 sm:grid-cols-2 lg:grid-cols-4">
-        <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+      <dl class="mx-auto grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="flex flex-col justify-between gap-y-2 bg-gray-50 rounded-lg px-4 py-10">
           <dt class="text-sm font-medium leading-6 text-gray-500">Bashyra</dt>
-          <dd class="w-full flex-none text-2xl font-medium leading-10 tracking-tight text-gray-900">
+          <dd class="text-2xl font-medium leading-10 tracking-tight text-gray-900">
             <%= "#{@bashyra_range[:min]}-#{@bashyra_range[:max]}" %> kr/mån
           </dd>
         </div>
         
-        <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+        <div class="flex flex-col justify-between gap-y-2 bg-gray-50 rounded-lg px-4 py-10">
           <dt class="text-sm font-medium leading-6 text-gray-500">El och Värme/Kyla</dt>
-          <dd class="w-full flex-none text-2xl font-medium leading-10 tracking-tight text-gray-900">
+          <dd class="text-2xl font-medium leading-10 tracking-tight text-gray-900">
             <%= "#{@electricity_range[:min] + @heat_cooling_range[:min]}-#{@electricity_range[:max] + @heat_cooling_range[:max]}" %> kr/mån
           </dd>
         </div>
         
-        <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+        <div class="flex flex-col justify-between gap-y-2 bg-gray-50 rounded-lg px-4 py-10">
           <dt class="text-sm font-medium leading-6 text-gray-500">Återkommande tillägg</dt>
-          <dd class="w-full flex-none text-2xl font-medium leading-10 tracking-tight text-gray-900">
+          <dd class="text-2xl font-medium leading-10 tracking-tight text-gray-900">
             <%= "#{@recurring_addons[:total][:min]}-#{@recurring_addons[:total][:max]}" %> kr/mån
           </dd>
         </div>
         
-        <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+        <div class="flex flex-col justify-between gap-y-2 bg-gray-50 rounded-lg px-4 py-10">
           <dt class="text-sm font-medium leading-6 text-gray-500">Engångskostnader</dt>
-          <dd class="w-full flex-none text-2xl font-medium leading-10 tracking-tight text-gray-900">
+          <dd class="text-2xl font-medium leading-10 tracking-tight text-gray-900">
             <%= @one_off_costs[:monthly] %> kr/mån
           </dd>
         </div>
@@ -115,7 +115,7 @@
     </div>
 
     <!-- Detailed cost breakdown -->
-    <div class="mt-16 px-4 sm:px-6 lg:px-8">
+    <div class="mt-16">
       <div class="sm:flex sm:items-center">
         <div class="sm:flex-auto">
           <h2 class="text-2xl font-semibold text-gray-900">Detaljerad kostnadsöversikt</h2>

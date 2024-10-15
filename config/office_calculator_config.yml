@@ -40,9 +40,9 @@ calculator_steps:
       input_type: "dropdown"
       required: true
       options:
-        - name: "Mindre yta än normal (10-13kvm)"
-        - name: "Normal mängd yta (13-20kvm)"
-        - name: "Extra mängd yta (20kvm+)"
+        - name: "Mindre yta än normal"
+        - name: "Normal mängd yta"
+        - name: "Extra mängd yta"
 
     renovation_budget:
       question: "Hur stor budget finns det för renovering och egna anpassningar utöver hyreskostnad?"

@@ -10,10 +10,10 @@ class GoogleMapsService
     }
 
     polygon_options = {
-      strokeColor: '#FF0000',
+      strokeColor: '#FFC602',
       strokeOpacity: 0.8,
       strokeWeight: 2,
-      fillColor: '#FF0000',
+      fillColor: '#ffffea',
       fillOpacity: 0.35,
       paths: coordinates.map { |coord| { lat: coord[1], lng: coord[0] } }
     }
