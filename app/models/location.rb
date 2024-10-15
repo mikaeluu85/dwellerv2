@@ -27,6 +27,11 @@ class Location < ApplicationRecord
     def full_description
       "#{preposition} #{name.titleize}".strip
     end
+
+    def geojson
+      parsed_geojson = read_attribute(:geojson)
+      parsed_geojson.is_a?(String) ? JSON.parse(parsed_geojson) : parsed_geojson
+    end
     
     private
   

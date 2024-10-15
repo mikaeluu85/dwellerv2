@@ -1,8 +1,7 @@
 <div class="bg-white">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
     <!-- Header -->
-    <div class="text-center mb-12">
-      <%= image_tag 'dweller_logo.svg', alt: 'Dweller', width: '120' %>
+    <div class="mb-12">
       <h1 class="text-3xl font-bold text-gray-900 sm:text-4xl mb-4">Kontorskalkyl</h1>
       <p class="text-lg text-gray-600">
         Här är din kontorskalkyl baserat på dina uppgifter. Uppgifterna är ett estimat och vi har därför angivit ett spann för storlek och kostnad baserat på behov.
@@ -13,12 +12,8 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
       <!-- Map column -->
       <div class="bg-gray-100 rounded-lg p-4">
-        <!-- Replace this with your actual map component -->
-        <div class="aspect-w-16 aspect-h-9">
-          <div class="w-full h-full bg-gray-300 flex items-center justify-center text-gray-500">
-            Map of <%= @location.name %>
-          </div>
-        </div>
+        <!-- Replace the existing map placeholder with this -->
+        <%= render partial: 'shared/google_map', locals: { map: @map_hash } %>
       </div>
 
       <!-- Details column -->
@@ -60,14 +55,12 @@
     <dl class="mx-auto grid grid-cols-1 gap-px bg-gray-900/5 sm:grid-cols-2 lg:grid-cols-2 mb-12">
       <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
         <dt class="text-sm font-medium leading-6 text-gray-500">Estimerad total yta</dt>
-        <dd class="text-xs font-medium text-gray-700">Kvadratmeter</dd>
         <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">
           <%= "#{@total_area[:min]}-#{@total_area[:max]}" %> m²
         </dd>
       </div>
       <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
-        <dt class="text-sm font-medium leading-6 text-gray-500">Estimerad total månadskostnad</dt>
-        <dd class="text-xs font-medium text-gray-700">SEK per månad</dd>
+        <dt class="text-xs font-medium text-gray-700">Kr/mån</dt>
         <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">
           <%
             min_total = @bashyra_range[:min] +
@@ -82,7 +75,7 @@
                         @recurring_addons[:total][:max] +
                         @one_off_costs[:monthly]
           %>
-          <%= "#{min_total}-#{max_total}" %> SEK
+          <%= "#{min_total}-#{max_total}" %> kr/mån
         </dd>
       </div>
     </dl>
@@ -93,33 +86,29 @@
       <dl class="mx-auto grid grid-cols-1 gap-px bg-gray-900/5 sm:grid-cols-2 lg:grid-cols-4">
         <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
           <dt class="text-sm font-medium leading-6 text-gray-500">Bashyra</dt>
-          <dd class="text-xs font-medium text-gray-700">per månad</dd>
-          <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">
-            <%= "#{@bashyra_range[:min]}-#{@bashyra_range[:max]}" %> SEK
+          <dd class="w-full flex-none text-2xl font-medium leading-10 tracking-tight text-gray-900">
+            <%= "#{@bashyra_range[:min]}-#{@bashyra_range[:max]}" %> kr/mån
           </dd>
         </div>
         
         <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
           <dt class="text-sm font-medium leading-6 text-gray-500">El och Värme/Kyla</dt>
-          <dd class="text-xs font-medium text-gray-700">per månad</dd>
-          <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">
-            <%= "#{@electricity_range[:min] + @heat_cooling_range[:min]}-#{@electricity_range[:max] + @heat_cooling_range[:max]}" %> SEK
+          <dd class="w-full flex-none text-2xl font-medium leading-10 tracking-tight text-gray-900">
+            <%= "#{@electricity_range[:min] + @heat_cooling_range[:min]}-#{@electricity_range[:max] + @heat_cooling_range[:max]}" %> kr/mån
           </dd>
         </div>
         
         <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
           <dt class="text-sm font-medium leading-6 text-gray-500">Återkommande tillägg</dt>
-          <dd class="text-xs font-medium text-gray-700">per månad</dd>
-          <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">
-            <%= "#{@recurring_addons[:total][:min]}-#{@recurring_addons[:total][:max]}" %> SEK
+          <dd class="w-full flex-none text-2xl font-medium leading-10 tracking-tight text-gray-900">
+            <%= "#{@recurring_addons[:total][:min]}-#{@recurring_addons[:total][:max]}" %> kr/mån
           </dd>
         </div>
         
         <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
           <dt class="text-sm font-medium leading-6 text-gray-500">Engångskostnader</dt>
-          <dd class="text-xs font-medium text-gray-700">per månad (fördelat över 36 månader)</dd>
-          <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">
-            <%= @one_off_costs[:monthly] %> SEK
+          <dd class="w-full flex-none text-2xl font-medium leading-10 tracking-tight text-gray-900">
+            <%= @one_off_costs[:monthly] %> kr/mån
           </dd>
         </div>
       </dl>
@@ -132,9 +121,6 @@
           <h2 class="text-2xl font-semibold text-gray-900">Detaljerad kostnadsöversikt</h2>
           <p class="mt-2 text-sm text-gray-700">En detaljerad uppdelning av alla kostnader relaterade till ditt kontor.</p>
         </div>
-        <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-          <button type="button" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Skriv ut</button>
-        </div>
       </div>
       <div class="-mx-4 mt-8 flow-root sm:mx-0">
         <table class="min-w-full">
@@ -146,8 +132,8 @@
           <thead class="border-b border-gray-300 text-gray-900">
             <tr>
               <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Kostnadskategori</th>
-              <th scope="col" class="hidden px-3 py-3.5 text-right text-sm font-semibold text-gray-900 sm:table-cell">Min</th>
-              <th scope="col" class="py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-gray-900 sm:pr-0">Max</th>
+              <th scope="col" class="hidden px-3 py-3.5 text-right text-sm font-semibold text-gray-900 sm:table-cell">Min (per månad)</th>
+              <th scope="col" class="py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-gray-900 sm:pr-0">Max (per månad)</th>
             </tr>
           </thead>
           <tbody>
@@ -159,8 +145,8 @@
               <td class="max-w-0 py-5 pl-4 pr-3 text-sm sm:pl-0">
                 <div class="font-medium text-gray-900">Bashyra</div>
               </td>
-              <td class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell"><%= @bashyra_range[:min] %> SEK</td>
-              <td class="py-5 pl-3 pr-4 text-right text-sm text-gray-500 sm:pr-0"><%= @bashyra_range[:max] %> SEK</td>
+              <td class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell"><%= @bashyra_range[:min] %> kr/mån</td>
+              <td class="py-5 pl-3 pr-4 text-right text-sm text-gray-500 sm:pr-0"><%= @bashyra_range[:max] %> kr/mån</td>
             </tr>
 
             <!-- Utilities -->
@@ -171,15 +157,15 @@
               <td class="max-w-0 py-5 pl-4 pr-3 text-sm sm:pl-0">
                 <div class="font-medium text-gray-900">El</div>
               </td>
-              <td class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell"><%= @electricity_range[:min] %> SEK</td>
-              <td class="py-5 pl-3 pr-4 text-right text-sm text-gray-500 sm:pr-0"><%= @electricity_range[:max] %> SEK</td>
+              <td class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell"><%= @electricity_range[:min] %> kr/mån</td>
+              <td class="py-5 pl-3 pr-4 text-right text-sm text-gray-500 sm:pr-0"><%= @electricity_range[:max] %> kr/mån</td>
             </tr>
             <tr class="border-b border-gray-200">
               <td class="max-w-0 py-5 pl-4 pr-3 text-sm sm:pl-0">
                 <div class="font-medium text-gray-900">Värme/kyla</div>
               </td>
-              <td class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell"><%= @heat_cooling_range[:min] %> SEK</td>
-              <td class="py-5 pl-3 pr-4 text-right text-sm text-gray-500 sm:pr-0"><%= @heat_cooling_range[:max] %> SEK</td>
+              <td class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell"><%= @heat_cooling_range[:min] %> kr/mån</td>
+              <td class="py-5 pl-3 pr-4 text-right text-sm text-gray-500 sm:pr-0"><%= @heat_cooling_range[:max] %> kr/mån</td>
             </tr>
 
             <!-- Recurring addons -->
@@ -192,25 +178,28 @@
                   <td class="max-w-0 py-5 pl-4 pr-3 text-sm sm:pl-0">
                     <div class="font-medium text-gray-900"><%= t("office_calculator.addons.#{addon}") %></div>
                   </td>
-                  <td class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell"><%= (cost[:min] / 12.0).round %> SEK</td>
-                  <td class="py-5 pl-3 pr-4 text-right text-sm text-gray-500 sm:pr-0"><%= (cost[:max] / 12.0).round %> SEK</td>
+                  <td class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell"><%= (cost[:min] / 12.0).round %> kr/mån</td>
+                  <td class="py-5 pl-3 pr-4 text-right text-sm text-gray-500 sm:pr-0"><%= (cost[:max] / 12.0).round %> kr/mån</td>
                 </tr>
               <% end %>
             <% end %>
 
             <!-- One-off costs -->
             <tr class="border-t border-gray-200 bg-gray-50">
-              <th colspan="3" scope="colgroup" class="py-2 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Engångskostnader</th>
+              <th colspan="3" scope="colgroup" class="py-2 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Engångskostnader</th>   
             </tr>
-            <% @one_off_costs[:costs].each do |item, cost| %>
-              <% if cost > 0 %>
+            <% @one_off_costs[:costs].each do |item, data| %>
+              <% if data[:cost] > 0 %>
                 <tr class="border-b border-gray-200">
                   <td class="max-w-0 py-5 pl-4 pr-3 text-sm sm:pl-0">
-                    <div class="font-medium text-gray-900"><%= t("office_calculator.one_off_costs.#{item}") %></div>
+                    <div class="font-medium text-gray-900">
+                      <% item_name = @calculator_config.dig('calculator_steps', 'step_7', 'additional_services', 'options', item.to_s, 'name') %>
+                      <%= "#{item_name.presence || item.to_s.titleize} (#{data[:count]})" %>
+                    </div>
                     <div class="mt-1 truncate text-gray-500">Engångskostnad fördelad över 36 månader</div>
                   </td>
-                  <td class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell"><%= (cost / 36.0).round %> SEK</td>
-                  <td class="py-5 pl-3 pr-4 text-right text-sm text-gray-500 sm:pr-0"><%= (cost / 36.0).round %> SEK</td>
+                  <td class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell"><%= (data[:cost] / 36.0).round %> kr/mån</td>
+                  <td class="py-5 pl-3 pr-4 text-right text-sm text-gray-500 sm:pr-0"><%= (data[:cost] / 36.0).round %> kr/mån</td>
                 </tr>
               <% end %>
             <% end %>
@@ -233,7 +222,7 @@
                               @recurring_addons[:total][:max] +
                               @one_off_costs[:monthly]
                 %>
-                <%= "#{min_total}-#{max_total}" %> SEK
+                <%= "#{min_total}-#{max_total}" %> kr/mån
               </td>
             </tr>
           </tfoot>
