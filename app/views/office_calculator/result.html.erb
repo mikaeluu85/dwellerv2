@@ -101,7 +101,11 @@
         <div class="flex flex-col justify-between gap-y-2 bg-gray-50 rounded-lg px-4 py-10">
           <dt class="text-sm font-medium leading-6 text-gray-500">Återkommande tillägg</dt>
           <dd class="text-2xl font-medium leading-10 tracking-tight text-gray-900">
-            <%= "#{@recurring_addons[:total][:min]}-#{@recurring_addons[:total][:max]}" %> kr/mån
+            <% if @recurring_addons[:total][:min] == @recurring_addons[:total][:max] %>
+              <%= @recurring_addons[:total][:min] %> kr/mån
+            <% else %>
+              <%= "#{@recurring_addons[:total][:min]}-#{@recurring_addons[:total][:max]}" %> kr/mån
+            <% end %>
           </dd>
         </div>
         
