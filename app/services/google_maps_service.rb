@@ -31,6 +31,27 @@ class GoogleMapsService
     map_hash
   end
 
+  def self.generate_static_map_url(location)
+    center = calculate_center(location.geojson['coordinates'][0][0])
+    
+    params = {
+      center: "#{center[:lat]},#{center[:lng]}",
+      zoom: 13,
+      size: "600x300",
+      maptype: "roadmap",
+      key: ENV['GOOGLE_MAPS_API_KEY']
+    }
+
+    # Add polygon to the map
+    path = location.geojson['coordinates'][0][0].map { |coord| "#{coord[1]},#{coord[0]}" }.join('|')
+    params[:path] = "color:0xFFC602|fillcolor:0xffffea|weight:2|#{path}"
+
+    # Add marker for the center
+    params[:markers] = "color:red|#{center[:lat]},#{center[:lng]}"
+
+    "https://maps.googleapis.com/maps/api/staticmap?#{params.to_query}"
+  end
+
   private
 
   def self.calculate_center(coordinates)

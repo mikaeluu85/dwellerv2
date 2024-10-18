@@ -135,11 +135,14 @@ class OfficeCalculatorController < ApplicationController
             @one_off_costs = calculate_one_off_costs(@steps_data)
             @calculator_config = YAML.load_file(Rails.root.join('config', 'office_calculator_config.yml'))
 
+            # Generate a static map URL
+            @static_map_url = GoogleMapsService.generate_static_map_url(@location)
+
             respond_to do |format|
                 format.pdf do
                     render pdf: "office_calculation_result",
                            template: "office_calculator/result_pdf",
-                           layout: false,
+                           layout: "pdf",
                            page_size: "A4",
                            orientation: "Portrait",
                            margin: { top: 10, bottom: 10, left: 10, right: 10 }

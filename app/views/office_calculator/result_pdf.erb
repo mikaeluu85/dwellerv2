@@ -17,14 +17,16 @@
   </style>
 </head>
 <body>
+  <%= wicked_pdf_image_tag 'dweller_logo.svg', alt: 'Dweller', class: 'logo' %>
   <h1>Kontorskalkyl</h1>
   
   <p>
     Här är din kontorskalkyl baserat på dina uppgifter. Uppgifterna är ett estimat och vi har därför angivit ett spann för storlek och kostnad baserat på behov.
   </p>
 
-  <div class="map-placeholder">
-    [Karta över <%= @location.name %> skulle visas här]
+  <!-- Replace the map placeholder with the actual image -->
+  <div class="map-container">
+    <img src="<%= @static_map_url %>" alt="Karta över <%= @location.name %>" style="width: 100%; max-height: 300px; object-fit: cover;">
   </div>
 
   <div class="summary">
