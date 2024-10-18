@@ -50,6 +50,9 @@ class GoogleMapsService
     params[:path] = "color:0xFFC602|fillcolor:0xffffea|weight:2|#{path}"
 
     # Simplify the styles and fix encoding
+
+    #TODO: Fetch styles from self.map_styles. DRY.
+
     styles = [
       "feature:administrative|element:labels.text.fill|color:0x6195a0",
       "feature:landscape|element:all|color:0xf2f2f2",
@@ -179,14 +182,5 @@ class GoogleMapsService
         stylers: [{ color: "#eaf6f8" }]
       }
     ]
-  end
-
-  def self.generate_static_map_styles
-    map_styles.map do |style|
-      feature = style[:featureType] || "all"
-      element = style[:elementType] || "all"
-      rules = style[:stylers].map { |rule| rule.map { |k, v| "#{k}:#{CGI.escape(v.to_s)}" }.join('%7C') }.join('%7C')
-      "style=feature:#{feature}%7Celement:#{element}%7C#{rules}"
-    end
   end
 end
