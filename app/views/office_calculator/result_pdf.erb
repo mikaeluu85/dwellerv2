@@ -37,8 +37,8 @@
       <tr>
         <th>Estimerad total månadskostnad</th>
         <td>
-          <%= number_to_currency(@bashyra_range[:min] + @electricity_range[:min] + @heat_cooling_range[:min] + @recurring_addons[:total][:min] + @one_off_costs[:monthly], unit: "SEK", precision: 0) %> -
-          <%= number_to_currency(@bashyra_range[:max] + @electricity_range[:max] + @heat_cooling_range[:max] + @recurring_addons[:total][:max] + @one_off_costs[:monthly], unit: "SEK", precision: 0) %>
+          <%= number_to_currency(@bashyra_range[:min] + @electricity_range[:min] + @heat_cooling_range[:min] + @recurring_addons[:total][:min] + @one_off_costs[:monthly], unit: "", precision: 0) %> -
+          <%= number_to_currency(@bashyra_range[:max] + @electricity_range[:max] + @heat_cooling_range[:max] + @recurring_addons[:total][:max] + @one_off_costs[:monthly], unit: "", precision: 0) %> kr/mån
         </td>
       </tr>
     </table>
@@ -68,7 +68,7 @@
     </tr>
     <tr>
       <th>Renoveringsbudget</th>
-      <td><%= number_to_currency(@step_1_data['renovation_budget'], unit: "SEK", precision: 0) %></td>
+      <td><%= number_to_currency(@step_1_data['renovation_budget'], unit: "", precision: 0) %> kr</td>
     </tr>
   </table>
 
@@ -81,22 +81,22 @@
     </tr>
     <tr>
       <td>Bashyra</td>
-      <td><%= number_to_currency(@bashyra_range[:min], unit: "SEK", precision: 0) %>/mån</td>
-      <td><%= number_to_currency(@bashyra_range[:max], unit: "SEK", precision: 0) %>/mån</td>
+      <td><%= number_to_currency(@bashyra_range[:min], unit: "", precision: 0) %> kr/mån</td>
+      <td><%= number_to_currency(@bashyra_range[:max], unit: "", precision: 0) %> kr/mån</td>
     </tr>
     <tr>
       <td>El och Värme/Kyla</td>
-      <td><%= number_to_currency(@electricity_range[:min] + @heat_cooling_range[:min], unit: "SEK", precision: 0) %>/mån</td>
-      <td><%= number_to_currency(@electricity_range[:max] + @heat_cooling_range[:max], unit: "SEK", precision: 0) %>/mån</td>
+      <td><%= number_to_currency(@electricity_range[:min] + @heat_cooling_range[:min], unit: "", precision: 0) %> kr/mån</td>
+      <td><%= number_to_currency(@electricity_range[:max] + @heat_cooling_range[:max], unit: "", precision: 0) %> kr/mån</td>
     </tr>
     <tr>
       <td>Återkommande tillägg</td>
-      <td><%= number_to_currency(@recurring_addons[:total][:min], unit: "SEK", precision: 0) %>/mån</td>
-      <td><%= number_to_currency(@recurring_addons[:total][:max], unit: "SEK", precision: 0) %>/mån</td>
+      <td><%= number_to_currency(@recurring_addons[:total][:min], unit: "", precision: 0) %> kr/mån</td>
+      <td><%= number_to_currency(@recurring_addons[:total][:max], unit: "", precision: 0) %> kr/mån</td>
     </tr>
     <tr>
       <td>Engångskostnader (per månad över 36 månader)</td>
-      <td colspan="2"><%= number_to_currency(@one_off_costs[:monthly], unit: "SEK", precision: 0) %>/mån</td>
+      <td colspan="2"><%= number_to_currency(@one_off_costs[:monthly], unit: "", precision: 0) %> kr/mån</td>
     </tr>
   </table>
 
@@ -106,13 +106,19 @@
   <table>
     <tr>
       <th>Tillägg</th>
-      <th>Kostnad (SEK/mån)</th>
+      <th>Kostnad (kr/mån)</th>
     </tr>
     <% @recurring_addons[:addons].each do |addon, cost| %>
       <% if cost[:min] > 0 || cost[:max] > 0 %>
         <tr>
           <td><%= t("office_calculator.addons.#{addon}") %></td>
-          <td><%= "#{number_to_currency(cost[:min], unit: '', precision: 0)}-#{number_to_currency(cost[:max], unit: '', precision: 0)}" %></td>
+          <td>
+            <% if cost[:min] == cost[:max] %>
+              <%= number_to_currency((cost[:min] / 12.0).round, unit: '', precision: 0) %> kr/mån
+            <% else %>
+              <%= "#{number_to_currency((cost[:min] / 12.0).round, unit: '', precision: 0)}-#{number_to_currency((cost[:max] / 12.0).round, unit: '', precision: 0)}" %> kr/mån
+            <% end %>
+          </td>
         </tr>
       <% end %>
     <% end %>
@@ -129,8 +135,8 @@
       <% if data[:cost] > 0 %>
         <tr>
           <td><%= @calculator_config.dig('calculator_steps', 'step_7', 'additional_services', 'options', item.to_s, 'name') %> (<%= data[:count] %>)</td>
-          <td><%= number_to_currency(data[:cost], unit: "SEK", precision: 0) %></td>
-          <td><%= number_to_currency((data[:cost] / 36.0).round, unit: "SEK", precision: 0) %></td>
+          <td><%= number_to_currency(data[:cost], unit: "", precision: 0) %> kr</td>
+          <td><%= number_to_currency((data[:cost] / 36.0).round, unit: "", precision: 0) %> kr/mån</td>
         </tr>
       <% end %>
     <% end %>
