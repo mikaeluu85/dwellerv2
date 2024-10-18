@@ -118,6 +118,38 @@ class OfficeCalculatorController < ApplicationController
         end
     end
 
+    def result_pdf
+        @office_calculation = OfficeCalculation.find_by(uuid: params[:uuid], email: params[:email])
+        
+        if @office_calculation
+            @location = @office_calculation.location
+            @steps_data = @office_calculation.steps_data
+            @step_1_data = @steps_data['1'] || {}
+            
+            # Perform calculations
+            @total_area = calculate_total_area(@steps_data)
+            @bashyra_range = calculate_bashyra_range(@total_area, @location)
+            @electricity_range = calculate_electricity_range(@total_area)
+            @heat_cooling_range = calculate_heat_cooling_range(@bashyra_range)
+            @recurring_addons = calculate_recurring_addons(@total_area, @steps_data)
+            @one_off_costs = calculate_one_off_costs(@steps_data)
+            @calculator_config = YAML.load_file(Rails.root.join('config', 'office_calculator_config.yml'))
+
+            respond_to do |format|
+                format.pdf do
+                    render pdf: "office_calculation_result",
+                           template: "office_calculator/result_pdf",
+                           layout: false,
+                           page_size: "A4",
+                           orientation: "Portrait",
+                           margin: { top: 10, bottom: 10, left: 10, right: 10 }
+                end
+            end
+        else
+            redirect_to office_calculator_path, alert: 'Beräkningen kunde inte hittas eller e-postadressen matchar inte.'
+        end
+    end
+
     private
 
     def load_calculator_config
