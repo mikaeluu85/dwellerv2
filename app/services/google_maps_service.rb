@@ -36,20 +36,44 @@ class GoogleMapsService
     
     params = {
       center: "#{center[:lat]},#{center[:lng]}",
-      zoom: 13,
-      size: "600x300",
+      zoom: 12,
+      size: "640x400",
+      scale: 2,
       maptype: "roadmap",
       key: ENV['GOOGLE_MAPS_API_KEY']
     }
 
-    # Add polygon to the map
-    path = location.geojson['coordinates'][0][0].map { |coord| "#{coord[1]},#{coord[0]}" }.join('|')
+    # Simplify the polygon path by reducing the number of points
+    coordinates = location.geojson['coordinates'][0][0]
+    simplified_coordinates = coordinates.each_slice(5).map(&:first)
+    path = simplified_coordinates.map { |coord| "#{coord[1]},#{coord[0]}" }.join('|')
     params[:path] = "color:0xFFC602|fillcolor:0xffffea|weight:2|#{path}"
 
-    # Add marker for the center
-    params[:markers] = "color:red|#{center[:lat]},#{center[:lng]}"
+    # Simplify the styles and fix encoding
+    styles = [
+      "feature:administrative|element:labels.text.fill|color:0x6195a0",
+      "feature:landscape|element:all|color:0xf2f2f2",
+      "feature:landscape|element:geometry.fill|color:0xffffff",
+      "feature:poi|element:all|visibility:off",
+      "feature:poi.park|element:geometry.fill|color:0xe6f3d6|visibility:on",
+      "feature:road|element:all|saturation:-100|lightness:45|visibility:simplified",
+      "feature:road.highway|element:all|visibility:simplified",
+      "feature:road.highway|element:geometry.fill|color:0xf4d2c5|visibility:simplified",
+      "feature:road.highway|element:labels.text|color:0x4e4e4e",
+      "feature:road.arterial|element:geometry.fill|color:0xf4f4f4",
+      "feature:road.arterial|element:labels.text.fill|color:0x787878",
+      "feature:road.arterial|element:labels.icon|visibility:off",
+      "feature:transit|element:all|visibility:off",
+      "feature:water|element:all|color:0xeaf6f8|visibility:on",
+      "feature:water|element:geometry.fill|color:0xeaf6f8"
+    ]
 
-    "https://maps.googleapis.com/maps/api/staticmap?#{params.to_query}"
+    # Construct the URL manually to ensure correct encoding
+    base_url = "https://maps.googleapis.com/maps/api/staticmap"
+    query_string = params.to_query
+    style_string = styles.map { |style| "&style=#{style}" }.join
+
+    "#{base_url}?#{query_string}#{style_string}"
   end
 
   private
@@ -155,5 +179,14 @@ class GoogleMapsService
         stylers: [{ color: "#eaf6f8" }]
       }
     ]
+  end
+
+  def self.generate_static_map_styles
+    map_styles.map do |style|
+      feature = style[:featureType] || "all"
+      element = style[:elementType] || "all"
+      rules = style[:stylers].map { |rule| rule.map { |k, v| "#{k}:#{CGI.escape(v.to_s)}" }.join('%7C') }.join('%7C')
+      "style=feature:#{feature}%7Celement:#{element}%7C#{rules}"
+    end
   end
 end

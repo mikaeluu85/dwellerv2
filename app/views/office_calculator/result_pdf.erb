@@ -24,12 +24,7 @@
     Här är din kontorskalkyl baserat på dina uppgifter. Uppgifterna är ett estimat och vi har därför angivit ett spann för storlek och kostnad baserat på behov.
   </p>
 
-  <!-- Replace the map placeholder with the actual image -->
-  <div class="map-container">
-    <img src="<%= @static_map_url %>" alt="Karta över <%= @location.name %>" style="width: 100%; max-height: 300px; object-fit: cover;">
-  </div>
-
-  <div class="summary">
+    <div class="summary">
     <h2>Sammanfattning</h2>
     <table>
       <tr>
@@ -44,6 +39,11 @@
         </td>
       </tr>
     </table>
+  </div>
+
+  <!-- Replace the existing map container with this -->
+  <div class="map-container" style="width: 100%; margin-bottom: 20px;">
+    <img src="<%= @static_map_url %>" alt="Karta över <%= @location.name %>" style="width: 100%; height: auto;">
   </div>
 
   <h2>Företagsdetaljer</h2>

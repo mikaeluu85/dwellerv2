@@ -137,6 +137,7 @@ class OfficeCalculatorController < ApplicationController
 
             # Generate a static map URL
             @static_map_url = GoogleMapsService.generate_static_map_url(@location)
+            Rails.logger.debug "Static Map URL: #{@static_map_url}"
 
             respond_to do |format|
                 format.pdf do
