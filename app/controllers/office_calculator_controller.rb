@@ -96,7 +96,7 @@ class OfficeCalculatorController < ApplicationController
     end
 
     def result
-        @office_calculation = OfficeCalculation.find_by(uuid: params[:uuid], email: params[:email])
+        @office_calculation = OfficeCalculation.find_by(uuid: params[:uuid])
         
         if @office_calculation
             @location = @office_calculation.location
@@ -123,7 +123,7 @@ class OfficeCalculatorController < ApplicationController
     end
 
     def result_pdf
-        @office_calculation = OfficeCalculation.find_by(uuid: params[:uuid], email: params[:email])
+        @office_calculation = OfficeCalculation.find_by(uuid: params[:uuid])
         
         if @office_calculation
             @location = @office_calculation.location

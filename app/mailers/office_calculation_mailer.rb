@@ -3,7 +3,7 @@ class OfficeCalculationMailer < ApplicationMailer
 
   def submission_confirmation(office_calculation)
     @office_calculation = office_calculation
-    @result_url = office_calculator_result_url(uuid: @office_calculation.uuid, email: @office_calculation.email)
+    @result_url = office_calculator_result_url(uuid: @office_calculation.uuid)
     
     mail(
       to: @office_calculation.email,

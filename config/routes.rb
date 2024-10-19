@@ -95,8 +95,8 @@ Rails.application.routes.draw do
   get '/cookies', to: 'fineprint_pages#show', page: 'cookies'
 
   # Office Calculator Routes
-  get 'kontorskalkylatorn/rapport/:uuid/:email', to: 'office_calculator#result', as: 'office_calculator_result', constraints: { email: /[^\/]+/ }
-  get 'kontorskalkylatorn/rapport/:uuid/:email/pdf', to: 'office_calculator#result_pdf', as: 'office_calculator_result_pdf', constraints: { email: /[^\/]+/ }, defaults: { format: :pdf }
+  get 'kontorskalkylatorn/rapport/:uuid', to: 'office_calculator#result', as: 'office_calculator_result'
+  get 'kontorskalkylatorn/rapport/:uuid/pdf', to: 'office_calculator#result_pdf', as: 'office_calculator_result_pdf', defaults: { format: :pdf }
   get 'kontorskalkylatorn', to: 'office_calculator#index', as: :office_calculator
   post 'kontorskalkylatorn/start', to: 'office_calculator#start', as: :start_office_calculator
   post 'kontorskalkylatorn/next_step', to: 'office_calculator#next_step', as: :office_calculator_next_step
