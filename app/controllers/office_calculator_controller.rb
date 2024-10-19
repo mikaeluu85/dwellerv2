@@ -80,6 +80,10 @@ class OfficeCalculatorController < ApplicationController
 
         if @office_calculation.save
             Rails.cache.delete(@cache_key)
+            
+            # Send confirmation email
+            OfficeCalculationMailer.submission_confirmation(@office_calculation).deliver_later
+            
             render turbo_stream: turbo_stream.replace("calculator_content", partial: 'success', locals: { office_calculation: @office_calculation })
         else
             Rails.logger.error "Validation failed: #{@office_calculation.errors.full_messages.join(', ')}"
