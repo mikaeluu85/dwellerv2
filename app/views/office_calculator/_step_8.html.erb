@@ -1,0 +1,110 @@
+<% if flash[:alert] %>
+  <div class="alert alert-danger">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
+
+<%= turbo_frame_tag "calculator_content" do %>
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-16 justify-center">
+    <div class="lg:col-span-4">
+      <div class="sticky top-8">
+        <div class="mb-4">
+          <label class="block text-md font-medium leading-6 text-gray-900">Steg <%= @current_step %> av 8</label>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-4"><%= @questions['headline'] %></h2>
+        <p class="text-md text-gray-600"><%= @questions['description'] %></p>
+      </div>
+    </div>
+
+    <div class="lg:col-span-8">
+      <%= form_with model: @calculation, url: office_calculator_submit_path, method: :post, data: { 
+        turbo_frame: "calculator_content", 
+        controller: "office-calculator" 
+      }, class: "space-y-8" do |form| %>
+        <% @questions.except('headline', 'description').each do |field, data| %>
+          <div class="mb-6">
+            <label for="calculator_<%= @current_step %>_<%= field %>" class="block text-lg font-medium text-gray-700 mb-4">
+              <%= data['question'] %>
+            </label>
+            <div class="relative mt-2 rounded-md">
+              <% if field == 'contact_form' %>
+                <% data['fields'].each do |sub_field, sub_data| %>
+                  <div class="mb-4">
+                    <label for="calculator_<%= @current_step %>_contact_form_<%= sub_field %>" class="block text-sm font-medium leading-6 text-gray-900">
+                      <%= sub_data['name'] %>
+                    </label>
+                    <div class="relative mt-2 rounded-md <%= sub_data['input_type'] == 'checkbox' ? '' : 'shadow-sm' %>">
+                      <% case sub_data['input_type'] %>
+                      <% when 'text', 'email', 'tel' %>
+                        <%= form.text_field "contact_form_#{sub_field}", 
+                          value: cached_data["calculator_#{@current_step}_contact_form_#{sub_field}"],
+                          placeholder: sub_data['placeholder'],
+                          required: sub_data['required'],
+                          class: "block w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6",
+                          data: {
+                            action: "blur->office-calculator#validateField",
+                            office_calculator_target: "input"
+                          } %>
+                      <% when 'checkbox' %>
+                        <%= form.check_box "contact_form_#{sub_field}", 
+                          checked: cached_data["calculator_#{@current_step}_contact_form_#{sub_field}"] == "1",
+                          required: sub_data['required'], 
+                          class: "h-4 w-4 rounded border-gray-300 text-primary-500 focus:ring-primary",
+                          data: {
+                            action: "change->office-calculator#validateField",
+                            office_calculator_target: "input"
+                          } %>
+                        <%= form.label "contact_form_#{sub_field}", sub_data['name'], class: "ml-2 text-sm text-gray-900" %>
+                      <% end %>
+                      <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                        <svg class="h-5 w-5 text-red-500 hidden" data-office-calculator-target="errorIcon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" />
+                        </svg>
+                      </div>
+                    </div>
+                    <p class="mt-2 hidden text-sm text-red-600" data-office-calculator-target="errorMessage"></p>
+                  </div>
+                <% end %>
+              <% else %>
+                <% case data['input_type'] %>
+                <% when 'number' %>
+                  <%= form.number_field "calculator_#{@current_step}_#{field}", 
+                    value: cached_data["calculator_#{@current_step}_#{field}"],
+                    placeholder: data['placeholder'], 
+                    class: "block w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6",
+                    required: true,
+                    data: {
+                      action: "blur->office-calculator#validateField",
+                      office_calculator_target: "input"
+                    } %>
+                <% when 'text' %>
+                  <%= form.text_field "calculator_#{@current_step}_#{field}", 
+                    value: cached_data["calculator_#{@current_step}_#{field}"],
+                    placeholder: data['placeholder'], 
+                    class: "block w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6",
+                    required: true,
+                    data: {
+                      action: "blur->office-calculator#validateField",
+                      office_calculator_target: "input"
+                    } %>
+                <% end %>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                  <svg class="h-5 w-5 text-red-500 hidden" data-office-calculator-target="errorIcon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+              <% end %>
+            </div>
+            <p class="mt-2 hidden text-sm text-red-600" data-office-calculator-target="errorMessage"></p>
+          </div>
+        <% end %>
+
+        <%= form.hidden_field :current_step, value: @current_step %>
+        <div class="mt-6 flex items-center justify-between">
+          <%= link_to "Gå tillbaka", office_calculator_previous_step_path(step: @current_step - 1), class: "back-button", data: { turbo_frame: "calculator_content" } %>
+          <%= form.submit "Skicka min rapport", class: "primary-button w-auto", data: { action: "click->office-calculator#validateForm" } %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

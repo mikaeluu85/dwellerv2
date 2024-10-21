@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>Kontorskalkyl</title>
+  <style>
+    body { font-family: Arial, sans-serif; font-size: 12px; line-height: 1.5; color: #333; }
+    h1 { color: #333; font-size: 24px; margin-bottom: 20px; }
+    h2 { color: #666; font-size: 18px; margin-top: 30px; margin-bottom: 15px; }
+    h3 { color: #666; font-size: 16px; margin-top: 20px; margin-bottom: 10px; }
+    p { margin-bottom: 10px; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; font-weight: bold; }
+    .summary { background-color: #f9f9f9; padding: 15px; margin-bottom: 20px; }
+    .map-placeholder { width: 100%; height: 200px; background-color: #eee; text-align: center; line-height: 200px; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Kontorskalkyl</h1>
+  
+  <p>
+    Här är din kontorskalkyl baserat på dina uppgifter. Uppgifterna är ett estimat och vi har därför angivit ett spann för storlek och kostnad baserat på behov.
+  </p>
+
+    <div class="summary">
+    <h2>Sammanfattning</h2>
+    <table>
+      <tr>
+        <th>Estimerad total yta</th>
+        <td><%= "#{@total_area[:min]}-#{@total_area[:max]}" %> m²</td>
+      </tr>
+      <tr>
+        <th>Estimerad total månadskostnad</th>
+        <td>
+          <%= number_to_currency(@bashyra_range[:min] + @electricity_range[:min] + @heat_cooling_range[:min] + @recurring_addons[:total][:min] + @one_off_costs[:monthly], unit: "", precision: 0) %> -
+          <%= number_to_currency(@bashyra_range[:max] + @electricity_range[:max] + @heat_cooling_range[:max] + @recurring_addons[:total][:max] + @one_off_costs[:monthly], unit: "", precision: 0) %> kr/mån
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Replace the existing map container with this -->
+  <div class="map-container" style="width: 100%; margin-bottom: 20px;">
+    <img src="<%= @static_map_url %>" alt="Karta över <%= @location.name %>" style="width: 100%; height: auto;">
+  </div>
+
+  <h2>Företagsdetaljer</h2>
+  <table>
+    <tr>
+      <th>Antal anställda</th>
+      <td><%= @step_1_data['current_employees'] %></td>
+    </tr>
+    <tr>
+      <th>Framtida anställda</th>
+      <td><%= @step_1_data['future_employees'] %></td>
+    </tr>
+    <tr>
+      <th>Önskat område</th>
+      <td><%= @location.name %></td>
+    </tr>
+    <tr>
+      <th>Storlekspreferens</th>
+      <td><%= @steps_data.dig('1', 'office_space_preference') %></td>
+    </tr>
+    <tr>
+      <th>Hybridarbete</th>
+      <td><%= @step_1_data['hybrid_work'] == 'Ja' ? 'Ja' : 'Nej' %></td>
+    </tr>
+    <tr>
+      <th>Renoveringsbudget</th>
+      <td><%= number_to_currency(@step_1_data['renovation_budget'], unit: "", precision: 0) %> kr</td>
+    </tr>
+  </table>
+
+  <h2>Kostnadsfördelning</h2>
+  <table>
+    <tr>
+      <th>Kostnad</th>
+      <th>Min</th>
+      <th>Max</th>
+    </tr>
+    <tr>
+      <td>Bashyra</td>
+      <td><%= number_to_currency(@bashyra_range[:min], unit: "", precision: 0) %> kr/mån</td>
+      <td><%= number_to_currency(@bashyra_range[:max], unit: "", precision: 0) %> kr/mån</td>
+    </tr>
+    <tr>
+      <td>El och Värme/Kyla</td>
+      <td><%= number_to_currency(@electricity_range[:min] + @heat_cooling_range[:min], unit: "", precision: 0) %> kr/mån</td>
+      <td><%= number_to_currency(@electricity_range[:max] + @heat_cooling_range[:max], unit: "", precision: 0) %> kr/mån</td>
+    </tr>
+    <tr>
+      <td>Återkommande tillägg</td>
+      <td><%= number_to_currency(@recurring_addons[:total][:min], unit: "", precision: 0) %> kr/mån</td>
+      <td><%= number_to_currency(@recurring_addons[:total][:max], unit: "", precision: 0) %> kr/mån</td>
+    </tr>
+    <tr>
+      <td>Engångskostnader (per månad över 36 månader)</td>
+      <td colspan="2"><%= number_to_currency(@one_off_costs[:monthly], unit: "", precision: 0) %> kr/mån</td>
+    </tr>
+  </table>
+
+  <h2>Detaljerad kostnadsöversikt</h2>
+  
+  <h3>Återkommande tillägg</h3>
+  <table>
+    <tr>
+      <th>Tillägg</th>
+      <th>Kostnad (kr/mån)</th>
+    </tr>
+    <% @recurring_addons[:addons].each do |addon, cost| %>
+      <% if cost[:min] > 0 || cost[:max] > 0 %>
+        <tr>
+          <td><%= t("office_calculator.addons.#{addon}") %></td>
+          <td>
+            <% if cost[:min] == cost[:max] %>
+              <%= number_to_currency((cost[:min] / 12.0).round, unit: '', precision: 0) %> kr/mån
+            <% else %>
+              <%= "#{number_to_currency((cost[:min] / 12.0).round, unit: '', precision: 0)}-#{number_to_currency((cost[:max] / 12.0).round, unit: '', precision: 0)}" %> kr/mån
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
+
+  <h3>Engångskostnader</h3>
+  <table>
+    <tr>
+      <th>Kostnad</th>
+      <th>Pris</th>
+      <th>Per månad (36 mån)</th>
+    </tr>
+    <% @one_off_costs[:costs].each do |item, data| %>
+      <% if data[:cost] > 0 %>
+        <tr>
+          <td><%= @calculator_config.dig('calculator_steps', 'step_7', 'additional_services', 'options', item.to_s, 'name') %> (<%= data[:count] %>)</td>
+          <td><%= number_to_currency(data[:cost], unit: "", precision: 0) %> kr</td>
+          <td><%= number_to_currency((data[:cost] / 36.0).round, unit: "", precision: 0) %> kr/mån</td>
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
+</body>
+</html>

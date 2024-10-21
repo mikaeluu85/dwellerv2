@@ -1,0 +1,291 @@
+constants:
+  hybrid_multiple: 0.6
+  small_size_multiple: 0.9
+  normal_size_multiple: 1
+  large_size_multiple: 1.15
+  va_tax_sqm_price: 0.12
+  electricity_sqm_price: 50
+
+calculator_steps:
+  step_1:
+    headline: "Grundläggande information"
+    description: "Låt oss börja med några grundläggande frågor om ditt företag och dina kontorsbehov."
+
+    current_employees:
+      question: "Hur många anställda är ni idag i ert företag som beräknas använda sig av kontoret?"
+      description: "The user is asked how many employees currently work at the company and will use the office."
+      input_type: "number"
+      placeholder: "Antal anställda idag"
+      required: true
+
+    future_employees:
+      question: "Hur många anställda beräknas ni vara om 3 år?"
+      description: "The user is asked to estimate how many employees they expect to have in 3 years."
+      input_type: "number"
+      placeholder: "Antal anställda om 3 år"
+      required: true
+
+    hybrid_work:
+      question: "Vill ni i eller jobbar ert företag redan i en hybridlösning?"
+      description: "The user is asked if they want to or already work in a hybrid solution."
+      input_type: "button"
+      required: true
+      options:
+        - "Ja"
+        - "Nej"
+
+    office_space_preference:
+      question: "Hur ser ni generellt på ert kontor och yta per person?"
+      description: "The user is asked about their general view on office space per person."
+      input_type: "dropdown"
+      required: true
+      options:
+        - name: "Mindre yta än normal"
+        - name: "Normal mängd yta"
+        - name: "Extra mängd yta"
+
+    renovation_budget:
+      question: "Hur stor budget finns det för renovering och egna anpassningar utöver hyreskostnad?"
+      description: "The user is asked about their budget for renovation and customizations beyond the rental cost."
+      input_type: "number"
+      placeholder: "Tillgänglig budget (kr)"
+      input_mode: "numeric"
+      required: false
+
+  step_2:
+    headline: "Arbetsplatser"
+    description: "Okej, då ska vi se vad ni tror om antalet arbetsplatser och kontorsrum."
+
+    open_plan_workspaces:
+      question: "Hur många individuella arbetsplatser i öppet landskap vill ni ha?"
+      description: "The user is asked how many individual workplaces in an open-plan layout the company wants."
+      input_type: "number"
+      placeholder: "Antal"
+      room_size: 12
+      seat_count: 1
+
+    private_offices:
+      question: "Hur många privata kontor vill ni ha?"
+      description: "The user is asked how many private offices the company wants."
+      options:
+        executive_room:
+          name: "Exekutivt rum, 1 person"
+          input_type: "number"
+          room_size: 15
+          seat_count: 1
+        standard_room:
+          name: "Standardrum, 1 person"
+          input_type: "number"
+          room_size: 10
+          seat_count: 1
+        small_team_room:
+          name: "För mindre team, 3-6 personer"
+          input_type: "number"
+          room_size: 30
+          seat_count: 6
+        meeting_capable_room:
+          name: "För 1 person med mötesmöjligheter"
+          input_type: "number"
+          room_size: 15
+          seat_count: 1
+  step_3:
+    headline: "Reception"
+    description: "Är ni i behov av någon typ av reception?"
+
+    reception:
+      question: "Vad för reception vill ni ha?"
+      description: "The user is asked what type of reception the company wants."
+      options:
+        simple_desk:
+          name: "Enkel reception med skrivbord"
+          input_type: "number"
+          room_size: 5
+        small_reception:
+          name: "Mindre reception, upp till 4 personer"
+          input_type: "number"
+          room_size: 10
+        large_reception:
+          name: "Större reception, upp till 8 personer"
+          input_type: "number"
+          room_size: 25
+        waiting_room:
+          name: "Väntrum, 5-10 personer"
+          input_type: "number"
+          room_size: 15
+        custom_lounge:
+          name: "Lounge, 5-10 personer"
+          input_type: "number"
+          room_size: 25
+
+  step_4:
+    headline: "Mötesrum"
+    description: "Hur många och hur stora mötesrum behover ni?"
+
+    meeting_spaces:
+      question: "Vad för typ av mötesytor söker ni?"
+      description: "The user is asked what types of meeting spaces the company is looking for."
+      options:
+        phone_booth:
+          name: "Telefonbås för 1-2 personer"
+          input_type: "number"
+          room_size: 2
+        meeting_room_4:
+          name: "Mötesrum för 4 personer"
+          input_type: "number"
+          room_size: 12
+        meeting_room_6:
+          name: "Mötesrum för 6 personer"
+          input_type: "number"
+          room_size: 15
+        meeting_room_8:
+          name: "Mötesrum för 8 personer"
+          input_type: "number"
+          room_size: 24
+        meeting_room_10_12:
+          name: "Mötesrum för 10-12 personer"
+          input_type: "number"
+          room_size: 40
+        meeting_room_16_plus:
+          name: "Mötesrum för 16 personer eller mer"
+          input_type: "number"
+          room_size: 40
+        meeting_room_20_plus:
+          name: "Mötesrum för 20 personer eller mer"
+          input_type: "number"
+          room_size: 60
+
+  step_5:
+    headline: "Gemensamma ytor"
+    description: "Vilka gemensamma ytor önskar ni?"
+
+    common_spaces:
+      question: "Vad för typ av gemensamma ytor önskar ni?"
+      description: "The user is asked what types of shared common spaces the company is looking for."
+      options:
+        small_pantry:
+          name: "Ett mindre pentry, 3-6 personer"
+          input_type: "number"
+          room_size: 12
+        large_pantry:
+          name: "Ett större pentry, upp till 10 personer"
+          input_type: "number"
+          room_size: 24
+        small_lounge:
+          name: "Mindre loungeyta/breakout, 10-20 personer"
+          input_type: "number"
+          room_size: 25
+        large_lounge:
+          name: "Större loungeyta/breakout, 20-40 personer"
+          input_type: "number"
+          room_size: 50
+        full_kitchen:
+          name: "Fullständigt kök"
+          input_type: "number"
+          room_size: 50
+        small_dining:
+          name: "Mindre matsal, upp till 20 personer"
+          input_type: "number"
+          room_size: 30
+        large_dining:
+          name: "Större matsal, upp till 40 personer"
+          input_type: "number"
+          room_size: 60
+
+  step_6:
+    headline: "Övriga ytor"
+    description: "Vilka övriga ytor önskar ni i ert kontor?"
+
+    miscellaneous_spaces:
+      question: "Vad för typ av övriga ytor önskar ni?"
+      description: "The user is asked what types of other miscellaneous spaces the company is looking for."
+      options:
+        small_server_room:
+          name: "Mindre serverrum"
+          input_type: "number"
+          room_size: 10
+        large_server_room:
+          name: "Större serverrum"
+          input_type: "number"
+          room_size: 25
+        printer_room:
+          name: "Printer-, kopiator- och faxrum"
+          input_type: "number"
+          room_size: 10
+        small_storage:
+          name: "Mindre förvaringsrum"
+          input_type: "number"
+          room_size: 5
+        large_storage:
+          name: "Större förvarningsrum"
+          input_type: "number"
+          room_size: 15
+
+  step_7:
+    headline: "Andra bekvämligheter"
+    description: "Se och beräkna pris på några vanliga bekvämligheter att inkludera."
+
+    additional_services:
+      question: "Finns det några vanliga tillägg som ni önskar till lokalen?"
+      description: "The user is asked if there are any common additional items or services the company would like included in the office space."
+      input_type: "checkbox"
+      options:
+        office_insurance:
+          name: "Lokalförsäkring"
+          per_sqm_cost: 50
+        waste_management:
+          name: "Sophantering, en gång i veckan"
+          per_person_cost: 150
+        premises_alarm:
+          name: "Larm för lokalen"
+          per_month_cost: 600
+        desks:
+          name: "Skrivbord, för 1 personer"
+          one_off_cost: 3000
+        work_chairs:
+          name: "Arbetsstolar för 1 personer"
+          one_off_cost: 2000
+        printer:
+          name: "Skrivare"
+          per_month_cost: 1500
+        cleaning:
+          name: "Städning, 2 gånger i veckan"
+          per_person_cost: 200
+        internet_connection:
+          name: "Internetanslutning"
+          per_month_cost: 1000
+        coffee_machine_rental:
+          name: "Hyra av kaffemaskin"
+          per_month_cost: 1500
+
+  step_8:
+    headline: "Nästan klart!"
+    description: "Din rapport är färdig. Lämna dina uppgifter så mailar vi din sparade rapport direkt till din inbox."
+
+    contact_form:
+      questions: "Kontaktinformation"
+      description: "The user is asked to provide their contact information."
+      fields:
+        first_name:
+          name: "Förnamn"
+          input_type: "text"
+          required: true
+        last_name:
+          name: "Efternamn"
+          input_type: "text"
+          required: true
+        company:
+          name: "Företag"
+          input_type: "text"
+          required: true
+        email:
+          name: "E-post"
+          input_type: "email"
+          required: true
+        phone:
+          name: "Telefon"
+          input_type: "tel"
+          required: true
+        terms_acceptance:
+          name: "Jag godkänner allmänna villkor och integritetspolicy"
+          input_type: "checkbox"
+          required: true

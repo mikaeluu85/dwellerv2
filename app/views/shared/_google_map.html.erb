@@ -1,0 +1,26 @@
+<div id="map" class="w-full h-48 sm:h-full"></div>
+
+<%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLE_MAPS_API_KEY']}" %>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const mapElement = document.getElementById('map');
+    const mapOptions = <%= raw map.to_json %>;
+    const map = new google.maps.Map(mapElement, mapOptions.map_options);
+
+    // Add polygons
+    mapOptions.polygons.forEach(polygonOptions => {
+      new google.maps.Polygon({
+        ...polygonOptions,
+        map: map
+      });
+    });
+
+    // Add markers
+    mapOptions.markers.forEach(markerOptions => {
+      new google.maps.Marker({
+        ...markerOptions,
+        map: map
+      });
+    });
+  });
+</script>

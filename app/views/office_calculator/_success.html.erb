@@ -1,0 +1,10 @@
+<%= turbo_frame_tag "calculator_content" do %>
+<div class="my-24">
+  <div class="text-center">
+    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-6">Tack, <%= office_calculation.first_name %>!</h2>
+    <p class="text-lg text-gray-600 mb-6">Swish! Din rapport är på väg till din inbox.</p>
+    <p class="text-lg text-gray-600 mb-6">Kika i din inbox för att hitta din rapport med en unik länk för din rapport. Tveka inte höra av dig om du har några frågor om om din kalkyl.</p>
+    <%= link_to "Till startsidan", root_path, class: "primary-button" %>  
+  </div>
+</div>
+<% end %>

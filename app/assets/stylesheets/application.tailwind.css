@@ -4,11 +4,15 @@
 
 @layer components {
   .secondary-button {
-    @apply lg:w-1/2 w-full rounded-full bg-white px-3.5 py-2.5 tracking-wide text-center text-sm uppercase font-medium text-custom-black shadow-sm border border-light-grey hover:bg-black hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
+    @apply lg:w-1/2 w-full rounded-full bg-white px-3.5 py-2.5 tracking-wide text-center text-sm text-custom-black shadow-sm border border-light-grey hover:bg-black hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
   }
 
   .primary-button {
-    @apply lg:w-1/2 w-full rounded-full bg-primary px-3.5 py-2.5 tracking-wide text-center text-sm uppercase font-medium text-custom-black shadow-sm hover:bg-primary-30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
+    @apply lg:w-1/2 w-full rounded-full bg-primary px-3.5 py-2.5 tracking-wide text-center text-sm text-custom-black shadow-sm hover:bg-primary-30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
+  }
+
+  .back-button {
+    @apply px-4 py-2 text-sm text-center text-custom-black tracking-wide bg-gray-200 rounded-full hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500;
   }
 
   .primary-button:disabled {

@@ -18,4 +18,9 @@ module ApplicationHelper
     sanitized = sanitize(markdown.render(text), tags: %w(p br strong em a h1 h2 h3 h4 h5 h6 ul ol li img blockquote pre code), attributes: %w(href src alt title))
     sanitized.html_safe
   end
+
+  def get_calculator_cache_data
+    cache_key = "office_calculator_#{session[:calculator_id]}"
+    Rails.cache.fetch(cache_key) || {}
+  end
 end

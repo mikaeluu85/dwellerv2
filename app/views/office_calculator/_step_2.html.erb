@@ -1,0 +1,94 @@
+<%= turbo_frame_tag "calculator_content" do %>
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-16 justify-center">
+    <div class="lg:col-span-4">
+      <div class="sticky top-8">
+        <div class="mb-4">
+          <label class="block text-md font-medium leading-6 text-gray-900">Steg <%= @current_step %> av 8</label>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-4"><%= @questions['headline'] %></h2>
+        <p class="text-md text-gray-600"><%= @questions['description'] %></p>
+      </div>
+    </div>
+
+    <div class="lg:col-span-8">
+      <%= form_with url: office_calculator_next_step_path, method: :post, data: { 
+        controller: "office-calculator", 
+        office_calculator_current_employees_value: cached_data["calculator_1_current_employees"].to_i,
+        office_calculator_current_step_value: @current_step
+      }, class: "space-y-8" do |form| %>
+        <% if @questions.present? %>
+          <% @questions.each do |field, data| %>
+            <div class="mb-6">
+              <label class="block text-lg font-medium text-gray-700 mb-4"><%= data['question'] %></label>
+
+              <% if data['options'].is_a?(Hash) %>
+                <% data['options'].each do |option_key, option_data| %>
+                  <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1"><%= option_data['name'] %></label>
+                    <% case option_data['input_type'] %>
+                    <% when 'number' %>
+                      <%= form.number_field "calculator_#{@current_step}_#{field}_#{option_key}",
+                                            value: cached_data["calculator_#{@current_step}_#{field}_#{option_key}"],
+                                            placeholder: "Antal",
+                                            data: { 
+                                              seat_count: option_data['seat_count'],
+                                              action: "input->office-calculator#updateSeatCount"
+                                            },
+                                            class: "block w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6" %>
+                    <% when 'text' %>
+                      <%= form.text_field "calculator_#{@current_step}_#{field}_#{option_key}",
+                                          value: cached_data["calculator_#{@current_step}_#{field}_#{option_key}"],
+                                          class: "lock w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6" %>
+                    <% end %>
+                  </div>
+                <% end %>
+              <% else %>
+                <% case data['input_type'] %>
+                <% when 'number' %>
+                  <%= form.number_field "calculator_#{@current_step}_#{field}",
+                                        value: cached_data["calculator_#{@current_step}_#{field}"],
+                                        placeholder: data['placeholder'],
+                                        data: { 
+                                          seat_count: data['seat_count'],
+                                          action: "input->office-calculator#updateSeatCount"
+                                        },
+                                        class: "block w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6" %>
+                <% when 'text' %>
+                  <%= form.text_field "calculator_#{@current_step}_#{field}",
+                                      value: cached_data["calculator_#{@current_step}_#{field}"],
+                                      placeholder: data['placeholder'],
+                                      class: "lock w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6" %>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        <% else %>
+          <p class="text-red-500">No questions available for this step.</p>
+        <% end %>
+
+        <%= form.hidden_field :current_step, value: @current_step %>
+        
+        <div class="mt-4 flex justify-between items-center">
+          <% if @current_step > 1 %>
+            <%= link_to "Gå tillbaka", office_calculator_previous_step_path(step: @current_step - 1), class: "back-button", data: { turbo_frame: "calculator_content" } %>
+          <% end %>
+          <div class="flex items-center space-x-4">
+            <div class="flex items-center space-x-2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-gray-500">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+              </svg>
+              <p data-office-calculator-target="seatCounter" class="text-sm text-gray-500"></p>
+            </div>
+            <%= form.submit "Nästa", 
+                            class: "primary-button w-auto", 
+                            data: { 
+                              office_calculator_target: "nextButton",
+                              action: "office-calculator#nextStep"
+                            },
+                            disabled: true %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

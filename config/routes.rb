@@ -94,6 +94,15 @@ Rails.application.routes.draw do
   get '/anvandarvillkor', to: 'fineprint_pages#show', page: 'anvandarvillkor'
   get '/cookies', to: 'fineprint_pages#show', page: 'cookies'
 
+  # Office Calculator Routes
+  get 'kontorskalkylatorn/rapport/:uuid', to: 'office_calculator#result', as: 'office_calculator_result'
+  get 'kontorskalkylatorn/rapport/:uuid/pdf', to: 'office_calculator#result_pdf', as: 'office_calculator_result_pdf', defaults: { format: :pdf }
+  get 'kontorskalkylatorn', to: 'office_calculator#index', as: :office_calculator
+  post 'kontorskalkylatorn/start', to: 'office_calculator#start', as: :start_office_calculator
+  post 'kontorskalkylatorn/next_step', to: 'office_calculator#next_step', as: :office_calculator_next_step
+  get 'kontorskalkylatorn/previous_step', to: 'office_calculator#previous_step', as: :office_calculator_previous_step
+  post 'kontorskalkylatorn/submit', to: 'office_calculator#submit', as: :office_calculator_submit  
+
   # Define routes for error handling
   get '404', to: 'errors#not_found', as: :not_found
   get '500', to: 'errors#internal_server_error', as: :internal_server_error
@@ -105,4 +114,7 @@ Rails.application.routes.draw do
       req.path.exclude?('rails/action_mailbox') &&
       !req.xhr? && req.format.html?
     }
+
+  # Add route for previous step
+  
 end

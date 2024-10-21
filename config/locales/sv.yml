@@ -1,3 +1,10 @@
-   sv:
-     hello: "Hej världen"
-     # Add other Swedish translations as needed
+sv:
+  office_calculator:
+    addons:
+      office_insurance: "Lokalförsäkring"
+      waste_management: "Sophantering"
+      premises_alarm: "Larm för lokalen"
+      printer: "Skrivare"
+      cleaning: "Städning"
+      internet_connection: "Internetanslutning"
+      coffee_machine_rental: "Hyra av kaffemaskin"

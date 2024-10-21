@@ -1,6 +1,6 @@
 ActiveAdmin.register Location do
   menu parent: 'Geo', priority: 2
-  permit_params :name, :geojson, :prioritized, :preposition
+  permit_params :name, :geojson, :prioritized, :preposition, :bashyra
 
   controller do
     def find_resource
@@ -39,6 +39,7 @@ ActiveAdmin.register Location do
     column :geojson
     column :prioritized
     column :preposition
+    column :bashyra
     actions
   end
 
@@ -48,6 +49,7 @@ ActiveAdmin.register Location do
       f.input :geojson, as: :text, input_html: { rows: 10 }, hint: 'Paste valid GeoJSON data here'
       f.input :prioritized, as: :boolean
       f.input :preposition, as: :select, collection: [['i', 'i'], ['på', 'på']], include_blank: true
+      f.input :bashyra
     end
     f.actions
   end
@@ -60,6 +62,7 @@ ActiveAdmin.register Location do
       row :geojson
       row :prioritized
       row :preposition
+      row :bashyra
       row :created_at
       row :updated_at
     end
@@ -71,4 +74,5 @@ ActiveAdmin.register Location do
   filter :updated_at
   filter :prioritized
   filter :preposition
+  filter :bashyra
 end

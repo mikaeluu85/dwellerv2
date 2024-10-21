@@ -1,0 +1,122 @@
+<%= turbo_frame_tag "calculator_content" do %>
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-16 justify-center">
+    <div class="lg:col-span-4">
+      <div class="sticky top-8">
+        <div class="mb-4">
+          <label class="block text-md font-medium leading-6 text-gray-900">Steg <%= @current_step %> av 8</label>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-4"><%= @questions['headline'] %></h2>
+        <p class="text-md text-gray-600"><%= @questions['description'] %></p>
+      </div>
+    </div>
+
+    <div class="lg:col-span-8">
+      <%= form_with url: office_calculator_next_step_path, method: :post, data: { 
+        turbo_frame: "calculator_content", 
+        controller: "office-calculator form-validation" 
+      }, class: "space-y-8" do |form| %>
+        <% @questions.except('headline', 'description').each do |field, data| %>
+          <div class="mb-4">
+            <label for="calculator_<%= @current_step %>_<%= field %>" class="block text-sm font-medium leading-6 text-gray-900"><%= data['question'] %></label>
+            <div class="relative mt-2 <%= data['input_type'] != 'button' ? 'rounded-md shadow-sm' : '' %>">
+              <% case data['input_type'] %>
+              <% when 'button' %>
+                <div class="flex flex-wrap items-center space-x-6">
+                  <% data['options'].each do |option| %>
+                    <div class="flex items-center mb-2">
+                      <%= form.radio_button "calculator_#{@current_step}_#{field}", option, 
+                          checked: (cached_data["calculator_#{@current_step}_#{field}"] == option), 
+                          class: "h-4 w-4 border-gray-300 text-primary-500 focus:ring-primary",
+                          required: true,
+                          data: {
+                            action: "change->office-calculator#validateField",
+                            office_calculator_target: "input"
+                          } %>
+                      <%= form.label "calculator_#{@current_step}_#{field}_#{option.downcase}", option, 
+                          class: "ml-2 text-sm font-medium leading-6 text-gray-900" %>
+                    </div>
+                  <% end %>
+                </div>
+              <% when 'number' %>
+                <%= form.number_field "calculator_#{@current_step}_#{field}", 
+                    value: cached_data["calculator_#{@current_step}_#{field}"], 
+                    placeholder: data['placeholder'], 
+                    class: "block w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6",
+                    required: true,
+                    data: {
+                      action: "blur->office-calculator#validateField",
+                      office_calculator_target: "input"
+                    } %>
+              <% when 'dropdown' %>
+                <%= form.select "calculator_#{@current_step}_#{field}", 
+                    options_for_select(data['options'].map { |o| o.is_a?(Hash) ? o['name'] : o }, cached_data["calculator_#{@current_step}_#{field}"]), 
+                    { prompt: "Välj din preferens" }, 
+                    class: "block w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6",
+                    required: true,
+                    data: {
+                      action: "change->office-calculator#validateField",
+                      office_calculator_target: "input"
+                    } %>
+              <% else %>
+                <%= form.text_field "calculator_#{@current_step}_#{field}", 
+                    value: cached_data["calculator_#{@current_step}_#{field}"], 
+                    placeholder: data['placeholder'], 
+                    class: "block w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6",
+                    required: true,
+                    data: {
+                      action: "blur->office-calculator#validateField",
+                      office_calculator_target: "input"
+                    } %>
+              <% end %>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                <% if data['input_type'] == 'dropdown' %>
+                  <svg class="h-5 w-5 text-gray-400" data-office-calculator-target="dropdownIcon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                  </svg>
+                <% end %>
+                <svg class="h-5 w-5 text-red-500 hidden" data-office-calculator-target="errorIcon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" />
+                </svg>
+              </div>
+            </div>
+            <p class="mt-2 hidden text-sm text-red-600" data-office-calculator-target="errorMessage"></p>
+          </div>
+        <% end %>
+
+        <!-- Location Selection -->
+        <div class="sm:col-span-4">
+          <label for="calculator_location_id" class="block text-sm font-medium leading-6 text-gray-900">Välj önskad plats</label>
+          <p class="mt-1 text-sm leading-6 text-gray-600">Välj den plats där du vill ha ditt kontor.</p>
+          <div class="relative mt-2">
+            <%= form.select :calculator_location_id, 
+                options_from_collection_for_select(@active_locations, :id, :name, cached_data["calculator_location_id"]), 
+                { prompt: "Välj en plats" }, 
+                class: "block w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6",
+                required: true,
+                data: {
+                  action: "change->office-calculator#validateField",
+                  office_calculator_target: "input"
+                } %>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+              <svg class="h-5 w-5 text-gray-400" data-office-calculator-target="dropdownIcon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+              </svg>
+              <svg class="h-5 w-5 text-red-500 hidden" data-office-calculator-target="errorIcon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" />
+              </svg>
+            </div>
+          </div>
+          <p class="mt-2 hidden text-sm text-red-600" data-office-calculator-target="errorMessage"></p>
+        </div>
+
+        <%= form.hidden_field :current_step, value: @current_step %>
+        
+        <div class="mt-6 flex items-center justify-end gap-x-6">
+          <%= form.submit "Nästa steg", 
+              class: "primary-button w-auto",
+              data: { action: "click->office-calculator#validateForm" } %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

@@ -1,5 +1,6 @@
 class SearchHelperController < ApplicationController
   skip_after_action :verify_authorized
+  skip_after_action :verify_policy_scoped
 
     def index
       render template: 'search_helper/index'

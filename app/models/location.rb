@@ -27,6 +27,11 @@ class Location < ApplicationRecord
     def full_description
       "#{preposition} #{name.titleize}".strip
     end
+
+    def geojson
+      parsed_geojson = read_attribute(:geojson)
+      parsed_geojson.is_a?(String) ? JSON.parse(parsed_geojson) : parsed_geojson
+    end
     
     private
   
@@ -45,7 +50,7 @@ class Location < ApplicationRecord
     end
 
     def self.ransackable_attributes(auth_object = nil)
-      ["created_at", "id", "name", "slug", "geojson", "updated_at", "prioritized", "preposition"] # Ensure preposition is included
+      ["created_at", "id", "name", "slug", "geojson", "updated_at", "prioritized", "preposition", "bashyra"] # Ensure preposition is included
     end
 
     def self.ransackable_associations(auth_object = nil)
