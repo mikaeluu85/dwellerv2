@@ -1,15 +1,50 @@
 <div class="bg-white">
-  <div class="mx-auto max-w-7xl px-6 py-12">
+  <div class="mx-auto max-w-7xl px-6">
     <!-- Header -->
     <div class="mb-12">
+      <div class="mb-4">
+        <span class="inline-flex text-xs font-medium text-custom-black">
+          <%= @office_calculation.company %>
+        </span>
+      </div>
       <h1 class="text-3xl font-bold text-gray-900 sm:text-4xl mb-4">Kontorskalkyl</h1>
       <p class="text-lg text-gray-600">
         Här är din kontorskalkyl baserat på dina uppgifter. Uppgifterna är ett estimat och vi har därför angivit ett spann för storlek och kostnad baserat på behov.
       </p>
     </div>
 
+    <!-- Summary row -->
+    <h2 class="text-2xl font-semibold text-gray-900 mb-6">Storlek och kostnad</h2>
+    <dl class="mx-auto grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-2 mb-12">
+      <div class="flex flex-col justify-between gap-y-2 bg-gray-50 rounded-lg px-4 py-10">
+        <dt class="text-sm font-medium leading-6 text-gray-500">Estimerad total yta, kvadratmeter</dt>
+        <dd class="text-3xl font-medium leading-10 tracking-tight text-gray-900">
+          <%= "#{@total_area[:min]}-#{@total_area[:max]}" %> m²
+        </dd>
+      </div>
+      <div class="flex flex-col justify-between gap-y-2 bg-gray-50 rounded-lg px-4 py-10">
+        <dt class="text-xs font-medium text-gray-700">Totalhyra, kr/mån</dt>
+        <dd class="text-3xl font-medium leading-10 tracking-tight text-gray-900">
+          <%
+            min_total = @bashyra_range[:min] +
+                        @electricity_range[:min] +
+                        @heat_cooling_range[:min] +
+                        @recurring_addons[:total][:min] +
+                        @one_off_costs[:monthly]
+
+            max_total = @bashyra_range[:max] +
+                        @electricity_range[:max] +
+                        @heat_cooling_range[:max] +
+                        @recurring_addons[:total][:max] +
+                        @one_off_costs[:monthly]
+          %>
+          <%= "#{min_total}-#{max_total}" %> kr/mån
+        </dd>
+      </div>
+    </dl>
     <!-- Two-column section -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+      
       <!-- Map column -->
       <div class="bg-gray-100 rounded-lg p-4">
         <!-- Replace the existing map placeholder with this -->
@@ -50,35 +85,7 @@
       </div>
     </div>
 
-    <!-- Summary row -->
-    <h2 class="text-2xl font-semibold text-gray-900 mb-6">Storlek och kostnad</h2>
-    <dl class="mx-auto grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-2 mb-12">
-      <div class="flex flex-col justify-between gap-y-2 bg-gray-50 rounded-lg px-4 py-10">
-        <dt class="text-sm font-medium leading-6 text-gray-500">Estimerad total yta, kvadratmeter</dt>
-        <dd class="text-3xl font-medium leading-10 tracking-tight text-gray-900">
-          <%= "#{@total_area[:min]}-#{@total_area[:max]}" %> m²
-        </dd>
-      </div>
-      <div class="flex flex-col justify-between gap-y-2 bg-gray-50 rounded-lg px-4 py-10">
-        <dt class="text-xs font-medium text-gray-700">Totalhyra, kr/mån</dt>
-        <dd class="text-3xl font-medium leading-10 tracking-tight text-gray-900">
-          <%
-            min_total = @bashyra_range[:min] +
-                        @electricity_range[:min] +
-                        @heat_cooling_range[:min] +
-                        @recurring_addons[:total][:min] +
-                        @one_off_costs[:monthly]
-
-            max_total = @bashyra_range[:max] +
-                        @electricity_range[:max] +
-                        @heat_cooling_range[:max] +
-                        @recurring_addons[:total][:max] +
-                        @one_off_costs[:monthly]
-          %>
-          <%= "#{min_total}-#{max_total}" %> kr/mån
-        </dd>
-      </div>
-    </dl>
+    
 
     <!-- Cost breakdown section -->
     <div class="mt-12">

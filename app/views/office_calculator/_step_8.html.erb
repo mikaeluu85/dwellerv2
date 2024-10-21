@@ -40,7 +40,7 @@
                           value: cached_data["calculator_#{@current_step}_contact_form_#{sub_field}"],
                           placeholder: sub_data['placeholder'],
                           required: sub_data['required'],
-                          class: "block w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
+                          class: "block w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6",
                           data: {
                             action: "blur->office-calculator#validateField",
                             office_calculator_target: "input"
@@ -49,7 +49,7 @@
                         <%= form.check_box "contact_form_#{sub_field}", 
                           checked: cached_data["calculator_#{@current_step}_contact_form_#{sub_field}"] == "1",
                           required: sub_data['required'], 
-                          class: "h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600",
+                          class: "h-4 w-4 rounded border-gray-300 text-primary-500 focus:ring-primary",
                           data: {
                             action: "change->office-calculator#validateField",
                             office_calculator_target: "input"
@@ -71,7 +71,7 @@
                   <%= form.number_field "calculator_#{@current_step}_#{field}", 
                     value: cached_data["calculator_#{@current_step}_#{field}"],
                     placeholder: data['placeholder'], 
-                    class: "block w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
+                    class: "block w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6",
                     required: true,
                     data: {
                       action: "blur->office-calculator#validateField",
@@ -81,7 +81,7 @@
                   <%= form.text_field "calculator_#{@current_step}_#{field}", 
                     value: cached_data["calculator_#{@current_step}_#{field}"],
                     placeholder: data['placeholder'], 
-                    class: "block w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
+                    class: "block w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6",
                     required: true,
                     data: {
                       action: "blur->office-calculator#validateField",

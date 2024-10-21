@@ -30,11 +30,11 @@
                         <%= form.number_field "calculator_#{@current_step}_#{field}_#{option_key}", 
                                               value: cached_data["calculator_#{@current_step}_#{field}_#{option_key}"],
                                               placeholder: "Antal", 
-                                              class: "lock w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+                                              class: "lock w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6" %>
                       <% when 'text' %>
                         <%= form.text_field "calculator_#{@current_step}_#{field}_#{option_key}", 
                                             value: cached_data["calculator_#{@current_step}_#{field}_#{option_key}"],
-                                            class: "lock w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+                                            class: "lock w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6" %>
                       <% end %>
                     </div>
                   <% end %>
@@ -44,12 +44,12 @@
                     <%= form.number_field "calculator_#{@current_step}_#{field}", 
                                           value: cached_data["calculator_#{@current_step}_#{field}"],
                                           placeholder: data['placeholder'], 
-                                          class: "lock w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+                                          class: "lock w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6" %>
                   <% when 'text' %>
                     <%= form.text_field "calculator_#{@current_step}_#{field}", 
                                         value: cached_data["calculator_#{@current_step}_#{field}"],
                                         placeholder: data['placeholder'], 
-                                        class: "lock w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+                                        class: "lock w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6" %>
                   <% end %>
                 <% end %>
               </div>
