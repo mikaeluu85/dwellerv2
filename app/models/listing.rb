@@ -52,4 +52,16 @@ class Listing < ApplicationRecord
   validates :area_description, presence: true
   validates :commuter_description, presence: true
 
+  def coordinates
+    address&.coordinates_array
+  end
+
+  def latitude
+    address&.latitude
+  end
+
+  def longitude
+    address&.longitude
+  end
+
 end

@@ -1,6 +1,6 @@
 <% content_for :head do %>
-  <title><%= @custom_data['seo_title'] || "Hyra #{@premise_type.name} i #{@location.name}" %></title>
-  <meta name="description" content="<%= @custom_data['seo_description'] %>">
+  <title><%= @custom_data['seo_title'] || "Hyra #{@premise_type.name} i #{@location.name} | Dweller" %></title>
+  <meta name="description" content="<%= @custom_data['seo_description'] || "Hitta och hyr #{@premise_type.name} i #{@location.name}." %>">
   <!-- Include Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <!-- Include Leaflet JS -->
@@ -88,43 +88,18 @@
     <!-- Edit in here -->
 
 <div class="flex flex-col bg-white mx-auto px-8 m-12">
-  <p class="text-xl font-medium mb-4 my-2"> <%= @premise_type.name.titleize %> <%= @location.full_description %></p>
-  <p class="text-base text-light-grey mb-4">1 resultat</p>
-  <div class="flex overflow-x-scroll pb-10 hide-scroll-bar w-full"> <!-- Scrollable container -->
-
-    <div class="flex flex-nowrap space-x-2 sm:space-x-2 md:space-x-4 w-full"> <!-- Flex container takes full width and has responsive spacing -->
-
-      <!-- Listing item -->
-      <div class="flex-none w-[80vw] sm:w-[calc(50%-1.5rem)] lg:w-[calc(33%-1.5rem)] xl:w-[calc(33%-4rem)] sm:scroll-m-6 md:scroll-m-16 xl:scroll-m-1 scroll-snap-align-start flex flex-col">
-        <div class="h-64 w-full overflow-hidden rounded-lg shadow-md bg-light-grey hover:shadow-xl transition-shadow duration-300 ease-in-out">
-          <!-- Content -->
-        </div>
+  <p class="text-xl font-medium mb-4 my-2"><%= @premise_type.name.titleize %> <%= @location.full_description %></p>
+  <p class="text-base text-light-grey mb-4"><%= pluralize(@listings_count, 'resultat') %></p>
+  
+  <% if @listings.present? %>
+    <div class="flex overflow-x-scroll pb-10 hide-scroll-bar w-full" data-controller="infinite-scroll" data-infinite-scroll-url="<%= permutation_path(@permutation) %>">
+      <div id="listings-container" class="flex flex-nowrap space-x-2 sm:space-x-2 md:space-x-4 w-full">
+        <%= render partial: 'listing', collection: @listings %>
       </div>
-
-            <!-- Listing item -->
-      <div class="flex-none w-[80vw] sm:w-[calc(50%-1.5rem)] lg:w-[calc(33%-1.5rem)] xl:w-[calc(33%-4rem)] sm:scroll-m-6 md:scroll-m-16 xl:scroll-m-1 scroll-snap-align-start flex flex-col">
-        <div class="h-64 w-full overflow-hidden rounded-lg shadow-md bg-light-grey hover:shadow-xl transition-shadow duration-300 ease-in-out">
-          <!-- Content -->
-        </div>
-      </div>
-
-            <!-- Listing item -->
-      <div class="flex-none w-[80vw] sm:w-[calc(50%-1.5rem)] lg:w-[calc(33%-1.5rem)] xl:w-[calc(33%-4rem)] sm:scroll-m-6 md:scroll-m-16 xl:scroll-m-1 scroll-snap-align-start flex flex-col">
-        <div class="h-64 w-full overflow-hidden rounded-lg shadow-md bg-light-grey hover:shadow-xl transition-shadow duration-300 ease-in-out">
-          <!-- Content -->
-        </div>
-      </div>
-
-      <div class="flex-none w-[80vw] sm:w-[calc(50%-1.5rem)] lg:w-[calc(33%-1.5rem)] xl:w-[calc(33%-4rem)] sm:scroll-m-6 md:scroll-m-16 xl:scroll-m-1 scroll-snap-align-start flex flex-col">
-        <div class="h-64 w-full overflow-hidden rounded-lg shadow-md bg-light-grey hover:shadow-xl transition-shadow duration-300 ease-in-out">
-          <!-- Content -->
-        </div>
-      </div>
-
-      <!-- Add more listing items if needed -->
-
     </div>
-  </div>
+  <% else %>
+    <p>Inga listningar hittades för denna plats.</p>
+  <% end %>
 </div>
 
 <!-- Edit in here -->
@@ -282,3 +257,9 @@
 
 <%= render 'shared/feature_blogpost' %>
 <%= render 'shared/footer' %>
+
+
+
+
+
+

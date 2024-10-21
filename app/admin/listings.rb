@@ -9,7 +9,7 @@ ActiveAdmin.register Listing do
                 :number_of_meeting_rooms, :opened, :short_description,
                 :short_description_en, :showing_message, :size,
                 :surface_per_user, :url,
-                address_attributes: [:id, :street, :city, :postal_code],
+                address_attributes: [:id, :street, :city, :postal_code, :latitude, :longitude, :coordinates, :_destroy],
                 amenity_ids: [],
                 provider_user_ids: [],
                 offers_attributes: [:id, :name, :description, :price, :_destroy]
@@ -105,6 +105,13 @@ ActiveAdmin.register Listing do
       row :short_description_en
       row :url
       row :showing_message
+      row :coordinates do |listing|
+        if listing.address&.coordinates.present?
+          "POINT(#{listing.address.longitude} #{listing.address.latitude})"
+        else
+          "Coordinates not available"
+        end
+      end
     end
   end
 
@@ -137,10 +144,14 @@ ActiveAdmin.register Listing do
     end
 
     f.inputs 'Address' do
-      f.has_many :address, allow_destroy: true, new_record: true do |a|
+      f.has_many :address, allow_destroy: true, new_record: false do |a|
         a.input :street
         a.input :city
         a.input :postal_code
+        a.input :latitude, input_html: { readonly: true }
+        a.input :longitude, input_html: { readonly: true }
+        a.input :coordinates, input_html: { readonly: true }
+        a.input :address_changed, as: :hidden, input_html: { value: true }
       end
       
       f.inputs 'Amenities' do

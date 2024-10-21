@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_09_141523) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_21_194618) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "postgis"
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -66,6 +67,10 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_09_141523) do
     t.string "postal_town"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "latitude", precision: 10, scale: 8
+    t.decimal "longitude", precision: 11, scale: 8
+    t.geography "coordinates", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
+    t.index ["latitude", "longitude"], name: "index_addresses_on_latitude_and_longitude"
     t.index ["listing_id"], name: "index_addresses_on_listing_id"
   end
 

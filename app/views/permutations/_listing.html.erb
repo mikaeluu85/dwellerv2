@@ -1,0 +1,14 @@
+<div class="flex-none w-[80vw] sm:w-[calc(50%-1.5rem)] lg:w-[calc(33%-1.5rem)] xl:w-[calc(33%-4rem)] sm:scroll-m-6 md:scroll-m-16 xl:scroll-m-1 scroll-snap-align-start flex flex-col">
+  <div class="h-64 w-full overflow-hidden rounded-lg shadow-md bg-light-grey hover:shadow-xl transition-shadow duration-300 ease-in-out">
+    <% if listing.main_image.attached? %>
+      <%= image_tag listing.main_image, class: "w-full h-40 object-cover" %>
+    <% elsif listing.gallery_images.attached? %>
+      <%= image_tag listing.gallery_images.first, class: "w-full h-40 object-cover" %>
+    <% end %>
+    <div class="p-4">
+      <h3 class="text-lg font-semibold"><%= listing.name %></h3>
+      <p class="text-sm text-gray-600"><%= listing.address&.full_address %></p>
+      <p class="text-sm font-bold mt-2"><%= number_to_currency(listing.cost_per_m2, unit: "SEK", precision: 0) %> /m²</p>
+    </div>
+  </div>
+</div>
