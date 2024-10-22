@@ -17,8 +17,6 @@ class Offer < ApplicationRecord
 
   validates :offer_category, presence: true
 
-  validate :offer_category_valid_for_premise_type
-
   def self.ransackable_attributes(auth_object = nil)
     ["created_at", "deleted_at", "id", "listing_id", "name", "slug", "updated_at", "status", "type", "offer_category_id"]
   end
@@ -29,15 +27,5 @@ class Offer < ApplicationRecord
 
   def category
     offer_category&.name
-  end
-
-  private
-
-  def offer_category_valid_for_premise_type
-    return if listing.nil? || offer_category.nil?
-
-    unless listing.premise_type.offer_categories.include?(offer_category) || offer_category.name == 'Default Category'
-      errors.add(:offer_category, "is not valid for this premise type")
-    end
   end
 end

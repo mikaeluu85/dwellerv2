@@ -41,13 +41,7 @@ ActiveAdmin.register Offer do
       f.input :terms
       f.input :status, as: :select, collection: Offer.statuses.keys.map { |s| [s.titleize, s] }
       f.input :offer_type, as: :select, collection: Offer.offer_types.keys.map { |t| [t.titleize, t] }
-      f.input :offer_category, collection: -> {
-        if f.object.listing&.premise_type
-          f.object.listing.premise_type.offer_categories
-        else
-          OfferCategory.none
-        end
-      }
+      f.input :offer_category, as: :select, collection: OfferCategory.all.pluck(:name, :id), include_blank: 'Select a Category'
       f.input :deleted_at, as: :datepicker
     end
     f.actions
