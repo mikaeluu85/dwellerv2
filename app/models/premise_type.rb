@@ -54,4 +54,17 @@ class PremiseType < ApplicationRecord
         .where(premise_types: { slug: premise_type_slug }, locations: { slug: location_slug })
         .first
     end
+
+    # Add a method to check if an offer's category is valid for this premise type
+    def valid_offer_category?(offer_category)
+      offer_category_ids.include?(offer_category.id)
+    end
+
+    def valid_offer?(offer)
+      valid_offer_category?(offer.offer_category)
+    end
+
+    def filter_valid_offers(offers)
+      offers.where(offer_category_id: offer_category_ids)
+    end
 end

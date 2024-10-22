@@ -34,15 +34,30 @@ class PermutationsController < ApplicationController
 
   def fetch_filtered_active_listings_with_active_offers
     geojson = ensure_geojson_string(@location.geojson)
+    
+    Rails.logger.debug "Premise Type ID: #{@premise_type.id}"
+    Rails.logger.debug "Premise Type Offer Categories: #{@premise_type.offer_category_ids}"
 
-    listings = Listing.active.joins(:address)
-                      .joins("INNER JOIN offers ON offers.listing_id = listings.id")
-                      .where("ST_Covers(ST_SetSRID(ST_GeomFromGeoJSON(?), 4326)::geography, addresses.coordinates)", geojson)
-                      .where(offers: { status: :active }) # Use the status enum to filter active offers
-                      .includes(:address)
-                      .distinct
+    # First get the listing IDs that match our criteria
+    listing_ids = Listing.active
+                        .joins(:address)
+                        .joins(:offers)
+                        .where("ST_Covers(ST_SetSRID(ST_GeomFromGeoJSON(?), 4326)::geography, addresses.coordinates)", geojson)
+                        .where(offers: { 
+                          status: :active,
+                          offer_category_id: @premise_type.offer_category_ids 
+                        })
+                        .distinct
+                        .pluck(:id)
 
-    listings.presence || Listing.none # Return an empty relation if no listings found
+    # Then load those listings with their associations
+    listings = Listing.where(id: listing_ids)
+                     .preload(:address)
+                     .preload(offers: :offer_category)
+
+    Rails.logger.debug "Found #{listings.count} listings"
+    
+    listings.presence || Listing.none
   end
 
   def ensure_geojson_string(geojson)

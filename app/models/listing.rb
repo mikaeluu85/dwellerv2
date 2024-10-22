@@ -64,4 +64,8 @@ class Listing < ApplicationRecord
     address&.longitude
   end
 
+  def valid_offers_for_premise_type(premise_type)
+    offers.active.where(offer_category_id: premise_type.offer_category_ids)
+  end
+
 end

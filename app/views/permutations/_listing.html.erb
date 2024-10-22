@@ -41,7 +41,8 @@
       <hr class="my-3 border-gray-200">
       
       <div class="mt-2">
-        <% listing.offers.active.first(3).each do |offer| %>
+        <% valid_offers = listing.valid_offers_for_premise_type(@premise_type) %>
+        <% valid_offers.limit(3).each do |offer| %>
           <div class="flex justify-between items-center mb-2">
             <span class="text-sm"><%= offer.category %></span>
             <span class="text-sm"><%= number_to_currency(offer.price, unit: "klr", precision: 0, format: "%n kr/mån") %></span>

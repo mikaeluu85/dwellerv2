@@ -26,10 +26,35 @@ class Permutation < ApplicationRecord
   end
 
   def matching_offers
-    Offer.joins(listing: [:address, :premise_type])
-         .where(listings: { premise_type_id: premise_type.id })
-         .where(addresses: { city: location.name })
-         .where(offer_category_id: premise_type.offer_category_ids)
-         .active
+    # First get the offer IDs that match our criteria
+    offer_ids = Offer.joins(:listing => :address)
+                    .where(addresses: { city: location.name })
+                    .where(offer_category_id: premise_type.offer_category_ids)
+                    .where(status: :active)
+                    .pluck(:id)
+
+    # Then load those offers with their associations
+    Offer.where(id: offer_ids)
+         .preload(:listing)
+         .preload(:offer_category)
+  end
+
+  def filtered_listings_with_offers
+    # First get the listing IDs that match our criteria
+    listing_ids = Listing.active
+                        .joins(:address)
+                        .joins(:offers)
+                        .where(addresses: { city: location.name })
+                        .where(offers: { 
+                          status: :active,
+                          offer_category_id: premise_type.offer_category_ids 
+                        })
+                        .distinct
+                        .pluck(:id)
+
+    # Then load those listings with their associations
+    Listing.where(id: listing_ids)
+           .preload(:address)
+           .preload(offers: :offer_category)
   end
 end
