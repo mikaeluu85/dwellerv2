@@ -1,6 +1,4 @@
 <% content_for :head do %>
-  <title><%= @custom_data['seo_title'] || "Hyra #{@premise_type.name} i #{@location.name} | Dweller" %></title>
-  <meta name="description" content="<%= @custom_data['seo_description'] || "Hitta och hyr #{@premise_type.name} i #{@location.name}." %>">
   <!-- Include Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <!-- Include Leaflet JS -->
@@ -89,11 +87,17 @@
     <% if @listings_count > 0 %>
       <div class="flex flex-col bg-white mx-auto px-4 sm:px-6 lg:px-8 my-12">
         <p class="text-xl font-medium mb-4 my-2"><%= @premise_type.name.titleize %> <%= @location.full_description %></p>
-        <p class="text-base text-light-grey mb-4"><%= pluralize(@listings_count, 'resultat') %></p>
+        <p class="text-base text-light-grey mb-4"><%= pluralize(@listings_count, 'resultat') %> med Hot desk-erbjudanden</p>
         
-        <div class="overflow-x-auto snap-x snap-mandatory hide-scrollbar md:overflow-x-visible" data-controller="infinite-scroll" data-infinite-scroll-url="<%= permutation_path(@permutation) %>">
-          <div id="listings-container" class="flex flex-nowrap md:flex-wrap space-x-4 md:space-x-0 md:gap-4 pb-8">
+        <div class="overflow-x-auto snap-x snap-mandatory hide-scrollbar md:overflow-x-visible" 
+             data-controller="infinite-scroll" 
+             data-infinite-scroll-url-value="<%= permutation_path(@permutation) %>"
+             data-infinite-scroll-page-value="1">
+          <div id="listings-container" class="flex flex-nowrap md:flex-wrap space-x-4 md:space-x-0 md:gap-4 pb-8" data-infinite-scroll-target="container">
             <%= render partial: 'listing', collection: @listings %>
+          </div>
+          <div data-infinite-scroll-target="loader" class="hidden">
+            Loading more listings...
           </div>
         </div>
       </div>
@@ -254,6 +258,15 @@
 
 <%= render 'shared/feature_blogpost' %>
 <%= render 'shared/footer' %>
+
+
+
+
+
+
+
+
+
 
 
 

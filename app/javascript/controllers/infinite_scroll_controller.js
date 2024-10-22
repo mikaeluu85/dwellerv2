@@ -1,39 +1,53 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["container"]
+  static values = {
+    url: String,
+    page: { type: Number, default: 1 }
+  }
+
+  static targets = ["container", "loader"]
 
   connect() {
-    this.page = 1
-    this.loading = false
-    this.intersectionObserver = new IntersectionObserver(entries => this.handleIntersection(entries))
-    this.intersectionObserver.observe(this.element)
+    this.intersectionObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          this.loadMore()
+        }
+      })
+    })
+
+    this.intersectionObserver.observe(this.loaderTarget)
   }
 
   disconnect() {
-    this.intersectionObserver.unobserve(this.element)
+    this.intersectionObserver.disconnect()
   }
 
-  handleIntersection(entries) {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && !this.loading) {
-        this.loadMoreListings()
-      }
-    })
-  }
+  loadMore() {
+    if (this.loading) return
 
-  loadMoreListings() {
     this.loading = true
-    this.page += 1
-
-    fetch(`${this.element.dataset.infiniteScrollUrl}?page=${this.page}`, {
+    this.loaderTarget.classList.remove('hidden')
+    
+    fetch(`${this.urlValue}?page=${this.pageValue}`, {
       headers: {
         "Accept": "text/vnd.turbo-stream.html"
       }
     })
       .then(response => response.text())
       .then(html => {
-        Turbo.renderStreamMessage(html)
+        if (html.trim() !== '') {
+          this.containerTarget.insertAdjacentHTML('beforeend', html)
+          this.pageValue++
+        } else {
+          this.intersectionObserver.disconnect()
+          this.loaderTarget.remove()
+        }
+      })
+      .catch(error => console.error('Error:', error))
+      .finally(() => {
+        this.loaderTarget.classList.add('hidden')
         this.loading = false
       })
   }

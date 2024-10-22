@@ -1,6 +1,6 @@
 ActiveAdmin.register PremiseType do
   menu parent: 'Settings', priority: 2
-  permit_params :name, :slug
+  permit_params :name, :slug, offer_category_ids: []
 
   controller do
     def find_resource
@@ -23,12 +23,17 @@ ActiveAdmin.register PremiseType do
     id_column
     column :name
     column :slug
+    column :offer_categories do |premise_type|
+      premise_type.offer_categories.map(&:name).join(", ")
+    end
     actions
   end
 
   form do |f|
-    f.inputs 'Premise Type Details' do
+    f.inputs do
       f.input :name
+      f.input :slug
+      f.input :offer_categories, as: :check_boxes, collection: OfferCategory.all
     end
     f.actions
   end
@@ -38,6 +43,9 @@ ActiveAdmin.register PremiseType do
       row :id
       row :name
       row :slug
+      row :offer_categories do |premise_type|
+        premise_type.offer_categories.map(&:name).join(", ")
+      end
       row :created_at
       row :updated_at
     end

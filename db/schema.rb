@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_21_194618) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_22_130327) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -272,6 +272,20 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_21_194618) do
     t.index ["search_contact_id", "location_id"], name: "index_search_contacts_locations"
   end
 
+  create_table "offer_categories", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_offer_categories_on_name", unique: true
+  end
+
+  create_table "offer_categories_premise_types", id: false, force: :cascade do |t|
+    t.bigint "premise_type_id", null: false
+    t.bigint "offer_category_id", null: false
+    t.index ["offer_category_id", "premise_type_id"], name: "index_offer_categories_premise_types"
+    t.index ["premise_type_id", "offer_category_id"], name: "index_premise_types_offer_categories"
+  end
+
   create_table "offer_excluded_amenities", force: :cascade do |t|
     t.bigint "offer_id", null: false
     t.bigint "amenity_id", null: false
@@ -314,12 +328,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_21_194618) do
     t.json "terms"
     t.integer "status"
     t.integer "offer_type"
-    t.integer "category"
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "offer_category_id"
     t.index ["deleted_at"], name: "index_offers_on_deleted_at"
     t.index ["listing_id"], name: "index_offers_on_listing_id"
+    t.index ["offer_category_id"], name: "index_offers_on_offer_category_id"
   end
 
   create_table "office_calculations", force: :cascade do |t|
@@ -470,6 +485,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_21_194618) do
   add_foreign_key "offer_paid_amenities", "offers"
   add_foreign_key "offer_versions", "offers"
   add_foreign_key "offers", "listings"
+  add_foreign_key "offers", "offer_categories"
   add_foreign_key "office_calculations", "locations"
   add_foreign_key "permutations", "locations"
   add_foreign_key "permutations", "premise_types"

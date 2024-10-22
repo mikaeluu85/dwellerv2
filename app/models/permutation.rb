@@ -24,4 +24,12 @@ class Permutation < ApplicationRecord
   def self.ransackable_associations(auth_object = nil)
     ["location", "premise_type"]
   end
+
+  def matching_offers
+    Offer.joins(listing: [:address, :premise_type])
+         .where(listings: { premise_type_id: premise_type.id })
+         .where(addresses: { city: location.name })
+         .where(offer_category_id: premise_type.offer_category_ids)
+         .active
+  end
 end
