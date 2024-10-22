@@ -1,14 +1,53 @@
-<div class="flex-none w-[80vw] sm:w-[calc(50%-1.5rem)] lg:w-[calc(33%-1.5rem)] xl:w-[calc(33%-4rem)] sm:scroll-m-6 md:scroll-m-16 xl:scroll-m-1 scroll-snap-align-start flex flex-col">
-  <div class="h-64 w-full overflow-hidden rounded-lg shadow-md bg-light-grey hover:shadow-xl transition-shadow duration-300 ease-in-out">
-    <% if listing.main_image.attached? %>
-      <%= image_tag listing.main_image, class: "w-full h-40 object-cover" %>
-    <% elsif listing.gallery_images.attached? %>
-      <%= image_tag listing.gallery_images.first, class: "w-full h-40 object-cover" %>
-    <% end %>
-    <div class="p-4">
-      <h3 class="text-lg font-semibold"><%= listing.name %></h3>
-      <p class="text-sm text-gray-600"><%= listing.address&.full_address %></p>
-      <p class="text-sm font-bold mt-2"><%= number_to_currency(listing.cost_per_m2, unit: "SEK", precision: 0) %> /m²</p>
+<div class="flex-none w-[85vw] sm:w-[85vw] md:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)] xl:w-[calc(33.333%-0.667rem)] scroll-snap-align-start md:scroll-snap-align-none mb-4 md:mb-0">
+  <div class="overflow-hidden rounded-lg shadow-md bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out h-full" data-controller="gallery">
+    <div class="relative h-60 group">
+      <% if listing.gallery_images.attached? %>
+        <div class="h-full relative">
+          <% listing.gallery_images.each_with_index do |image, index| %>
+            <%= image_tag image, class: "w-full h-full object-cover absolute top-0 left-0 transition-opacity duration-300 #{index == 0 ? '' : 'hidden'}", data: { gallery_target: "image" } %>
+          <% end %>
+        </div>
+        <button class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black bg-opacity-35 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300" data-action="gallery#previous">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+          </svg>
+        </button>
+        <button class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black bg-opacity-35 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300" data-action="gallery#next">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+          </svg>
+        </button>
+        <% if listing.gallery_images.count > 1 %>
+          <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+            <% listing.gallery_images.each_with_index do |_, index| %>
+              <div class="w-1.5 h-1.5 rounded-full bg-gray-400" data-gallery-target="indicator" data-action="click->gallery#showImage" data-index="<%= index %>"></div>
+            <% end %>
+          </div>
+        <% end %>
+      <% elsif listing.main_image.attached? %>
+        <%= image_tag listing.main_image, class: "w-full h-full object-cover" %>
+      <% end %>
+      <div class="absolute top-2 left-2 bg-white px-2 py-1 rounded-md text-sm">
+        <%= listing.brand&.name %>
+      </div>
+    </div>
+    <div class="p-4 flex flex-col justify-between flex-grow">
+      <div>
+        <h3 class="text-lg font-semibold"><%= listing.address&.street %></h3>
+        <p class="text-sm text-gray-600"><%= listing.address&.city %></p>
+      </div>
+      
+      <!-- Divider -->
+      <hr class="my-3 border-gray-200">
+      
+      <div class="mt-2">
+        <% listing.offers.active.first(3).each do |offer| %>
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-sm"><%= offer.category %></span>
+            <span class="text-sm"><%= number_to_currency(offer.price, unit: "klr", precision: 0, format: "%n kr/mån") %></span>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

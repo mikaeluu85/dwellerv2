@@ -62,13 +62,25 @@ ActiveAdmin.register Listing do
       row :area_description  # New row added
       row :commuter_description  # New row added
       row :main_image do |listing|
-        image_tag listing.main_image.url if listing.main_image.attached?
+        if listing.main_image.attached?
+          begin
+            image_tag listing.main_image.url
+          rescue StandardError => e
+            "Error loading image: #{e.message}"
+          end
+        else
+          "No main image attached"
+        end
       end
       row :gallery_images do |listing|
         ul do
           listing.gallery_images.each do |img|
             li do
-              image_tag img.url, size: '100x100'
+              begin
+                image_tag img.url, size: '100x100'
+              rescue StandardError => e
+                "Error loading image: #{e.message}"
+              end
             end
           end
         end

@@ -9,6 +9,8 @@ class Offer < ApplicationRecord
   has_many :offer_paid_amenities
   has_many :paid_amenities, through: :offer_paid_amenities, source: :amenity
   
+  scope :active, -> { where(active: true) }
+
   enum status: [:active, :inactive, :pending]
   enum offer_type: [:daily, :monthly, :yearly]  # Make sure this is named 'offer_type'
   enum category: [:hot_desk, :dedicated_desk, :private_office]

@@ -8,30 +8,39 @@ class PermutationsController < ApplicationController
     @premise_type = @permutation.premise_type
     @location = @permutation.location
 
-    # Fetch listings filtered by the location's GeoJSON polygon
-    @listings = fetch_filtered_listings
+    # Fetch active listings with active offers filtered by the location's GeoJSON polygon
+    @listings = fetch_filtered_active_listings_with_active_offers
     @listings_count = @listings.count
 
-    # Set custom data for SEO
-    @custom_data = {
-      'seo_title' => "Hyra #{@premise_type.name} i #{@location.name} | Dweller",
-      'seo_description' => "Hitta och hyr #{@premise_type.name} i #{@location.name}. Utforska vårt urval av #{@premise_type.name.pluralize} och hitta den perfekta platsen för ditt företag."
-    }
+    # Only proceed if there are active listings with active offers
+    if @listings_count > 0
+      # Set custom data for SEO
+      @custom_data = {
+        'seo_title' => "Hyra #{@premise_type.name} i #{@location.name} | Dweller",
+        'seo_description' => "Hitta och hyr #{@premise_type.name} i #{@location.name}. Utforska vårt urval av #{@premise_type.name.pluralize} och hitta den perfekta platsen för ditt företag."
+      }
 
-    respond_to do |format|
-      format.html
-      format.turbo_stream
+      respond_to do |format|
+        format.html
+        format.turbo_stream
+      end
+    else
+      flash[:notice] = "Inga aktiva listningar med aktiva erbjudanden hittades för denna plats."
+      redirect_to root_path
     end
   end
 
   private
 
-  def fetch_filtered_listings
+  def fetch_filtered_active_listings_with_active_offers
     geojson = ensure_geojson_string(@location.geojson)
 
-    listings = Listing.joins(:address)
+    listings = Listing.active.joins(:address)
+                      .joins("INNER JOIN offers ON offers.listing_id = listings.id")
                       .where("ST_Covers(ST_SetSRID(ST_GeomFromGeoJSON(?), 4326)::geography, addresses.coordinates)", geojson)
-                      .includes(:address) # Eager load to avoid N+1 queries
+                      .where(offers: { status: :active }) # Use the status enum to filter active offers
+                      .includes(:address)
+                      .distinct
 
     listings.presence || Listing.none # Return an empty relation if no listings found
   end

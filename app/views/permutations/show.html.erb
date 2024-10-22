@@ -85,24 +85,21 @@
       </div>
     </div>
 
-    <!-- Edit in here -->
-
-<div class="flex flex-col bg-white mx-auto px-8 m-12">
-  <p class="text-xl font-medium mb-4 my-2"><%= @premise_type.name.titleize %> <%= @location.full_description %></p>
-  <p class="text-base text-light-grey mb-4"><%= pluralize(@listings_count, 'resultat') %></p>
-  
-  <% if @listings.present? %>
-    <div class="flex overflow-x-scroll pb-10 hide-scroll-bar w-full" data-controller="infinite-scroll" data-infinite-scroll-url="<%= permutation_path(@permutation) %>">
-      <div id="listings-container" class="flex flex-nowrap space-x-2 sm:space-x-2 md:space-x-4 w-full">
-        <%= render partial: 'listing', collection: @listings %>
+    <!-- Listings section -->
+    <% if @listings_count > 0 %>
+      <div class="flex flex-col bg-white mx-auto px-4 sm:px-6 lg:px-8 my-12">
+        <p class="text-xl font-medium mb-4 my-2"><%= @premise_type.name.titleize %> <%= @location.full_description %></p>
+        <p class="text-base text-light-grey mb-4"><%= pluralize(@listings_count, 'resultat') %></p>
+        
+        <div class="overflow-x-auto snap-x snap-mandatory hide-scrollbar md:overflow-x-visible" data-controller="infinite-scroll" data-infinite-scroll-url="<%= permutation_path(@permutation) %>">
+          <div id="listings-container" class="flex flex-nowrap md:flex-wrap space-x-4 md:space-x-0 md:gap-4 pb-8">
+            <%= render partial: 'listing', collection: @listings %>
+          </div>
+        </div>
       </div>
-    </div>
-  <% else %>
-    <p>Inga listningar hittades för denna plats.</p>
-  <% end %>
-</div>
+    <% end %>
 
-<!-- Edit in here -->
+    <!-- Edit in here -->
 
 
 
@@ -257,6 +254,10 @@
 
 <%= render 'shared/feature_blogpost' %>
 <%= render 'shared/footer' %>
+
+
+
+
 
 
 
