@@ -1,4 +1,4 @@
-class CreateExternalListings < ActiveRecord::Migration[7.2]
+class CreateExternalListings < ActiveRecord::Migration[7.1]
   def change
     create_table :external_listings do |t|
       t.references :listing, null: false, foreign_key: true

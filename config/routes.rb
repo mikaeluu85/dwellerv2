@@ -3,8 +3,15 @@ Rails.application.routes.draw do
   get "/manifest.json", to: "application#manifest"
 
   get "advertisers/index"
-  ActiveAdmin.routes(self)
+
+  # Wrap the sign out route in devise_scope
+  devise_scope :admin_user do
+    get "/admin_users/sign_out", to: "admin_users/sessions#destroy"
+  end
+
   devise_for :admin_users, controllers: { sessions: "admin_users/sessions" }
+  ActiveAdmin.routes(self)
+
   devise_for :provider_users, controllers: { sessions: "provider_users/sessions" }, skip: [ :passwords, :registrations ]
 
   resources :brands, only: [ :show ]

@@ -1,8 +1,8 @@
 module AdminUsers
   class SessionsController < Devise::SessionsController
-    layout 'active_admin_logged_out'
+    layout "active_admin_logged_out"
     # No need to override sign_in; use Devise's implementation
-    skip_after_action :verify_authorized, only: [:new, :create, :destroy]
+    skip_after_action :verify_authorized, only: [ :new, :create, :destroy ]
 
     # Include Active Admin view helpers
     helper ActiveAdmin::ViewHelpers
@@ -18,7 +18,9 @@ module AdminUsers
     end
 
     def destroy
-      super
+      signed_out = sign_out(resource_name)
+      set_flash_message! :notice, :signed_out if signed_out
+      redirect_to new_admin_user_session_path
     end
   end
 end

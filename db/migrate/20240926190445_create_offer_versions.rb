@@ -1,4 +1,4 @@
-class CreateOfferVersions < ActiveRecord::Migration[7.2]
+class CreateOfferVersions < ActiveRecord::Migration[7.1]
   def change
     create_table :offer_versions do |t|
       t.references :offer, null: false, foreign_key: true

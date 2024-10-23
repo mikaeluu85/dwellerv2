@@ -1,4 +1,4 @@
-class CreateOfferExcludedAmenities < ActiveRecord::Migration[7.2]
+class CreateOfferExcludedAmenities < ActiveRecord::Migration[7.1]
   def change
     create_table :offer_excluded_amenities do |t|
       t.references :offer, null: false, foreign_key: true

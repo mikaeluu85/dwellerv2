@@ -1,4 +1,4 @@
-class CreateListingUsers < ActiveRecord::Migration[7.2]
+class CreateListingUsers < ActiveRecord::Migration[7.1]
   def change
     create_table :listing_users do |t|
       t.references :listing, null: false, foreign_key: true

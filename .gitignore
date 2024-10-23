@@ -44,3 +44,9 @@
 
 # Ignore environment files
 /config/credentials.yml.enc
+
+# Ignore coverage reports
+/coverage/*
+
+# Ignore Rails Best Practices output
+rails_best_practices_output.html

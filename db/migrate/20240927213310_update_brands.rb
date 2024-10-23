@@ -1,4 +1,4 @@
-class UpdateBrands < ActiveRecord::Migration[7.2]
+class UpdateBrands < ActiveRecord::Migration[7.1]
   def change
     change_table :brands do |t|
       t.remove :region, :num_listings, :cities, :has_active_listings

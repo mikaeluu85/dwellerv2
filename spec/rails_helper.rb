@@ -11,11 +11,16 @@ require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'capybara/rails' # If you plan to write feature specs
 require 'simplecov'
+require 'pundit/matchers'
+require 'pundit/rspec'
+require 'devise'
+
+# Configure SimpleCov
 SimpleCov.start 'rails' do
   # Configure SimpleCov
   add_filter '/bin/'
   add_filter '/db/'
-  add_filter '/test/'
+  add_filter '/test/' # Since you're using RSpec
   add_filter '/config/'
   add_filter '/vendor/'
   add_filter '/spec/spec_helper.rb'
@@ -31,37 +36,43 @@ SimpleCov.start 'rails' do
   minimum_coverage 90
 end
 
-# Configure FactoryBot
+# Load support files
+Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
+
+# Checks for pending migrations and applies them before tests are run.
+# If you are not using ActiveRecord, you can remove these lines.
+begin
+  ActiveRecord::Migration.maintain_test_schema!
+rescue ActiveRecord::PendingMigrationError => e
+  abort e.to_s.strip
+end
+
 RSpec.configure do |config|
-  # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_paths = [
-    Rails.root.join('spec/fixtures')
-  ]
+  # Factory Bot configuration
+  config.include FactoryBot::Syntax::Methods
 
-  # If you're not using ActiveRecord, or you'd prefer not to run each of your
-  # examples within a transaction, remove the following line or assign false
-  # instead of true.
+  # Database cleaner configuration
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
+  end
+
+  # Devise test helpers
+  config.include Devise::Test::IntegrationHelpers, type: :request
+  config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include Devise::Test::ControllerHelpers, type: :view
+  config.include Devise::Test::IntegrationHelpers, type: :feature
+  config.include Warden::Test::Helpers
+
+  # General RSpec Rails configurations
   config.use_transactional_fixtures = true
-
-  # You can uncomment this line to turn off ActiveRecord support entirely.
-  # config.use_active_record = false
-
-  # RSpec Rails can automatically mix in different behaviours to your tests
-  # based on their file location, for example enabling you to call `get` and
-  # `post` in specs under `spec/controllers`.
-  #
-  # You can disable this behaviour by removing the line below, and instead
-  # explicitly tag your specs with their type, e.g.:
-  #
-  #     RSpec.describe UsersController, type: :controller do
-  #       # ...
-  #     end
-  #
-  # The different available types are documented in the features, such as in
-  # https://rspec.info/features/7-0/rspec-rails
   config.infer_spec_type_from_file_location!
-
-  # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
@@ -76,14 +87,24 @@ RSpec.configure do |config|
       with.library :rails
     end
   end
+
+  config.before(:suite) do
+    ActiveRecord::Base.connection.enable_extension('postgis') unless ActiveRecord::Base.connection.extension_enabled?('postgis')
+  end
+
+  # Include Pundit helpers
+  config.include Pundit::Authorization
+
+  # Include Pundit matchers for policy specs
+  config.include Pundit::RSpec::Matchers, type: :policy
+
+  config.include Devise::Test::IntegrationHelpers, type: :system
+  config.include Warden::Test::Helpers
+
+  config.before(:each, type: :system) do
+    driven_by(:rack_test)
+  end
 end
 
-# Checks for pending migrations and applies them before tests are run.
-# If you are not using ActiveRecord, you can remove these lines.
-begin
-  ActiveRecord::Migration.maintain_test_schema!
-rescue ActiveRecord::PendingMigrationError => e
-  abort e.to_s.strip
-end
 # Load all factories
 # Dir[Rails.root.join('spec/factories/**/*.rb')].sort.each { |file| require file }

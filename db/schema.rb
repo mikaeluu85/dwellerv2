@@ -70,7 +70,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_23_131026) do
     t.decimal "latitude", precision: 10, scale: 8
     t.decimal "longitude", precision: 11, scale: 8
     t.geography "coordinates", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
-    t.index ["latitude", "longitude"], name: "index_addresses_on_latitude_and_longitude"
+    t.index ["coordinates"], name: "index_addresses_on_coordinates", using: :gist
     t.index ["listing_id"], name: "index_addresses_on_listing_id"
   end
 
@@ -339,19 +339,19 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_23_131026) do
   end
 
   create_table "office_calculations", force: :cascade do |t|
-    t.jsonb "steps_data", default: {}, null: false
     t.bigint "location_id", null: false
-    t.string "first_name", null: false
-    t.string "last_name", null: false
-    t.string "company", null: false
-    t.string "email", null: false
-    t.string "phone", null: false
-    t.boolean "terms_acceptance", default: false, null: false
+    t.string "first_name"
+    t.string "last_name"
+    t.string "company"
+    t.string "email"
+    t.string "phone"
+    t.boolean "terms_acceptance", default: false
+    t.jsonb "steps_data", default: {}
+    t.datetime "completed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "uuid"
     t.index ["location_id"], name: "index_office_calculations_on_location_id"
-    t.index ["steps_data"], name: "index_office_calculations_on_steps_data", using: :gin
     t.index ["uuid"], name: "index_office_calculations_on_uuid", unique: true
   end
 

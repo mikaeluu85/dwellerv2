@@ -1,4 +1,4 @@
-class AddDeletedAtToModelsWithSoftDelete < ActiveRecord::Migration[7.2]
+class AddDeletedAtToModelsWithSoftDelete < ActiveRecord::Migration[7.1]
   def change
     # Add deleted_at to listings if it doesn't exist
     unless column_exists?(:listings, :deleted_at)

@@ -1,4 +1,4 @@
-class CreateSolutions < ActiveRecord::Migration[7.2]
+class CreateSolutions < ActiveRecord::Migration[7.1]
   def change
     create_table :solutions do |t|
       t.references :listing, null: false, foreign_key: true

@@ -1,4 +1,4 @@
-class CreatePermutations < ActiveRecord::Migration[7.2]
+class CreatePermutations < ActiveRecord::Migration[7.1]
   def change
     create_table :permutations do |t|
       t.references :location, null: false, foreign_key: true

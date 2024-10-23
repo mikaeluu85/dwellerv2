@@ -1,4 +1,4 @@
-class AddSlugToListings < ActiveRecord::Migration[7.2]
+class AddSlugToListings < ActiveRecord::Migration[7.1]
   def change
     add_column :listings, :slug, :string
     add_index :listings, :slug, unique: true

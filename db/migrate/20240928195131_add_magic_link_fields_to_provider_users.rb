@@ -1,4 +1,4 @@
-class AddMagicLinkFieldsToProviderUsers < ActiveRecord::Migration[7.2]
+class AddMagicLinkFieldsToProviderUsers < ActiveRecord::Migration[7.1]
   def change
     add_column :provider_users, :magic_token, :string
     add_column :provider_users, :magic_token_expires_at, :datetime

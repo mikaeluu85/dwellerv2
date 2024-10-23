@@ -1,4 +1,4 @@
-class CreateListingAmenities < ActiveRecord::Migration[7.2]
+class CreateListingAmenities < ActiveRecord::Migration[7.1]
   def change
     create_table :listing_amenities do |t|
       t.references :listing, null: false, foreign_key: true

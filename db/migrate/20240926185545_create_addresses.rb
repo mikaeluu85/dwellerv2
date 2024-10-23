@@ -1,4 +1,4 @@
-class CreateAddresses < ActiveRecord::Migration[7.2]
+class CreateAddresses < ActiveRecord::Migration[7.1]
   def change
     create_table :addresses do |t|
       t.references :listing, null: false, foreign_key: true

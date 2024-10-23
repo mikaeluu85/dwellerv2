@@ -1,4 +1,4 @@
-class CreatePremiseTypes < ActiveRecord::Migration[7.2]
+class CreatePremiseTypes < ActiveRecord::Migration[7.1]
   def change
     create_table :premise_types do |t|
       t.string :name

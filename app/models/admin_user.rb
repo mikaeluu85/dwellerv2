@@ -9,6 +9,25 @@ class AdminUser < ApplicationRecord
   has_many :blog_posts, dependent: :destroy  # Ensure this association exists
   has_one_attached :avatar  # Add this line
 
+  # Add this line to create the virtual attribute
+  attr_accessor :skip_password_validation
+
+  def update_without_password(params, *options)
+    params.delete(:password)
+    params.delete(:password_confirmation)
+
+    result = update(params, *options)
+    clean_up_passwords
+    result
+  end
+
+  protected
+
+  def password_required?
+    return false if skip_password_validation
+    super
+  end
+
   def self.ransackable_attributes(auth_object = nil)
     %w[email id created_at updated_at name avatar]
   end

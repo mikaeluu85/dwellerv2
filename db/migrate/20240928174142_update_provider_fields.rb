@@ -1,4 +1,4 @@
-class UpdateProviderFields < ActiveRecord::Migration[7.2]
+class UpdateProviderFields < ActiveRecord::Migration[7.1]
   def change
     # Remove old fields
     remove_column :providers, :operator_page_description_about, :text

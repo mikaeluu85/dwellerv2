@@ -1,4 +1,4 @@
-class RemoveFieldsFromProviders < ActiveRecord::Migration[7.2]
+class RemoveFieldsFromProviders < ActiveRecord::Migration[7.1]
   def change
     remove_column :providers, :description_en, :text
     remove_column :providers, :founding_date, :date

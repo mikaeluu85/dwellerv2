@@ -93,6 +93,16 @@ group :development, :test do
 
   # Use Faker in your seeds file
   gem "faker"
+
+  # Testing frameworks
+  gem "rspec-rails"
+  gem "factory_bot_rails"
+  gem "faker"
+  gem "debug", platforms: %i[mri windows]
+  gem "dotenv-rails"
+  gem "brakeman", require: false
+  gem "rails_best_practices"
+  gem "rubocop-rails-omakase", require: false
 end
 
 group :development do
@@ -110,4 +120,9 @@ group :test do
   gem "shoulda-matchers"
   gem "database_cleaner-active_record"
   gem "simplecov", require: false
+  gem "webmock"
+  gem "vcr"
+  gem "timecop" # For time-based testing
+  gem "rspec-sidekiq" # For testing Sidekiq jobs
+  gem "pundit-matchers", "~> 3.1"
 end

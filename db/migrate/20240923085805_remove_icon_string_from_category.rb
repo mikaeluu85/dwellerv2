@@ -1,4 +1,4 @@
-class RemoveIconStringFromCategory < ActiveRecord::Migration[7.2]
+class RemoveIconStringFromCategory < ActiveRecord::Migration[7.1]
   def change
     remove_column :categories, :icon, :string
   end

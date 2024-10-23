@@ -1,4 +1,4 @@
-class CreateListings < ActiveRecord::Migration[7.2]
+class CreateListings < ActiveRecord::Migration[7.1]
   def change
     create_table :listings do |t|
       t.references :brand, null: false, foreign_key: true # Ensure brand cannot be null

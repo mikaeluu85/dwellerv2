@@ -1,4 +1,4 @@
-class AddDetailsToLocations < ActiveRecord::Migration[7.2]
+class AddDetailsToLocations < ActiveRecord::Migration[7.1]
   def change
     add_column :locations, :introduction, :text
     add_column :locations, :in_depth_description, :text

@@ -175,7 +175,7 @@ ActiveAdmin.setup do |config|
   # You can exclude possibly sensitive model attributes from being displayed,
   # added to forms, or exported by default by ActiveAdmin
   #
-  config.filter_attributes = [:encrypted_password, :password, :password_confirmation]
+  config.filter_attributes = [ :encrypted_password, :password, :password_confirmation ]
 
   # == Localize Date/Time Format
   #
@@ -355,7 +355,7 @@ ActiveAdmin.setup do |config|
   config.clear_stylesheets!
 
   # Register your custom stylesheet
-  config.register_stylesheet 'admin/active_admin.css', media: 'screen'
+  config.register_stylesheet "admin/active_admin.css", media: "screen"
 
   # Use Pundit for authorization
   config.authorization_adapter = ActiveAdmin::PunditAdapter
@@ -366,4 +366,18 @@ ActiveAdmin.setup do |config|
 
   # Remove the line that sets the default policy
   # config.pundit_default_policy = "AdminUserPolicy" # Remove this line
+
+  # Ensure the logout link uses DELETE method
+  config.logout_link_method = :delete
+
+  # Make sure the logout link path is correct
+  config.logout_link_path = :destroy_admin_user_session_path
+
+  # Override the default logout link to use a form
+  config.namespace :admin do |admin|
+    admin.build_menu :utility_navigation do |menu|
+      admin.add_current_user_to_menu menu
+      admin.add_logout_button_to_menu menu
+    end
+  end
 end

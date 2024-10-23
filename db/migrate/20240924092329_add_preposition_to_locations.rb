@@ -1,4 +1,4 @@
-class AddPrepositionToLocations < ActiveRecord::Migration[7.2]
+class AddPrepositionToLocations < ActiveRecord::Migration[7.1]
   def change
     add_column :locations, :preposition, :string
   end
