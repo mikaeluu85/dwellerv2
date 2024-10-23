@@ -10,6 +10,26 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'capybara/rails' # If you plan to write feature specs
+require 'simplecov'
+SimpleCov.start 'rails' do
+  # Configure SimpleCov
+  add_filter '/bin/'
+  add_filter '/db/'
+  add_filter '/test/'
+  add_filter '/config/'
+  add_filter '/vendor/'
+  add_filter '/spec/spec_helper.rb'
+
+  # Add groups for better organization
+  add_group 'Controllers', 'app/controllers'
+  add_group 'Models', 'app/models'
+  add_group 'Helpers', 'app/helpers'
+  add_group 'Libraries', 'lib'
+  add_group 'Policies', 'app/policies'
+
+  # Set minimum coverage percentage
+  minimum_coverage 90
+end
 
 # Configure FactoryBot
 RSpec.configure do |config|
