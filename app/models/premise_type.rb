@@ -4,10 +4,21 @@ class PremiseType < ApplicationRecord
   
     has_many :permutations
     has_many :locations, through: :permutations
+    has_and_belongs_to_many :offer_categories
   
     validates :name, presence: true
   
     after_create :generate_permutations
+    
+    # Add this method to allow ActiveAdmin to assign offer categories
+    def offer_category_ids=(ids)
+      self.offer_categories = OfferCategory.where(id: ids)
+    end
+    
+    # Make this method public
+    def offer_category_names
+      offer_categories.pluck(:name)
+    end
     
     private
   
@@ -34,7 +45,7 @@ class PremiseType < ApplicationRecord
     end
 
     def self.ransackable_associations(auth_object = nil)
-      ["locations", "permutations"]
+      ["locations", "permutations", "offer_categories"]
     end
 
     def self.find_by_slug(slug)
@@ -43,4 +54,26 @@ class PremiseType < ApplicationRecord
         .where(premise_types: { slug: premise_type_slug }, locations: { slug: location_slug })
         .first
     end
-  end
+
+    # Add a method to check if an offer's category is valid for this premise type
+    def valid_offer_category?(offer_category)
+      offer_category_ids.include?(offer_category.id)
+    end
+
+    def valid_offer?(offer)
+      valid_offer_category?(offer.offer_category)
+    end
+
+    def filter_valid_offers(offers)
+      offers.where(offer_category_id: offer_category_ids)
+    end
+
+    # Scopes
+    scope :with_prioritized_locations, -> { 
+      joins(:locations)
+        .where(locations: { prioritized: true })
+        .distinct 
+    }
+    
+    scope :ordered_by_name, -> { order(:name) }
+end

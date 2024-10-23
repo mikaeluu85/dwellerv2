@@ -52,4 +52,25 @@ class Listing < ApplicationRecord
   validates :area_description, presence: true
   validates :commuter_description, presence: true
 
+  def coordinates
+    address&.coordinates_array
+  end
+
+  def latitude
+    address&.latitude
+  end
+
+  def longitude
+    address&.longitude
+  end
+
+  def valid_offers_for_premise_type(premise_type)
+    offers
+      .active
+      .joins(:offer_category)
+      .joins('INNER JOIN offer_categories_premise_types ON offer_categories.id = offer_categories_premise_types.offer_category_id')
+      .where(offer_categories_premise_types: { premise_type_id: premise_type.id })
+      .group('offers.id')  # Use GROUP BY instead of DISTINCT
+  end
+
 end

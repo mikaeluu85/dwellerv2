@@ -1,6 +1,6 @@
 ActiveAdmin.register Offer do
   menu parent: 'Customers', priority: 3
-  permit_params :listing_id, :name, :description, :description_en, :price, :desk_type, :nb_days, :personal, :area, :max_seats, :min_seats, :terms, :status, :type, :category, :deleted_at
+  permit_params :listing_id, :name, :description, :description_en, :price, :desk_type, :nb_days, :personal, :area, :max_seats, :min_seats, :terms, :status, :offer_type, :offer_category_id, :deleted_at
 
   scope :all, default: true
   scope :active, -> { where(deleted_at: nil) }
@@ -39,11 +39,23 @@ ActiveAdmin.register Offer do
       f.input :max_seats
       f.input :min_seats
       f.input :terms
-      f.input :status, as: :select, collection: Offer.statuses
-      f.input :offer_type, as: :select, collection: Offer.offer_types.keys
-      f.input :category, as: :select, collection: Offer.categories
-      f.input :deleted_at
+      f.input :status, as: :select, collection: Offer.statuses.keys.map { |s| [s.titleize, s] }
+      f.input :offer_type, as: :select, collection: Offer.offer_types.keys.map { |t| [t.titleize, t] }
+      f.input :offer_category, as: :select, collection: OfferCategory.all.pluck(:name, :id), include_blank: 'Select a Category'
+      f.input :deleted_at, as: :datepicker
     end
     f.actions
+  end
+
+  controller do
+    def update
+      super do |success, failure|
+        success.html { redirect_to admin_offer_path(resource), notice: 'Offer was successfully updated.' }
+        failure.html do
+          flash.now[:error] = resource.errors.full_messages.to_sentence
+          render :edit
+        end
+      end
+    end
   end
 end

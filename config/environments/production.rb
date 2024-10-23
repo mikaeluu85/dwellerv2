@@ -114,4 +114,10 @@ Rails.application.configure do
 
   # Ensure URLs in emails use HTTPS
   config.action_mailer.default_url_options = { host: 'dweller.se', protocol: 'https' }
+
+  # Add these lines at the end of the file
+  config.after_initialize do
+    Rails.application.routes.default_url_options[:host] = ENV['APPLICATION_HOST']
+    ActiveStorage::Current.url_options = Rails.application.routes.default_url_options
+  end
 end

@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.2.1"
+gem 'rails', '~> 7.1.0'
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 # Use postgresql as the database for Active Record
@@ -66,6 +66,9 @@ gem 'rack-attack' # For rate limiting
 gem 'postmark-rails' # For sending emails
 gem 'google_maps_rails' # For Google Maps
 gem 'geocoder' # For geocoding
+gem 'activerecord-postgis-adapter', '~> 9.0' # PostGIS adapter
+gem 'rgeo' # For spatial data types
+gem 'rgeo-geojson' #
 
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'

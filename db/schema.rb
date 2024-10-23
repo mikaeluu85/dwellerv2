@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_09_141523) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_23_131026) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "postgis"
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -66,6 +67,10 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_09_141523) do
     t.string "postal_town"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "latitude", precision: 10, scale: 8
+    t.decimal "longitude", precision: 11, scale: 8
+    t.geography "coordinates", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
+    t.index ["latitude", "longitude"], name: "index_addresses_on_latitude_and_longitude"
     t.index ["listing_id"], name: "index_addresses_on_listing_id"
   end
 
@@ -257,6 +262,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_09_141523) do
     t.boolean "prioritized", default: false
     t.string "preposition"
     t.decimal "bashyra", precision: 10, scale: 2
+    t.index ["prioritized"], name: "index_locations_on_prioritized"
     t.index ["slug"], name: "index_locations_on_slug", unique: true
   end
 
@@ -265,6 +271,20 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_09_141523) do
     t.bigint "location_id", null: false
     t.index ["location_id", "search_contact_id"], name: "index_locations_search_contacts"
     t.index ["search_contact_id", "location_id"], name: "index_search_contacts_locations"
+  end
+
+  create_table "offer_categories", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_offer_categories_on_name", unique: true
+  end
+
+  create_table "offer_categories_premise_types", id: false, force: :cascade do |t|
+    t.bigint "premise_type_id", null: false
+    t.bigint "offer_category_id", null: false
+    t.index ["offer_category_id", "premise_type_id"], name: "index_offer_categories_premise_types"
+    t.index ["premise_type_id", "offer_category_id"], name: "index_premise_types_offer_categories"
   end
 
   create_table "offer_excluded_amenities", force: :cascade do |t|
@@ -305,16 +325,17 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_09_141523) do
     t.boolean "personal"
     t.float "area"
     t.integer "max_seats"
-    t.integer "min_seats"
     t.json "terms"
     t.integer "status"
     t.integer "offer_type"
-    t.integer "category"
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "offer_category_id"
+    t.integer "min_seats"
     t.index ["deleted_at"], name: "index_offers_on_deleted_at"
     t.index ["listing_id"], name: "index_offers_on_listing_id"
+    t.index ["offer_category_id"], name: "index_offers_on_offer_category_id"
   end
 
   create_table "office_calculations", force: :cascade do |t|
@@ -344,6 +365,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_09_141523) do
     t.text "in_depth_description"
     t.text "commuter_description"
     t.index ["location_id"], name: "index_permutations_on_location_id"
+    t.index ["premise_type_id", "location_id"], name: "index_permutations_on_premise_type_id_and_location_id"
     t.index ["premise_type_id"], name: "index_permutations_on_premise_type_id"
   end
 
@@ -465,6 +487,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_09_141523) do
   add_foreign_key "offer_paid_amenities", "offers"
   add_foreign_key "offer_versions", "offers"
   add_foreign_key "offers", "listings"
+  add_foreign_key "offers", "offer_categories"
   add_foreign_key "office_calculations", "locations"
   add_foreign_key "permutations", "locations"
   add_foreign_key "permutations", "premise_types"

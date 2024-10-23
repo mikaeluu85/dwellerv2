@@ -57,4 +57,8 @@ class Location < ApplicationRecord
       ["premise_types", "permutations"]
     end
 
+    # Scopes
+    scope :prioritized, -> { where(prioritized: true) }
+    scope :ordered_by_name, -> { order(:name) }
+
   end

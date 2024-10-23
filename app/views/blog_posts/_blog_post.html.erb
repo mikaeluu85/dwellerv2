@@ -1,17 +1,20 @@
 <div>
   <% if blog_post.featured_image.attached? %>
-    <%= image_tag blog_post.featured_image.variant(resize_to_fill: [400, 300]), class: "w-full h-48 object-cover rounded-lg transition duration-300 ease-in-out hover:opacity-80" %>
+    <%= image_tag blog_post.featured_image.variant(resize_to_fill: [400, 300]), 
+                  class: "w-full h-48 object-cover rounded-lg transition duration-300 ease-in-out hover:opacity-80" %>
   <% end %>
   <div class="mt-5 px-4">
     <h3 class="font-bold text-lg tracking-tight">
-      <%= link_to blog_post.title, blog_article_path(blog_post.category.slug, blog_post.slug), class: "tracking-tight text-custom-black  hover:text-light-grey transition duration-300 ease-in-out" %>
+      <%= link_to blog_post.title, 
+                  blog_article_path(blog_post.category.slug, blog_post.slug), 
+                  class: "tracking-tight text-custom-black hover:text-light-grey transition duration-300 ease-in-out" %>
     </h3>
     <div class="flex items-center mt-2 pt-2">
-      <% if blog_post.admin_user.avatar.attached? %>
-        <%= image_tag blog_post.admin_user.avatar.variant(resize_to_fill: [24, 24]), class: "h-6 w-6 rounded-full mr-2" %>
+      <% if blog_post.admin_user&.avatar&.attached? %>
+        <%= image_tag blog_post.admin_user.avatar.variant(resize_to_fill: [24, 24]), 
+                      class: "h-6 w-6 rounded-full mr-2" %>
       <% end %>
-      <span class="text-light-grey font-semibold text-sm"><%= blog_post.admin_user.name %></span>
+      <span class="text-light-grey font-semibold text-sm"><%= blog_post.admin_user&.name %></span>
     </div>
   </div>
 </div>
-

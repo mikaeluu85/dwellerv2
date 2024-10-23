@@ -9,7 +9,7 @@ ActiveAdmin.register Listing do
                 :number_of_meeting_rooms, :opened, :short_description,
                 :short_description_en, :showing_message, :size,
                 :surface_per_user, :url,
-                address_attributes: [:id, :street, :city, :postal_code],
+                address_attributes: [:id, :street, :city, :postal_code, :latitude, :longitude, :coordinates, :_destroy],
                 amenity_ids: [],
                 provider_user_ids: [],
                 offers_attributes: [:id, :name, :description, :price, :_destroy]
@@ -62,13 +62,25 @@ ActiveAdmin.register Listing do
       row :area_description  # New row added
       row :commuter_description  # New row added
       row :main_image do |listing|
-        image_tag listing.main_image.url if listing.main_image.attached?
+        if listing.main_image.attached?
+          begin
+            image_tag listing.main_image.url
+          rescue StandardError => e
+            "Error loading image: #{e.message}"
+          end
+        else
+          "No main image attached"
+        end
       end
       row :gallery_images do |listing|
         ul do
           listing.gallery_images.each do |img|
             li do
-              image_tag img.url, size: '100x100'
+              begin
+                image_tag img.url, size: '100x100'
+              rescue StandardError => e
+                "Error loading image: #{e.message}"
+              end
             end
           end
         end
@@ -105,6 +117,13 @@ ActiveAdmin.register Listing do
       row :short_description_en
       row :url
       row :showing_message
+      row :coordinates do |listing|
+        if listing.address&.coordinates.present?
+          "POINT(#{listing.address.longitude} #{listing.address.latitude})"
+        else
+          "Coordinates not available"
+        end
+      end
     end
   end
 
@@ -137,10 +156,14 @@ ActiveAdmin.register Listing do
     end
 
     f.inputs 'Address' do
-      f.has_many :address, allow_destroy: true, new_record: true do |a|
+      f.has_many :address, allow_destroy: true, new_record: false do |a|
         a.input :street
         a.input :city
         a.input :postal_code
+        a.input :latitude, input_html: { readonly: true }
+        a.input :longitude, input_html: { readonly: true }
+        a.input :coordinates, input_html: { readonly: true }
+        a.input :address_changed, as: :hidden, input_html: { value: true }
       end
       
       f.inputs 'Amenities' do

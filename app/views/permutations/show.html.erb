@@ -1,6 +1,14 @@
+<% Rails.logger.info "=== Starting permutations/show.html.erb render ===" %>
+<% if @listings.nil? %>
+  <% Rails.logger.info "@listings is nil" %>
+<% elsif @listings.empty? %>
+  <% Rails.logger.info "@listings is empty" %>
+<% else %>
+  <% Rails.logger.info "Listing count: #{@listings.size}" %>
+  <% Rails.logger.info "First listing ID: #{@listings.first&.id}" %>
+<% end %>
+
 <% content_for :head do %>
-  <title><%= @custom_data['seo_title'] || "Hyra #{@premise_type.name} i #{@location.name}" %></title>
-  <meta name="description" content="<%= @custom_data['seo_description'] %>">
   <!-- Include Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <!-- Include Leaflet JS -->
@@ -85,49 +93,30 @@
       </div>
     </div>
 
+    <!-- Listings section -->
+    <% if @listings_count > 0 %>
+      <div class="flex flex-col bg-white mx-auto px-4 sm:px-6 lg:px-8 my-12">
+        <p class="text-xl font-medium mb-4 my-2"><%= @premise_type.name.titleize %> <%= @location.full_description %></p>
+        <p class="text-base text-light-grey mb-4"><%= pluralize(@listings_count, 'resultat') %> med Hot desk-erbjudanden</p>
+        
+        <div class="overflow-x-auto snap-x snap-mandatory hide-scrollbar md:overflow-x-visible" 
+             data-controller="infinite-scroll" 
+             data-infinite-scroll-url-value="<%= permutation_path(@permutation) %>"
+             data-infinite-scroll-page-value="1">
+          <div id="listings-container" class="flex flex-nowrap md:flex-wrap space-x-4 md:space-x-0 md:gap-4 pb-8" data-infinite-scroll-target="container">
+            <% @listings.each_with_index do |listing, index| %>
+              <% Rails.logger.info "Rendering listing #{index + 1}/#{@listings.size}: #{listing.id}" %>
+              <%= render 'listing', listing: listing, skip_terms: true %>
+            <% end %>
+          </div>
+          <div data-infinite-scroll-target="loader" class="hidden">
+            Loading more listings...
+          </div>
+        </div>
+      </div>
+    <% end %>
+
     <!-- Edit in here -->
-
-<div class="flex flex-col bg-white mx-auto px-8 m-12">
-  <p class="text-xl font-medium mb-4 my-2"> <%= @premise_type.name.titleize %> <%= @location.full_description %></p>
-  <p class="text-base text-light-grey mb-4">1 resultat</p>
-  <div class="flex overflow-x-scroll pb-10 hide-scroll-bar w-full"> <!-- Scrollable container -->
-
-    <div class="flex flex-nowrap space-x-2 sm:space-x-2 md:space-x-4 w-full"> <!-- Flex container takes full width and has responsive spacing -->
-
-      <!-- Listing item -->
-      <div class="flex-none w-[80vw] sm:w-[calc(50%-1.5rem)] lg:w-[calc(33%-1.5rem)] xl:w-[calc(33%-4rem)] sm:scroll-m-6 md:scroll-m-16 xl:scroll-m-1 scroll-snap-align-start flex flex-col">
-        <div class="h-64 w-full overflow-hidden rounded-lg shadow-md bg-light-grey hover:shadow-xl transition-shadow duration-300 ease-in-out">
-          <!-- Content -->
-        </div>
-      </div>
-
-            <!-- Listing item -->
-      <div class="flex-none w-[80vw] sm:w-[calc(50%-1.5rem)] lg:w-[calc(33%-1.5rem)] xl:w-[calc(33%-4rem)] sm:scroll-m-6 md:scroll-m-16 xl:scroll-m-1 scroll-snap-align-start flex flex-col">
-        <div class="h-64 w-full overflow-hidden rounded-lg shadow-md bg-light-grey hover:shadow-xl transition-shadow duration-300 ease-in-out">
-          <!-- Content -->
-        </div>
-      </div>
-
-            <!-- Listing item -->
-      <div class="flex-none w-[80vw] sm:w-[calc(50%-1.5rem)] lg:w-[calc(33%-1.5rem)] xl:w-[calc(33%-4rem)] sm:scroll-m-6 md:scroll-m-16 xl:scroll-m-1 scroll-snap-align-start flex flex-col">
-        <div class="h-64 w-full overflow-hidden rounded-lg shadow-md bg-light-grey hover:shadow-xl transition-shadow duration-300 ease-in-out">
-          <!-- Content -->
-        </div>
-      </div>
-
-      <div class="flex-none w-[80vw] sm:w-[calc(50%-1.5rem)] lg:w-[calc(33%-1.5rem)] xl:w-[calc(33%-4rem)] sm:scroll-m-6 md:scroll-m-16 xl:scroll-m-1 scroll-snap-align-start flex flex-col">
-        <div class="h-64 w-full overflow-hidden rounded-lg shadow-md bg-light-grey hover:shadow-xl transition-shadow duration-300 ease-in-out">
-          <!-- Content -->
-        </div>
-      </div>
-
-      <!-- Add more listing items if needed -->
-
-    </div>
-  </div>
-</div>
-
-<!-- Edit in here -->
 
 
 
@@ -282,3 +271,27 @@
 
 <%= render 'shared/feature_blogpost' %>
 <%= render 'shared/footer' %>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
