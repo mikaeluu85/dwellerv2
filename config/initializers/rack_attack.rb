@@ -25,6 +25,7 @@ class Rack::Attack
           req.ip
       end
     end
+
     # Throttle POST requests to /advertisers/submit_contact
     throttle('limit_advertiser_contact/ip', limit: 5, period: 60) do |req|
       if req.path == '/advertisers/submit_contact' && req.post?
@@ -39,19 +40,19 @@ class Rack::Attack
       end
     end
 
-    # Customize the response for throttled requests based on the request path
-    self.throttled_response = lambda do |env|
-      request = Rack::Request.new(env)
+    # Use the new throttled_responder with your custom error messages
+    self.throttled_responder = lambda do |request|
       error_message = case request.path
-                      when '/provider/magic-login'
-                        "Du har begärt en magisk länk för inloggning flera gånger. Vänligen försök igen senare."
-                      when '/search_helper/submit_contact'
-                        "Du har överskridit antalet tillåtna förfrågningar. Vänligen försök igen senare."
-                      when '/advertisers/submit_contact'
-                        "Du har överskridit antalet tillåtna förfrågningar för kontaktformuläret. Vänligen försök igen senare."
-                      else
-                        "Något gick fel, vänligen försök igen senare."
-                      end
+                     when '/provider/magic-login'
+                       "Du har begärt en magisk länk för inloggning flera gånger. Vänligen försök igen senare."
+                     when '/search_helper/submit_contact'
+                       "Du har överskridit antalet tillåtna förfrågningar. Vänligen försök igen senare."
+                     when '/advertisers/submit_contact'
+                       "Du har överskridit antalet tillåtna förfrågningar för kontaktformuläret. Vänligen försök igen senare."
+                     else
+                       "Något gick fel, vänligen försök igen senare."
+                     end
+      
       [429, { 'Content-Type' => 'application/json' }, [{ error: error_message }.to_json]]
     end
-  end
+end

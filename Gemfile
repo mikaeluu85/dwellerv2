@@ -21,6 +21,8 @@ gem "jbuilder"
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
+gem 'ostruct', '~> 0.6.0' # For Rack Attack
+
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 
@@ -69,6 +71,7 @@ gem 'geocoder' # For geocoding
 gem 'activerecord-postgis-adapter', '~> 9.0' # PostGIS adapter
 gem 'rgeo' # For spatial data types
 gem 'rgeo-geojson' #
+
 
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
