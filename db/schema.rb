@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_23_110626) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_23_131026) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -262,6 +262,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_23_110626) do
     t.boolean "prioritized", default: false
     t.string "preposition"
     t.decimal "bashyra", precision: 10, scale: 2
+    t.index ["prioritized"], name: "index_locations_on_prioritized"
     t.index ["slug"], name: "index_locations_on_slug", unique: true
   end
 
@@ -364,6 +365,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_23_110626) do
     t.text "in_depth_description"
     t.text "commuter_description"
     t.index ["location_id"], name: "index_permutations_on_location_id"
+    t.index ["premise_type_id", "location_id"], name: "index_permutations_on_premise_type_id_and_location_id"
     t.index ["premise_type_id"], name: "index_permutations_on_premise_type_id"
   end
 

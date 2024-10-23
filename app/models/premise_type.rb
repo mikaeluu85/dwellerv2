@@ -67,4 +67,13 @@ class PremiseType < ApplicationRecord
     def filter_valid_offers(offers)
       offers.where(offer_category_id: offer_category_ids)
     end
+
+    # Scopes
+    scope :with_prioritized_locations, -> { 
+      joins(:locations)
+        .where(locations: { prioritized: true })
+        .distinct 
+    }
+    
+    scope :ordered_by_name, -> { order(:name) }
 end
