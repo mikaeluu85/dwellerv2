@@ -67,15 +67,13 @@
           </p>
           <h1 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"><%= @blog_post.title %></h1>
           <div class="flex items-center space-x-3 text-sm mt-6">
-            <%= image_tag @blog_post.admin_user.avatar.variant(resize_to_fill: [40, 40]), 
-                          class: "w-10 h-10 rounded-full" %>
+            <% if @blog_post.admin_user&.avatar&.attached? %>
+              <%= image_tag @blog_post.admin_user.avatar.variant(resize_to_fill: [40, 40]), 
+                            class: "w-10 h-10 rounded-full" %>
+            <% end %>
             <div>
               <span class="text-gray-500">Av</span>
-              <span class=" text-gray-500"><%= @blog_post.admin_user.name %></span>
-              <span class="text-gray-500 mx-1">·</span>
-              <time datetime="<%= @blog_post.created_at.strftime('%Y-%m-%d') %>" class="text-gray-500">
-                <%= @blog_post.created_at.strftime('%B %d, %Y') %>
-              </time>
+              <span class="font-medium text-gray-900"><%= @blog_post.admin_user&.name %></span>
             </div>
           </div>
 
@@ -101,8 +99,10 @@
             <!-- Author info and CTA -->
             <div class="grid grid-cols-6 gap-3 items-start mb-6">
               <div class="col-span-1 self-start">
-                <%= image_tag @blog_post.admin_user.avatar.variant(resize_to_fill: [100, 100]), 
+                <% if @blog_post.admin_user&.avatar&.attached? %>
+                  <%= image_tag @blog_post.admin_user.avatar.variant(resize_to_fill: [100, 100]), 
                               class: "w-full h-auto rounded-full" %>
+                <% end %>
               </div>
               <div class="col-span-5 pl-4 border-l border-super-light">
                 <h3 class="text-lg font-semibold mb-2">Läge för nytt kontor?</h3>

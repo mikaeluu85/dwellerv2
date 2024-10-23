@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  # Add near the top of routes.rb
+  get '/manifest.json', to: 'application#manifest'
+
   get "advertisers/index"
   ActiveAdmin.routes(self)
   devise_for :admin_users, controllers: { sessions: 'admin_users/sessions' }

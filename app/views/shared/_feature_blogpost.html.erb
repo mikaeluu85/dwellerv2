@@ -1,76 +1,80 @@
-<% category ||= nil %>
-<% top_stories ||= false %>
-<% blog_posts = BlogPost.visible.recent %>
-<% blog_posts = blog_posts.by_category(category.id) if category %>
-<% featured_post = top_stories ? blog_posts.top_stories.first : blog_posts.first %>
-<% latest_posts = top_stories ? blog_posts.top_stories.where.not(id: featured_post&.id).limit(5) : blog_posts.where.not(id: featured_post&.id).limit(5) %>
+<% cache "feature_blogpost", expires_in: 1.hour do %>
+  <% category ||= nil %>
+  <% top_stories ||= false %>
+  <% blog_posts = BlogPost.cached_featured_posts %>
+  <% blog_posts = blog_posts.select { |post| post.category_id == category.id } if category %>
+  <% featured_post = top_stories ? blog_posts.find(&:top_story) : blog_posts.first %>
+  <% latest_posts = top_stories ? 
+       blog_posts.select(&:top_story).reject { |post| post == featured_post }.first(5) : 
+       blog_posts.reject { |post| post == featured_post }.first(5) %>
 
-<div class="bg-white pb-16 <%= 'pt-16' unless controller_name == 'blog_posts' && (action_name == 'index' || action_name == 'category') %>">
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 <%= 'border-t border-super-light' unless controller_name == 'blog_posts' && (action_name == 'index' || action_name == 'category') %>">
-    <div class="w-full mb-8 pb-6">
-      <p class="text-base font-semibold leading-7 bg-primary"></p>
-      <h2 class="mt-2 text-xl font-bold tracking-tight text-custom-black sm:text-4xl">
-        <%= top_stories ? "Våra bästa guider" : (category ? "Mer läsning om #{category&.name&.downcase}" : "Lär dig mer om kontor") %>
-      </h2>
+  <div class="bg-white pb-16 <%= 'pt-16' unless controller_name == 'blog_posts' && (action_name == 'index' || action_name == 'category') %>">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 <%= 'border-t border-super-light' unless controller_name == 'blog_posts' && (action_name == 'index' || action_name == 'category') %>">
+      <div class="w-full mb-8 pb-6">
+        <p class="text-base font-semibold leading-7 bg-primary"></p>
+        <h2 class="mt-2 text-xl font-bold tracking-tight text-custom-black sm:text-4xl">
+          <%= top_stories ? "Våra bästa guider" : (category ? "Mer läsning om #{category&.name&.downcase}" : "Lär dig mer om kontor") %>
+        </h2>
+      </div>
     </div>
-  </div>
-  <div class="mx-auto grid max-w-7xl -grid-cols-1 gap-x-8 gap-y-12 px-6 sm:gap-y-16 lg:grid-cols-2 lg:px-8">
-    <% if featured_post %>
-      <article class="mx-auto w-full lg:mx-0 lg:max-w-none">
-        <%= link_to blog_article_path(featured_post.category.slug, featured_post.slug), class: "block mb-6" do %>
-          <div class="w-full mb-6 relative" style="padding-top: 56.25%;">
-            <% if featured_post.featured_image.attached? %>
-              <%= image_tag featured_post.featured_image.variant(resize_to_fill: [1600, 900]), 
-                            class: "absolute top-0 left-0 w-full h-full object-cover rounded-lg transition duration-300 ease-in-out hover:opacity-80", 
-                            alt: "Featured blog post image" %>
-            <% end %>
-          </div>
-        <% end %>
-        <time datetime="<%= featured_post.created_at.iso8601 %>" class="block text-sm leading-6 text-light-grey">
-          <%= featured_post.created_at.strftime('%B %d, %Y') %>
-        </time>
-        <%= link_to blog_article_path(featured_post.category.slug, featured_post.slug), class: "block group" do %>
-          <h2 id="featured-post" class="mt-4 text-3xl font-bold tracking-tight text-custom-black sm:text-4xl group-hover:text-light-grey transition duration-300 ease-in-out">
-            <%= featured_post.title %>
-          </h2>
-        <% end %>
-        <p class="mt-4 text-lg leading-8 text-gray-600"><%= featured_post.excerpt %></p>
-        <div class="mt-4 flex flex-col justify-between gap-6 sm:mt-8 sm:flex-row-reverse sm:gap-8 lg:mt-4 lg:flex-col">
-          <div class="flex">
-            <%= link_to "Continue reading", blog_article_path(featured_post.category.slug, featured_post.slug), class: "text-sm font-semibold leading-6 text-dark-grey", aria: { describedby: "featured-post" } %>
-            <span aria-hidden="true">&rarr;</span>
-          </div>
-          <div class="flex lg:border-t lg:border-gray-900/10 lg:pt-8">
-            <%= link_to "#", class: "flex gap-x-2.5 text-sm font-semibold leading-6 text-gray-900" do %>
-              <%= image_tag featured_post.admin_user.avatar.variant(resize_to_fill: [24, 24]), class: "h-6 w-6 flex-none rounded-full bg-gray-50" if featured_post.admin_user.avatar.attached? %>
-              <%= content_tag(:span, featured_post.admin_user.name, class: "text-light-grey") %>
-            <% end %>
-          </div>
-        </div>
-      </article>
-    <% end %>
-    <div class="mx-auto w-full max-w-2xl border-t border-gray-900/10 pt-12 sm:pt-16 lg:mx-0 lg:max-w-none lg:border-t-0 lg:pt-0">
-      <div class="-my-12 divide-y divide-gray-900/10">
-        <% latest_posts.each do |post| %>
-          <article class="py-8">
-            <div class="group relative max-w-xl">
-              <time datetime="<%= post.created_at.iso8601 %>" class="block text-sm leading-6 text-light-grey">
-                <%= post.created_at.strftime('%B %d, %Y') %>
-              </time>
-              <h2 class="mt-2 text-lg font-semibold text-gray-900 group-hover:text-gray-600">
-                <%= link_to post.title, blog_article_path(post.category.slug, post.slug) %>
-              </h2>
-              <p class="mt-4 text-sm leading-6 text-gray-600"><%= post.excerpt %></p>
-            </div>
-            <div class="mt-4 flex">
-              <%= link_to "#", class: "relative flex gap-x-2.5 text-sm font-semibold leading-6 text-gray-900" do %>
-                <%= image_tag post.admin_user.avatar.variant(resize_to_fill: [24, 24]), class: "h-6 w-6 flex-none rounded-full bg-gray-50" if post.admin_user.avatar.attached? %>
-                <%= content_tag(:span, post.admin_user.name, class: "text-light-grey semi-bold") %>
+    <div class="mx-auto grid max-w-7xl -grid-cols-1 gap-x-8 gap-y-12 px-6 sm:gap-y-16 lg:grid-cols-2 lg:px-8">
+      <% if featured_post %>
+        <article class="mx-auto w-full lg:mx-0 lg:max-w-none">
+          <%= link_to blog_article_path(featured_post.category.slug, featured_post.slug), class: "block mb-6" do %>
+            <div class="w-full mb-6 relative" style="padding-top: 56.25%;">
+              <% if featured_post.featured_image.attached? %>
+                <%= image_tag featured_post.featured_image.variant(resize_to_fill: [1600, 900]), 
+                              class: "absolute top-0 left-0 w-full h-full object-cover rounded-lg transition duration-300 ease-in-out hover:opacity-80", 
+                              alt: "Featured blog post image" %>
               <% end %>
             </div>
-          </article>
-        <% end %>
+          <% end %>
+          <time datetime="<%= featured_post.created_at.iso8601 %>" class="block text-sm leading-6 text-light-grey">
+            <%= featured_post.created_at.strftime('%B %d, %Y') %>
+          </time>
+          <%= link_to blog_article_path(featured_post.category.slug, featured_post.slug), class: "block group" do %>
+            <h2 id="featured-post" class="mt-4 text-3xl font-bold tracking-tight text-custom-black sm:text-4xl group-hover:text-light-grey transition duration-300 ease-in-out">
+              <%= featured_post.title %>
+            </h2>
+          <% end %>
+          <p class="mt-4 text-lg leading-8 text-gray-600"><%= featured_post.excerpt %></p>
+          <div class="mt-4 flex flex-col justify-between gap-6 sm:mt-8 sm:flex-row-reverse sm:gap-8 lg:mt-4 lg:flex-col">
+            <div class="flex">
+              <%= link_to "Continue reading", blog_article_path(featured_post.category.slug, featured_post.slug), class: "text-sm font-semibold leading-6 text-dark-grey", aria: { describedby: "featured-post" } %>
+              <span aria-hidden="true">&rarr;</span>
+            </div>
+            <div class="flex lg:border-t lg:border-gray-900/10 lg:pt-8">
+              <%= link_to "#", class: "flex gap-x-2.5 text-sm font-semibold leading-6 text-gray-900" do %>
+                <%= image_tag featured_post.admin_user.avatar.variant(resize_to_fill: [24, 24]), class: "h-6 w-6 flex-none rounded-full bg-gray-50" if featured_post.admin_user.avatar.attached? %>
+                <%= content_tag(:span, featured_post.admin_user.name, class: "text-light-grey") %>
+              <% end %>
+            </div>
+          </div>
+        </article>
+      <% end %>
+      <div class="mx-auto w-full max-w-2xl border-t border-gray-900/10 pt-12 sm:pt-16 lg:mx-0 lg:max-w-none lg:border-t-0 lg:pt-0">
+        <div class="-my-12 divide-y divide-gray-900/10">
+          <% latest_posts.each do |post| %>
+            <article class="py-8">
+              <div class="group relative max-w-xl">
+                <time datetime="<%= post.created_at.iso8601 %>" class="block text-sm leading-6 text-light-grey">
+                  <%= post.created_at.strftime('%B %d, %Y') %>
+                </time>
+                <h2 class="mt-2 text-lg font-semibold text-gray-900 group-hover:text-gray-600">
+                  <%= link_to post.title, blog_article_path(post.category.slug, post.slug) %>
+                </h2>
+                <p class="mt-4 text-sm leading-6 text-gray-600"><%= post.excerpt %></p>
+              </div>
+              <div class="mt-4 flex">
+                <%= link_to "#", class: "relative flex gap-x-2.5 text-sm font-semibold leading-6 text-gray-900" do %>
+                  <%= image_tag post.admin_user.avatar.variant(resize_to_fill: [24, 24]), class: "h-6 w-6 flex-none rounded-full bg-gray-50" if post.admin_user.avatar.attached? %>
+                  <%= content_tag(:span, post.admin_user.name, class: "text-light-grey semi-bold") %>
+                <% end %>
+              </div>
+            </article>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
-</div>
+<% end %>

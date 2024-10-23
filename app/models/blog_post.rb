@@ -1,4 +1,5 @@
 class BlogPost < ApplicationRecord
+  include BlogPostQueryable  # Add this line
   extend FriendlyId
   friendly_id :title, use: :slugged
 
