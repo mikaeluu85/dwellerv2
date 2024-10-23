@@ -1,3 +1,13 @@
+<% Rails.logger.info "=== Starting permutations/show.html.erb render ===" %>
+<% if @listings.nil? %>
+  <% Rails.logger.info "@listings is nil" %>
+<% elsif @listings.empty? %>
+  <% Rails.logger.info "@listings is empty" %>
+<% else %>
+  <% Rails.logger.info "Listing count: #{@listings.size}" %>
+  <% Rails.logger.info "First listing ID: #{@listings.first&.id}" %>
+<% end %>
+
 <% content_for :head do %>
   <!-- Include Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -94,7 +104,10 @@
              data-infinite-scroll-url-value="<%= permutation_path(@permutation) %>"
              data-infinite-scroll-page-value="1">
           <div id="listings-container" class="flex flex-nowrap md:flex-wrap space-x-4 md:space-x-0 md:gap-4 pb-8" data-infinite-scroll-target="container">
-            <%= render partial: 'listing', collection: @listings %>
+            <% @listings.each_with_index do |listing, index| %>
+              <% Rails.logger.info "Rendering listing #{index + 1}/#{@listings.size}: #{listing.id}" %>
+              <%= render 'listing', listing: listing, skip_terms: true %>
+            <% end %>
           </div>
           <div data-infinite-scroll-target="loader" class="hidden">
             Loading more listings...
@@ -258,6 +271,11 @@
 
 <%= render 'shared/feature_blogpost' %>
 <%= render 'shared/footer' %>
+
+
+
+
+
 
 
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_22_130327) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_23_110626) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -324,7 +324,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_22_130327) do
     t.boolean "personal"
     t.float "area"
     t.integer "max_seats"
-    t.integer "min_seats"
     t.json "terms"
     t.integer "status"
     t.integer "offer_type"
@@ -332,6 +331,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_22_130327) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "offer_category_id"
+    t.integer "min_seats"
     t.index ["deleted_at"], name: "index_offers_on_deleted_at"
     t.index ["listing_id"], name: "index_offers_on_listing_id"
     t.index ["offer_category_id"], name: "index_offers_on_offer_category_id"
