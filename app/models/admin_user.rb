@@ -1,9 +1,9 @@
 class AdminUser < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, 
-         :recoverable, 
-         :rememberable, 
+  devise :database_authenticatable,
+         :recoverable,
+         :rememberable,
          :validatable
 
   has_many :blog_posts, dependent: :destroy  # Ensure this association exists
@@ -14,7 +14,7 @@ class AdminUser < ApplicationRecord
   end
 
   def self.ransackable_associations(auth_object = nil)
-    ["blog_posts", "avatar_attachment", "avatar_blob"]  # Valid association
+    [ "blog_posts", "avatar_attachment", "avatar_blob" ]  # Valid association
   end
 
   # Removed the 'to_sym' method and 'method_missing' override

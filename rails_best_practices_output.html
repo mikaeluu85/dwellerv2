@@ -60,7 +60,7 @@
       to see more useful Rails Best Practices.
     </p>
     <p>
-        Found 100 warnings.
+        Found 322 warnings.
     </p>
     <table>
           <tr>
@@ -69,8 +69,8 @@
                 />&nbsp;<label for="LawOfDemeterReview">Law Of Demeter</label>
               </td>
               <td>
-                <input type="checkbox" class="error-type" id="RemoveUnusedMethodsInControllersReview" value="RemoveUnusedMethodsInControllersReview"
-                />&nbsp;<label for="RemoveUnusedMethodsInControllersReview">Remove Unused Methods In Controllers</label>
+                <input type="checkbox" class="error-type" id="RemoveUnusedMethodsInHelpersReview" value="RemoveUnusedMethodsInHelpersReview"
+                />&nbsp;<label for="RemoveUnusedMethodsInHelpersReview">Remove Unused Methods In Helpers</label>
               </td>
               <td>
                 <input type="checkbox" class="error-type" id="SimplifyRenderInViewsReview" value="SimplifyRenderInViewsReview"
@@ -79,12 +79,26 @@
           </tr>
           <tr>
               <td>
-                <input type="checkbox" class="error-type" id="MoveModelLogicIntoModelReview" value="MoveModelLogicIntoModelReview"
-                />&nbsp;<label for="MoveModelLogicIntoModelReview">Move Model Logic Into Model</label>
+                <input type="checkbox" class="error-type" id="MoveCodeIntoHelperReview" value="MoveCodeIntoHelperReview"
+                />&nbsp;<label for="MoveCodeIntoHelperReview">Move Code Into Helper</label>
               </td>
               <td>
                 <input type="checkbox" class="error-type" id="RemoveUnusedMethodsInModelsReview" value="RemoveUnusedMethodsInModelsReview"
                 />&nbsp;<label for="RemoveUnusedMethodsInModelsReview">Remove Unused Methods In Models</label>
+              </td>
+              <td>
+                <input type="checkbox" class="error-type" id="UseMultipartAlternativeAsContentTypeOfEmailReview" value="UseMultipartAlternativeAsContentTypeOfEmailReview"
+                />&nbsp;<label for="UseMultipartAlternativeAsContentTypeOfEmailReview">Use Multipart Alternative As Content Type Of Email</label>
+              </td>
+          </tr>
+          <tr>
+              <td>
+                <input type="checkbox" class="error-type" id="MoveModelLogicIntoModelReview" value="MoveModelLogicIntoModelReview"
+                />&nbsp;<label for="MoveModelLogicIntoModelReview">Move Model Logic Into Model</label>
+              </td>
+              <td>
+                <input type="checkbox" class="error-type" id="ReplaceInstanceVariableWithLocalVariableReview" value="ReplaceInstanceVariableWithLocalVariableReview"
+                />&nbsp;<label for="ReplaceInstanceVariableWithLocalVariableReview">Replace Instance Variable With Local Variable</label>
               </td>
               <td>
                 <input type="checkbox" class="error-type" id="UseQueryAttributeReview" value="UseQueryAttributeReview"
@@ -105,6 +119,16 @@
                 />&nbsp;<label for="RemoveTrailingWhitespaceCheck">Remove Trailing Whitespace</label>
               </td>
           </tr>
+          <tr>
+              <td>
+                <input type="checkbox" class="error-type" id="RemoveUnusedMethodsInControllersReview" value="RemoveUnusedMethodsInControllersReview"
+                />&nbsp;<label for="RemoveUnusedMethodsInControllersReview">Remove Unused Methods In Controllers</label>
+              </td>
+              <td>
+                <input type="checkbox" class="error-type" id="SimplifyRenderInControllersReview" value="SimplifyRenderInControllersReview"
+                />&nbsp;<label for="SimplifyRenderInControllersReview">Simplify Render In Controllers</label>
+              </td>
+          </tr>
         <tr>
           <td colspan="3">
             <button id="show-all">Check all</button>
@@ -123,9 +147,18 @@
       <tbody>
           <tr class="LawOfDemeterReview">
             <td class='filename'>
-                app/views/blog_posts/_blog_post.html.erb
+                app/views/areas/index.html.erb
             </td>
-            <td class='line'>7</td>
+            <td class='line'>14</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/the-law-of-demeter/' target='_blank'>law of demeter</a>
+            </td>
+          </tr>
+          <tr class="LawOfDemeterReview">
+            <td class='filename'>
+                app/views/areas/index.html.erb
+            </td>
+            <td class='line'>15</td>
             <td class='message'>
               <a href='https://rails-bestpractices.com/posts/2010/07/24/the-law-of-demeter/' target='_blank'>law of demeter</a>
             </td>
@@ -134,7 +167,16 @@
             <td class='filename'>
                 app/views/blog_posts/_blog_post.html.erb
             </td>
-            <td class='line'>13</td>
+            <td class='line'>9</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/the-law-of-demeter/' target='_blank'>law of demeter</a>
+            </td>
+          </tr>
+          <tr class="LawOfDemeterReview">
+            <td class='filename'>
+                app/views/blog_posts/_blog_post.html.erb
+            </td>
+            <td class='line'>17</td>
             <td class='message'>
               <a href='https://rails-bestpractices.com/posts/2010/07/24/the-law-of-demeter/' target='_blank'>law of demeter</a>
             </td>
@@ -197,7 +239,25 @@
             <td class='filename'>
                 app/views/blog_posts/show.html.erb
             </td>
-            <td class='line'>74</td>
+            <td class='line'>76</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/the-law-of-demeter/' target='_blank'>law of demeter</a>
+            </td>
+          </tr>
+          <tr class="LawOfDemeterReview">
+            <td class='filename'>
+                app/views/brand_overviews/index.html.erb
+            </td>
+            <td class='line'>18</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/the-law-of-demeter/' target='_blank'>law of demeter</a>
+            </td>
+          </tr>
+          <tr class="LawOfDemeterReview">
+            <td class='filename'>
+                app/views/brand_overviews/index.html.erb
+            </td>
+            <td class='line'>18</td>
             <td class='message'>
               <a href='https://rails-bestpractices.com/posts/2010/07/24/the-law-of-demeter/' target='_blank'>law of demeter</a>
             </td>
@@ -213,9 +273,27 @@
           </tr>
           <tr class="LawOfDemeterReview">
             <td class='filename'>
-                app/views/permutations/show.html.erb
+                app/views/permutations/_listing.html.erb
             </td>
-            <td class='line'>30</td>
+            <td class='line'>31</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/the-law-of-demeter/' target='_blank'>law of demeter</a>
+            </td>
+          </tr>
+          <tr class="LawOfDemeterReview">
+            <td class='filename'>
+                app/views/permutations/_listing.html.erb
+            </td>
+            <td class='line'>36</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/the-law-of-demeter/' target='_blank'>law of demeter</a>
+            </td>
+          </tr>
+          <tr class="LawOfDemeterReview">
+            <td class='filename'>
+                app/views/permutations/_listing.html.erb
+            </td>
+            <td class='line'>37</td>
             <td class='message'>
               <a href='https://rails-bestpractices.com/posts/2010/07/24/the-law-of-demeter/' target='_blank'>law of demeter</a>
             </td>
@@ -224,45 +302,108 @@
             <td class='filename'>
                 app/views/permutations/show.html.erb
             </td>
-            <td class='line'>30</td>
+            <td class='line'>38</td>
             <td class='message'>
               <a href='https://rails-bestpractices.com/posts/2010/07/24/the-law-of-demeter/' target='_blank'>law of demeter</a>
             </td>
           </tr>
           <tr class="LawOfDemeterReview">
             <td class='filename'>
-                app/views/shared/_footer.html.erb
+                app/views/permutations/show.html.erb
             </td>
-            <td class='line'>128</td>
+            <td class='line'>38</td>
             <td class='message'>
               <a href='https://rails-bestpractices.com/posts/2010/07/24/the-law-of-demeter/' target='_blank'>law of demeter</a>
             </td>
           </tr>
-          <tr class="LawOfDemeterReview">
+          <tr class="MoveCodeIntoHelperReview">
             <td class='filename'>
-                app/views/shared/_footer.html.erb
+                app/views/search_helper/_form_content.html.erb
             </td>
-            <td class='line'>130</td>
+            <td class='line'>9</td>
             <td class='message'>
-              <a href='https://rails-bestpractices.com/posts/2010/07/24/the-law-of-demeter/' target='_blank'>law of demeter</a>
-            </td>
-          </tr>
-          <tr class="LawOfDemeterReview">
-            <td class='filename'>
-                app/views/shared/_footer.html.erb
-            </td>
-            <td class='line'>131</td>
-            <td class='message'>
-              <a href='https://rails-bestpractices.com/posts/2010/07/24/the-law-of-demeter/' target='_blank'>law of demeter</a>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/move-code-into-helper/' target='_blank'>move code into helper (array_count >= 3)</a>
             </td>
           </tr>
           <tr class="MoveModelLogicIntoModelReview">
             <td class='filename'>
                 app/controllers/blog_posts_controller.rb
             </td>
-            <td class='line'>14</td>
+            <td class='line'>24</td>
             <td class='message'>
               <a href='https://rails-bestpractices.com/posts/2010/07/21/move-model-logic-into-the-model/' target='_blank'>move model logic into model (@blog_post use_count > 4)</a>
+            </td>
+          </tr>
+          <tr class="MoveModelLogicIntoModelReview">
+            <td class='filename'>
+                app/controllers/fineprint_pages_controller.rb
+            </td>
+            <td class='line'>5</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/21/move-model-logic-into-the-model/' target='_blank'>move model logic into model (Rails use_count > 4)</a>
+            </td>
+          </tr>
+          <tr class="MoveModelLogicIntoModelReview">
+            <td class='filename'>
+                app/controllers/fineprint_pages_controller.rb
+            </td>
+            <td class='line'>40</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/21/move-model-logic-into-the-model/' target='_blank'>move model logic into model (Rails use_count > 4)</a>
+            </td>
+          </tr>
+          <tr class="MoveModelLogicIntoModelReview">
+            <td class='filename'>
+                app/controllers/office_calculator_controller.rb
+            </td>
+            <td class='line'>196</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/21/move-model-logic-into-the-model/' target='_blank'>move model logic into model (Rails use_count > 4)</a>
+            </td>
+          </tr>
+          <tr class="MoveModelLogicIntoModelReview">
+            <td class='filename'>
+                app/controllers/office_calculator_controller.rb
+            </td>
+            <td class='line'>264</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/21/move-model-logic-into-the-model/' target='_blank'>move model logic into model (Rails use_count > 4)</a>
+            </td>
+          </tr>
+          <tr class="MoveModelLogicIntoModelReview">
+            <td class='filename'>
+                app/controllers/office_calculator_controller.rb
+            </td>
+            <td class='line'>363</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/21/move-model-logic-into-the-model/' target='_blank'>move model logic into model ( use_count > 4)</a>
+            </td>
+          </tr>
+          <tr class="MoveModelLogicIntoModelReview">
+            <td class='filename'>
+                app/controllers/office_calculator_controller.rb
+            </td>
+            <td class='line'>363</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/21/move-model-logic-into-the-model/' target='_blank'>move model logic into model (cost use_count > 4)</a>
+            </td>
+          </tr>
+          <tr class="MoveModelLogicIntoModelReview">
+            <td class='filename'>
+                app/controllers/provider/magic_links_controller.rb
+            </td>
+            <td class='line'>12</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/21/move-model-logic-into-the-model/' target='_blank'>move model logic into model (Rails use_count > 4)</a>
+            </td>
+          </tr>
+          <tr class="RemoveEmptyHelpersReview">
+            <td class='filename'>
+                app/helpers/advertisers_helper.rb
+            </td>
+            <td class='line'>1</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2011/04/09/remove-empty-helpers/' target='_blank'>remove empty helpers</a>
             </td>
           </tr>
           <tr class="RemoveEmptyHelpersReview">
@@ -321,29 +462,83 @@
           </tr>
           <tr class="RemoveUnusedMethodsInControllersReview">
             <td class='filename'>
+                app/controllers/admin_users/sessions_controller.rb
+            </td>
+            <td class='line'>16</td>
+            <td class='message'>
+              <a href='' target='_blank'>remove unused methods (AdminUsers::SessionsController#flash_messages)</a>
+            </td>
+          </tr>
+          <tr class="RemoveUnusedMethodsInControllersReview">
+            <td class='filename'>
                 app/controllers/application_controller.rb
             </td>
-            <td class='line'>30</td>
+            <td class='line'>31</td>
+            <td class='message'>
+              <a href='' target='_blank'>remove unused methods (ApplicationController#active_admin_resource?)</a>
+            </td>
+          </tr>
+          <tr class="RemoveUnusedMethodsInControllersReview">
+            <td class='filename'>
+                app/controllers/application_controller.rb
+            </td>
+            <td class='line'>36</td>
+            <td class='message'>
+              <a href='' target='_blank'>remove unused methods (ApplicationController#active_storage_controller?)</a>
+            </td>
+          </tr>
+          <tr class="RemoveUnusedMethodsInControllersReview">
+            <td class='filename'>
+                app/controllers/application_controller.rb
+            </td>
+            <td class='line'>40</td>
             <td class='message'>
               <a href='' target='_blank'>remove unused methods (ApplicationController#pundit_user)</a>
             </td>
           </tr>
           <tr class="RemoveUnusedMethodsInControllersReview">
             <td class='filename'>
-                app/controllers/blog_posts_controller.rb
+                app/controllers/application_controller.rb
             </td>
             <td class='line'>44</td>
+            <td class='message'>
+              <a href='' target='_blank'>remove unused methods (ApplicationController#authenticate_provider_user!)</a>
+            </td>
+          </tr>
+          <tr class="RemoveUnusedMethodsInControllersReview">
+            <td class='filename'>
+                app/controllers/blog_posts_controller.rb
+            </td>
+            <td class='line'>54</td>
             <td class='message'>
               <a href='' target='_blank'>remove unused methods (BlogPostsController#fetch_blog_posts)</a>
             </td>
           </tr>
           <tr class="RemoveUnusedMethodsInControllersReview">
             <td class='filename'>
-                app/controllers/permutations_controller.rb
+                app/controllers/office_calculator_controller.rb
             </td>
-            <td class='line'>20</td>
+            <td class='line'>260</td>
             <td class='message'>
-              <a href='' target='_blank'>remove unused methods (PermutationsController#permutation_params)</a>
+              <a href='' target='_blank'>remove unused methods (OfficeCalculatorController#office_calculation_params)</a>
+            </td>
+          </tr>
+          <tr class="RemoveUnusedMethodsInControllersReview">
+            <td class='filename'>
+                app/controllers/provider_users/sessions_controller.rb
+            </td>
+            <td class='line'>30</td>
+            <td class='message'>
+              <a href='' target='_blank'>remove unused methods (ProviderUsers::SessionsController#respond_to_on_destroy)</a>
+            </td>
+          </tr>
+          <tr class="RemoveUnusedMethodsInHelpersReview">
+            <td class='filename'>
+                app/helpers/application_helper.rb
+            </td>
+            <td class='line'>22</td>
+            <td class='message'>
+              <a href='' target='_blank'>remove unused methods (ApplicationHelper#get_calculator_cache_data)</a>
             </td>
           </tr>
           <tr class="RemoveUnusedMethodsInModelsReview">
@@ -359,7 +554,7 @@
             <td class='filename'>
                 app/models/admin_user.rb
             </td>
-            <td class='line'>21</td>
+            <td class='line'>22</td>
             <td class='message'>
               <a href='' target='_blank'>remove unused methods (AdminUser#administrator?)</a>
             </td>
@@ -368,18 +563,9 @@
             <td class='filename'>
                 app/models/admin_user.rb
             </td>
-            <td class='line'>25</td>
+            <td class='line'>26</td>
             <td class='message'>
               <a href='' target='_blank'>remove unused methods (AdminUser#admin?)</a>
-            </td>
-          </tr>
-          <tr class="RemoveUnusedMethodsInModelsReview">
-            <td class='filename'>
-                app/models/admin_user.rb
-            </td>
-            <td class='line'>29</td>
-            <td class='message'>
-              <a href='' target='_blank'>remove unused methods (AdminUser#to_sym)</a>
             </td>
           </tr>
           <tr class="RemoveUnusedMethodsInModelsReview">
@@ -404,7 +590,7 @@
             <td class='filename'>
                 app/models/blog_post.rb
             </td>
-            <td class='line'>21</td>
+            <td class='line'>22</td>
             <td class='message'>
               <a href='' target='_blank'>remove unused methods (BlogPost#published)</a>
             </td>
@@ -413,7 +599,7 @@
             <td class='filename'>
                 app/models/blog_post.rb
             </td>
-            <td class='line'>27</td>
+            <td class='line'>28</td>
             <td class='message'>
               <a href='' target='_blank'>remove unused methods (BlogPost#ransackable_associations)</a>
             </td>
@@ -422,7 +608,7 @@
             <td class='filename'>
                 app/models/blog_post.rb
             </td>
-            <td class='line'>51</td>
+            <td class='line'>52</td>
             <td class='message'>
               <a href='' target='_blank'>remove unused methods (BlogPost#should_generate_new_friendly_id?)</a>
             </td>
@@ -431,7 +617,7 @@
             <td class='filename'>
                 app/models/brand.rb
             </td>
-            <td class='line'>12</td>
+            <td class='line'>18</td>
             <td class='message'>
               <a href='' target='_blank'>remove unused methods (Brand#deleted)</a>
             </td>
@@ -440,9 +626,18 @@
             <td class='filename'>
                 app/models/brand.rb
             </td>
-            <td class='line'>18</td>
+            <td class='line'>24</td>
             <td class='message'>
               <a href='' target='_blank'>remove unused methods (Brand#ransackable_associations)</a>
+            </td>
+          </tr>
+          <tr class="RemoveUnusedMethodsInModelsReview">
+            <td class='filename'>
+                app/models/brand.rb
+            </td>
+            <td class='line'>28</td>
+            <td class='message'>
+              <a href='' target='_blank'>remove unused methods (Brand#should_generate_new_friendly_id?)</a>
             </td>
           </tr>
           <tr class="RemoveUnusedMethodsInModelsReview">
@@ -485,6 +680,24 @@
             <td class='filename'>
                 app/models/listing.rb
             </td>
+            <td class='line'>24</td>
+            <td class='message'>
+              <a href='' target='_blank'>remove unused methods (Listing#external)</a>
+            </td>
+          </tr>
+          <tr class="RemoveUnusedMethodsInModelsReview">
+            <td class='filename'>
+                app/models/listing.rb
+            </td>
+            <td class='line'>25</td>
+            <td class='message'>
+              <a href='' target='_blank'>remove unused methods (Listing#user_generated)</a>
+            </td>
+          </tr>
+          <tr class="RemoveUnusedMethodsInModelsReview">
+            <td class='filename'>
+                app/models/listing.rb
+            </td>
             <td class='line'>26</td>
             <td class='message'>
               <a href='' target='_blank'>remove unused methods (Listing#with_brand)</a>
@@ -503,16 +716,25 @@
             <td class='filename'>
                 app/models/listing.rb
             </td>
-            <td class='line'>33</td>
+            <td class='line'>40</td>
             <td class='message'>
               <a href='' target='_blank'>remove unused methods (Listing#ransackable_associations)</a>
             </td>
           </tr>
           <tr class="RemoveUnusedMethodsInModelsReview">
             <td class='filename'>
+                app/models/listing.rb
+            </td>
+            <td class='line'>47</td>
+            <td class='message'>
+              <a href='' target='_blank'>remove unused methods (Listing#should_generate_new_friendly_id?)</a>
+            </td>
+          </tr>
+          <tr class="RemoveUnusedMethodsInModelsReview">
+            <td class='filename'>
                 app/models/location.rb
             </td>
-            <td class='line'>16</td>
+            <td class='line'>17</td>
             <td class='message'>
               <a href='' target='_blank'>remove unused methods (Location#contains_point?)</a>
             </td>
@@ -521,18 +743,54 @@
             <td class='filename'>
                 app/models/location.rb
             </td>
-            <td class='line'>42</td>
+            <td class='line'>56</td>
             <td class='message'>
               <a href='' target='_blank'>remove unused methods (Location#ransackable_associations)</a>
             </td>
           </tr>
           <tr class="RemoveUnusedMethodsInModelsReview">
             <td class='filename'>
+                app/models/location.rb
+            </td>
+            <td class='line'>61</td>
+            <td class='message'>
+              <a href='' target='_blank'>remove unused methods (Location#prioritized)</a>
+            </td>
+          </tr>
+          <tr class="RemoveUnusedMethodsInModelsReview">
+            <td class='filename'>
+                app/models/location.rb
+            </td>
+            <td class='line'>62</td>
+            <td class='message'>
+              <a href='' target='_blank'>remove unused methods (Location#ordered_by_name)</a>
+            </td>
+          </tr>
+          <tr class="RemoveUnusedMethodsInModelsReview">
+            <td class='filename'>
                 app/models/offer.rb
             </td>
-            <td class='line'>19</td>
+            <td class='line'>24</td>
             <td class='message'>
               <a href='' target='_blank'>remove unused methods (Offer#ransackable_associations)</a>
+            </td>
+          </tr>
+          <tr class="RemoveUnusedMethodsInModelsReview">
+            <td class='filename'>
+                app/models/offer_category.rb
+            </td>
+            <td class='line'>8</td>
+            <td class='message'>
+              <a href='' target='_blank'>remove unused methods (OfferCategory#valid_for_premise_type?)</a>
+            </td>
+          </tr>
+          <tr class="RemoveUnusedMethodsInModelsReview">
+            <td class='filename'>
+                app/models/office_calculation.rb
+            </td>
+            <td class='line'>29</td>
+            <td class='message'>
+              <a href='' target='_blank'>remove unused methods (OfficeCalculation#ransackable_associations)</a>
             </td>
           </tr>
           <tr class="RemoveUnusedMethodsInModelsReview">
@@ -546,9 +804,36 @@
           </tr>
           <tr class="RemoveUnusedMethodsInModelsReview">
             <td class='filename'>
+                app/models/permutation.rb
+            </td>
+            <td class='line'>28</td>
+            <td class='message'>
+              <a href='' target='_blank'>remove unused methods (Permutation#matching_offers)</a>
+            </td>
+          </tr>
+          <tr class="RemoveUnusedMethodsInModelsReview">
+            <td class='filename'>
+                app/models/permutation.rb
+            </td>
+            <td class='line'>42</td>
+            <td class='message'>
+              <a href='' target='_blank'>remove unused methods (Permutation#filtered_listings_with_offers)</a>
+            </td>
+          </tr>
+          <tr class="RemoveUnusedMethodsInModelsReview">
+            <td class='filename'>
                 app/models/premise_type.rb
             </td>
-            <td class='line'>36</td>
+            <td class='line'>19</td>
+            <td class='message'>
+              <a href='' target='_blank'>remove unused methods (PremiseType#offer_category_names)</a>
+            </td>
+          </tr>
+          <tr class="RemoveUnusedMethodsInModelsReview">
+            <td class='filename'>
+                app/models/premise_type.rb
+            </td>
+            <td class='line'>47</td>
             <td class='message'>
               <a href='' target='_blank'>remove unused methods (PremiseType#ransackable_associations)</a>
             </td>
@@ -557,16 +842,52 @@
             <td class='filename'>
                 app/models/premise_type.rb
             </td>
-            <td class='line'>40</td>
+            <td class='line'>51</td>
             <td class='message'>
               <a href='' target='_blank'>remove unused methods (PremiseType#find_by_slug)</a>
             </td>
           </tr>
           <tr class="RemoveUnusedMethodsInModelsReview">
             <td class='filename'>
+                app/models/premise_type.rb
+            </td>
+            <td class='line'>63</td>
+            <td class='message'>
+              <a href='' target='_blank'>remove unused methods (PremiseType#valid_offer?)</a>
+            </td>
+          </tr>
+          <tr class="RemoveUnusedMethodsInModelsReview">
+            <td class='filename'>
+                app/models/premise_type.rb
+            </td>
+            <td class='line'>67</td>
+            <td class='message'>
+              <a href='' target='_blank'>remove unused methods (PremiseType#filter_valid_offers)</a>
+            </td>
+          </tr>
+          <tr class="RemoveUnusedMethodsInModelsReview">
+            <td class='filename'>
+                app/models/premise_type.rb
+            </td>
+            <td class='line'>72</td>
+            <td class='message'>
+              <a href='' target='_blank'>remove unused methods (PremiseType#with_prioritized_locations)</a>
+            </td>
+          </tr>
+          <tr class="RemoveUnusedMethodsInModelsReview">
+            <td class='filename'>
+                app/models/premise_type.rb
+            </td>
+            <td class='line'>78</td>
+            <td class='message'>
+              <a href='' target='_blank'>remove unused methods (PremiseType#ordered_by_name)</a>
+            </td>
+          </tr>
+          <tr class="RemoveUnusedMethodsInModelsReview">
+            <td class='filename'>
                 app/models/provider.rb
             </td>
-            <td class='line'>8</td>
+            <td class='line'>16</td>
             <td class='message'>
               <a href='' target='_blank'>remove unused methods (Provider#deleted)</a>
             </td>
@@ -575,7 +896,7 @@
             <td class='filename'>
                 app/models/provider.rb
             </td>
-            <td class='line'>14</td>
+            <td class='line'>22</td>
             <td class='message'>
               <a href='' target='_blank'>remove unused methods (Provider#ransackable_associations)</a>
             </td>
@@ -584,7 +905,7 @@
             <td class='filename'>
                 app/models/provider_user.rb
             </td>
-            <td class='line'>8</td>
+            <td class='line'>7</td>
             <td class='message'>
               <a href='' target='_blank'>remove unused methods (ProviderUser#deleted)</a>
             </td>
@@ -593,7 +914,7 @@
             <td class='filename'>
                 app/models/provider_user.rb
             </td>
-            <td class='line'>21</td>
+            <td class='line'>65</td>
             <td class='message'>
               <a href='' target='_blank'>remove unused methods (ProviderUser#ransackable_associations)</a>
             </td>
@@ -605,6 +926,15 @@
             <td class='line'>11</td>
             <td class='message'>
               <a href='' target='_blank'>remove unused methods (Room#ransackable_associations)</a>
+            </td>
+          </tr>
+          <tr class="RemoveUnusedMethodsInModelsReview">
+            <td class='filename'>
+                app/models/search_contact.rb
+            </td>
+            <td class='line'>25</td>
+            <td class='message'>
+              <a href='' target='_blank'>remove unused methods (SearchContact#ransackable_associations)</a>
             </td>
           </tr>
           <tr class="RemoveUnusedMethodsInModelsReview">
@@ -625,13 +955,1345 @@
               <a href='' target='_blank'>remove unused methods (Solution#ransackable_associations)</a>
             </td>
           </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/advertisers/_form_content.html.erb
+            </td>
+            <td class='line'>1</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/advertisers/_form_content.html.erb
+            </td>
+            <td class='line'>6</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/advertisers/_form_content.html.erb
+            </td>
+            <td class='line'>56</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/blog_posts/_category_header.html.erb
+            </td>
+            <td class='line'>4</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/blog_posts/_category_header.html.erb
+            </td>
+            <td class='line'>15</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/blog_posts/_category_header.html.erb
+            </td>
+            <td class='line'>15</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/blog_posts/_category_header.html.erb
+            </td>
+            <td class='line'>20</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/blog_posts/_category_header.html.erb
+            </td>
+            <td class='line'>21</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_1.html.erb
+            </td>
+            <td class='line'>6</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_1.html.erb
+            </td>
+            <td class='line'>8</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_1.html.erb
+            </td>
+            <td class='line'>9</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_1.html.erb
+            </td>
+            <td class='line'>18</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_1.html.erb
+            </td>
+            <td class='line'>20</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_1.html.erb
+            </td>
+            <td class='line'>27</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_1.html.erb
+            </td>
+            <td class='line'>28</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_1.html.erb
+            </td>
+            <td class='line'>35</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_1.html.erb
+            </td>
+            <td class='line'>41</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_1.html.erb
+            </td>
+            <td class='line'>42</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_1.html.erb
+            </td>
+            <td class='line'>51</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_1.html.erb
+            </td>
+            <td class='line'>52</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_1.html.erb
+            </td>
+            <td class='line'>61</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_1.html.erb
+            </td>
+            <td class='line'>62</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_1.html.erb
+            </td>
+            <td class='line'>92</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_1.html.erb
+            </td>
+            <td class='line'>112</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_2.html.erb
+            </td>
+            <td class='line'>6</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_2.html.erb
+            </td>
+            <td class='line'>8</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_2.html.erb
+            </td>
+            <td class='line'>9</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_2.html.erb
+            </td>
+            <td class='line'>17</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_2.html.erb
+            </td>
+            <td class='line'>19</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_2.html.erb
+            </td>
+            <td class='line'>20</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_2.html.erb
+            </td>
+            <td class='line'>30</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_2.html.erb
+            </td>
+            <td class='line'>31</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_2.html.erb
+            </td>
+            <td class='line'>39</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_2.html.erb
+            </td>
+            <td class='line'>40</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_2.html.erb
+            </td>
+            <td class='line'>48</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_2.html.erb
+            </td>
+            <td class='line'>49</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_2.html.erb
+            </td>
+            <td class='line'>57</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_2.html.erb
+            </td>
+            <td class='line'>58</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_2.html.erb
+            </td>
+            <td class='line'>69</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_2.html.erb
+            </td>
+            <td class='line'>72</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_2.html.erb
+            </td>
+            <td class='line'>73</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_3.html.erb
+            </td>
+            <td class='line'>6</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_3.html.erb
+            </td>
+            <td class='line'>8</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_3.html.erb
+            </td>
+            <td class='line'>9</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_3.html.erb
+            </td>
+            <td class='line'>19</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_3.html.erb
+            </td>
+            <td class='line'>20</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_3.html.erb
+            </td>
+            <td class='line'>30</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_3.html.erb
+            </td>
+            <td class='line'>31</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_3.html.erb
+            </td>
+            <td class='line'>35</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_3.html.erb
+            </td>
+            <td class='line'>36</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_3.html.erb
+            </td>
+            <td class='line'>44</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_3.html.erb
+            </td>
+            <td class='line'>45</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_3.html.erb
+            </td>
+            <td class='line'>49</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_3.html.erb
+            </td>
+            <td class='line'>50</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_3.html.erb
+            </td>
+            <td class='line'>62</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_3.html.erb
+            </td>
+            <td class='line'>64</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_3.html.erb
+            </td>
+            <td class='line'>65</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_4.html.erb
+            </td>
+            <td class='line'>6</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_4.html.erb
+            </td>
+            <td class='line'>8</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_4.html.erb
+            </td>
+            <td class='line'>9</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_4.html.erb
+            </td>
+            <td class='line'>19</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_4.html.erb
+            </td>
+            <td class='line'>20</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_4.html.erb
+            </td>
+            <td class='line'>30</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_4.html.erb
+            </td>
+            <td class='line'>31</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_4.html.erb
+            </td>
+            <td class='line'>35</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_4.html.erb
+            </td>
+            <td class='line'>36</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_4.html.erb
+            </td>
+            <td class='line'>44</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_4.html.erb
+            </td>
+            <td class='line'>45</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_4.html.erb
+            </td>
+            <td class='line'>49</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_4.html.erb
+            </td>
+            <td class='line'>50</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_4.html.erb
+            </td>
+            <td class='line'>62</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_4.html.erb
+            </td>
+            <td class='line'>64</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_4.html.erb
+            </td>
+            <td class='line'>65</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_5.html.erb
+            </td>
+            <td class='line'>6</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_5.html.erb
+            </td>
+            <td class='line'>8</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_5.html.erb
+            </td>
+            <td class='line'>9</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_5.html.erb
+            </td>
+            <td class='line'>19</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_5.html.erb
+            </td>
+            <td class='line'>20</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_5.html.erb
+            </td>
+            <td class='line'>30</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_5.html.erb
+            </td>
+            <td class='line'>31</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_5.html.erb
+            </td>
+            <td class='line'>35</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_5.html.erb
+            </td>
+            <td class='line'>36</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_5.html.erb
+            </td>
+            <td class='line'>44</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_5.html.erb
+            </td>
+            <td class='line'>45</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_5.html.erb
+            </td>
+            <td class='line'>49</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_5.html.erb
+            </td>
+            <td class='line'>50</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_5.html.erb
+            </td>
+            <td class='line'>62</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_5.html.erb
+            </td>
+            <td class='line'>64</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_5.html.erb
+            </td>
+            <td class='line'>65</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_6.html.erb
+            </td>
+            <td class='line'>6</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_6.html.erb
+            </td>
+            <td class='line'>8</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_6.html.erb
+            </td>
+            <td class='line'>9</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_6.html.erb
+            </td>
+            <td class='line'>19</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_6.html.erb
+            </td>
+            <td class='line'>20</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_6.html.erb
+            </td>
+            <td class='line'>30</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_6.html.erb
+            </td>
+            <td class='line'>31</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_6.html.erb
+            </td>
+            <td class='line'>35</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_6.html.erb
+            </td>
+            <td class='line'>36</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_6.html.erb
+            </td>
+            <td class='line'>44</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_6.html.erb
+            </td>
+            <td class='line'>45</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_6.html.erb
+            </td>
+            <td class='line'>49</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_6.html.erb
+            </td>
+            <td class='line'>50</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_6.html.erb
+            </td>
+            <td class='line'>62</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_6.html.erb
+            </td>
+            <td class='line'>64</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_6.html.erb
+            </td>
+            <td class='line'>65</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_7.html.erb
+            </td>
+            <td class='line'>6</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_7.html.erb
+            </td>
+            <td class='line'>8</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_7.html.erb
+            </td>
+            <td class='line'>9</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_7.html.erb
+            </td>
+            <td class='line'>19</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_7.html.erb
+            </td>
+            <td class='line'>20</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_7.html.erb
+            </td>
+            <td class='line'>36</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_7.html.erb
+            </td>
+            <td class='line'>37</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_7.html.erb
+            </td>
+            <td class='line'>38</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_7.html.erb
+            </td>
+            <td class='line'>40</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_7.html.erb
+            </td>
+            <td class='line'>49</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_7.html.erb
+            </td>
+            <td class='line'>50</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_7.html.erb
+            </td>
+            <td class='line'>51</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_7.html.erb
+            </td>
+            <td class='line'>53</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_7.html.erb
+            </td>
+            <td class='line'>61</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_7.html.erb
+            </td>
+            <td class='line'>62</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_7.html.erb
+            </td>
+            <td class='line'>66</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_7.html.erb
+            </td>
+            <td class='line'>67</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_7.html.erb
+            </td>
+            <td class='line'>79</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_7.html.erb
+            </td>
+            <td class='line'>81</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_7.html.erb
+            </td>
+            <td class='line'>82</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_8.html.erb
+            </td>
+            <td class='line'>12</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_8.html.erb
+            </td>
+            <td class='line'>14</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_8.html.erb
+            </td>
+            <td class='line'>15</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_8.html.erb
+            </td>
+            <td class='line'>20</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_8.html.erb
+            </td>
+            <td class='line'>24</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_8.html.erb
+            </td>
+            <td class='line'>26</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_8.html.erb
+            </td>
+            <td class='line'>33</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_8.html.erb
+            </td>
+            <td class='line'>40</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_8.html.erb
+            </td>
+            <td class='line'>50</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_8.html.erb
+            </td>
+            <td class='line'>71</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_8.html.erb
+            </td>
+            <td class='line'>72</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_8.html.erb
+            </td>
+            <td class='line'>81</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_8.html.erb
+            </td>
+            <td class='line'>82</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_8.html.erb
+            </td>
+            <td class='line'>102</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/office_calculator/_step_8.html.erb
+            </td>
+            <td class='line'>104</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/permutations/_listing.html.erb
+            </td>
+            <td class='line'>44</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/search_helper/_form_content.html.erb
+            </td>
+            <td class='line'>1</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/search_helper/_form_content.html.erb
+            </td>
+            <td class='line'>6</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/search_helper/_form_content.html.erb
+            </td>
+            <td class='line'>102</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
+          <tr class="ReplaceInstanceVariableWithLocalVariableReview">
+            <td class='filename'>
+                app/views/shared/_footer.html.erb
+            </td>
+            <td class='line'>134</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/07/24/replace-instance-variable-with-local-variable/' target='_blank'>replace instance variable with local variable</a>
+            </td>
+          </tr>
           <tr class="RestrictAutoGeneratedRoutesReview">
             <td class='filename'>
                 config/routes.rb
             </td>
-            <td class='line'>24</td>
+            <td class='line'>13</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2011/08/19/restrict-auto-generated-routes/' target='_blank'>restrict auto-generated routes brands (only: [:show])</a>
+            </td>
+          </tr>
+          <tr class="RestrictAutoGeneratedRoutesReview">
+            <td class='filename'>
+                config/routes.rb
+            </td>
+            <td class='line'>25</td>
             <td class='message'>
               <a href='https://rails-bestpractices.com/posts/2011/08/19/restrict-auto-generated-routes/' target='_blank'>restrict auto-generated routes permutations (only: [])</a>
+            </td>
+          </tr>
+          <tr class="SimplifyRenderInControllersReview">
+            <td class='filename'>
+                app/controllers/search_helper/search_helper_controller.rb
+            </td>
+            <td class='line'>4</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/12/simplify-render-in-controllers/' target='_blank'>simplify render in controllers</a>
+            </td>
+          </tr>
+          <tr class="SimplifyRenderInControllersReview">
+            <td class='filename'>
+                app/controllers/search_helper_controller.rb
+            </td>
+            <td class='line'>6</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/12/simplify-render-in-controllers/' target='_blank'>simplify render in controllers</a>
             </td>
           </tr>
           <tr class="SimplifyRenderInViewsReview">
@@ -641,6 +2303,51 @@
             <td class='line'>71</td>
             <td class='message'>
               <a href='https://rails-bestpractices.com/posts/2010/12/04/simplify-render-in-views/' target='_blank'>simplify render in views</a>
+            </td>
+          </tr>
+          <tr class="SimplifyRenderInViewsReview">
+            <td class='filename'>
+                app/views/office_calculator/index.html.erb
+            </td>
+            <td class='line'>34</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/04/simplify-render-in-views/' target='_blank'>simplify render in views</a>
+            </td>
+          </tr>
+          <tr class="SimplifyRenderInViewsReview">
+            <td class='filename'>
+                app/views/office_calculator/index.html.erb
+            </td>
+            <td class='line'>35</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/04/simplify-render-in-views/' target='_blank'>simplify render in views</a>
+            </td>
+          </tr>
+          <tr class="SimplifyRenderInViewsReview">
+            <td class='filename'>
+                app/views/permutations/show.turbo_stream.erb
+            </td>
+            <td class='line'>2</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/04/simplify-render-in-views/' target='_blank'>simplify render in views</a>
+            </td>
+          </tr>
+          <tr class="UseMultipartAlternativeAsContentTypeOfEmailReview">
+            <td class='filename'>
+                app/mailers/contact_mailer.rb
+            </td>
+            <td class='line'>2</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/08/05/use-multipart-alternative-as-content_type-of-email/' target='_blank'>use multipart/alternative as content_type of email</a>
+            </td>
+          </tr>
+          <tr class="UseMultipartAlternativeAsContentTypeOfEmailReview">
+            <td class='filename'>
+                app/mailers/office_calculation_mailer.rb
+            </td>
+            <td class='line'>4</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/08/05/use-multipart-alternative-as-content_type-of-email/' target='_blank'>use multipart/alternative as content_type of email</a>
             </td>
           </tr>
           <tr class="UseQueryAttributeReview">
@@ -659,15 +2366,6 @@
             <td class='line'>41</td>
             <td class='message'>
               <a href='https://rails-bestpractices.com/posts/2010/10/03/use-query-attribute/' target='_blank'>use query attribute (category.svg_content?)</a>
-            </td>
-          </tr>
-          <tr class="RemoveTrailingWhitespaceCheck">
-            <td class='filename'>
-                app/models/admin_user.rb
-            </td>
-            <td class='line'>4</td>
-            <td class='message'>
-              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
             </td>
           </tr>
           <tr class="RemoveTrailingWhitespaceCheck">
@@ -717,9 +2415,9 @@
           </tr>
           <tr class="RemoveTrailingWhitespaceCheck">
             <td class='filename'>
-                app/models/offer.rb
+                app/models/permutation.rb
             </td>
-            <td class='line'>10</td>
+            <td class='line'>48</td>
             <td class='message'>
               <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
             </td>
@@ -735,9 +2433,9 @@
           </tr>
           <tr class="RemoveTrailingWhitespaceCheck">
             <td class='filename'>
-                app/models/provider_user.rb
+                app/mailers/office_calculation_mailer.rb
             </td>
-            <td class='line'>9</td>
+            <td class='line'>7</td>
             <td class='message'>
               <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
             </td>
@@ -762,6 +2460,15 @@
           </tr>
           <tr class="RemoveTrailingWhitespaceCheck">
             <td class='filename'>
+                app/admin/listings.rb
+            </td>
+            <td class='line'>3</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
                 app/admin/provider_users.rb
             </td>
             <td class='line'>1</td>
@@ -771,9 +2478,54 @@
           </tr>
           <tr class="RemoveTrailingWhitespaceCheck">
             <td class='filename'>
-                app/controllers/application_controller.rb
+                app/controllers/about_controller.rb
             </td>
             <td class='line'>4</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/controllers/application_controller.rb
+            </td>
+            <td class='line'>5</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/controllers/blog_posts_controller.rb
+            </td>
+            <td class='line'>7</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/controllers/office_calculator_controller.rb
+            </td>
+            <td class='line'>83</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/controllers/permutations_controller.rb
+            </td>
+            <td class='line'>8</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/controllers/provider_portal/dashboard_controller.rb
+            </td>
+            <td class='line'>5</td>
             <td class='message'>
               <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
             </td>
@@ -792,15 +2544,6 @@
                 app/policies/amenity_policy.rb
             </td>
             <td class='line'>5</td>
-            <td class='message'>
-              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
-            </td>
-          </tr>
-          <tr class="RemoveTrailingWhitespaceCheck">
-            <td class='filename'>
-                app/policies/blog_post_policy.rb
-            </td>
-            <td class='line'>6</td>
             <td class='message'>
               <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
             </td>
@@ -879,6 +2622,15 @@
           </tr>
           <tr class="RemoveTrailingWhitespaceCheck">
             <td class='filename'>
+                app/policies/provider/magic_links_policy.rb
+            </td>
+            <td class='line'>5</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
                 app/policies/provider_policy.rb
             </td>
             <td class='line'>5</td>
@@ -915,6 +2667,69 @@
           </tr>
           <tr class="RemoveTrailingWhitespaceCheck">
             <td class='filename'>
+                app/queries/footer_permutations_query.rb
+            </td>
+            <td class='line'>58</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/services/google_maps_service.rb
+            </td>
+            <td class='line'>36</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/views/about/index.html.erb
+            </td>
+            <td class='line'>10</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/views/admin/listings/_provider_users_options.html.erb
+            </td>
+            <td class='line'>3</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/views/advertisers/_form_content.html.erb
+            </td>
+            <td class='line'>55</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/views/areas/index.html.erb
+            </td>
+            <td class='line'>5</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/views/blog_posts/_blog_post.html.erb
+            </td>
+            <td class='line'>3</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
                 app/views/blog_posts/index.turbo_stream.erb
             </td>
             <td class='line'>5</td>
@@ -926,7 +2741,16 @@
             <td class='filename'>
                 app/views/blog_posts/show.html.erb
             </td>
-            <td class='line'>70</td>
+            <td class='line'>71</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/views/brand_overviews/index.html.erb
+            </td>
+            <td class='line'>4</td>
             <td class='message'>
               <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
             </td>
@@ -951,9 +2775,162 @@
           </tr>
           <tr class="RemoveTrailingWhitespaceCheck">
             <td class='filename'>
+                app/views/layouts/provider_dashboard.html.erb
+            </td>
+            <td class='line'>16</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/views/office_calculator/_step_1.html.erb
+            </td>
+            <td class='line'>14</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/views/office_calculator/_step_2.html.erb
+            </td>
+            <td class='line'>14</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/views/office_calculator/_step_3.html.erb
+            </td>
+            <td class='line'>14</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/views/office_calculator/_step_4.html.erb
+            </td>
+            <td class='line'>14</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/views/office_calculator/_step_5.html.erb
+            </td>
+            <td class='line'>14</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/views/office_calculator/_step_6.html.erb
+            </td>
+            <td class='line'>14</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/views/office_calculator/_step_7.html.erb
+            </td>
+            <td class='line'>14</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/views/office_calculator/_step_8.html.erb
+            </td>
+            <td class='line'>20</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/views/office_calculator/_success.html.erb
+            </td>
+            <td class='line'>7</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/views/office_calculator/index.html.erb
+            </td>
+            <td class='line'>20</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/views/office_calculator/result.html.erb
+            </td>
+            <td class='line'>47</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/views/office_calculator/result_pdf.erb
+            </td>
+            <td class='line'>21</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/views/permutations/_listing.html.erb
+            </td>
+            <td class='line'>39</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
                 app/views/permutations/show.html.erb
             </td>
-            <td class='line'>152</td>
+            <td class='line'>101</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/views/provider_portal/dashboard/index.html.erb
+            </td>
+            <td class='line'>22</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/views/search_helper/_form_content.html.erb
+            </td>
+            <td class='line'>21</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/views/search_helper/index.html.erb
+            </td>
+            <td class='line'>92</td>
             <td class='message'>
               <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
             </td>
@@ -962,7 +2939,16 @@
             <td class='filename'>
                 app/views/shared/_feature_blogpost.html.erb
             </td>
-            <td class='line'>23</td>
+            <td class='line'>7</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                app/views/shared/_footer.html.erb
+            </td>
+            <td class='line'>3</td>
             <td class='message'>
               <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
             </td>
@@ -996,9 +2982,27 @@
           </tr>
           <tr class="RemoveTrailingWhitespaceCheck">
             <td class='filename'>
+                config/initializers/footer_permutations_instrumentation.rb
+            </td>
+            <td class='line'>3</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
                 config/initializers/friendly_id.rb
             </td>
             <td class='line'>21</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                config/initializers/rack_attack.rb
+            </td>
+            <td class='line'>14</td>
             <td class='message'>
               <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
             </td>
@@ -1016,7 +3020,25 @@
             <td class='filename'>
                 config/routes.rb
             </td>
-            <td class='line'>5</td>
+            <td class='line'>9</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                db/migrate/20241009141523_create_office_calculations.rb
+            </td>
+            <td class='line'>7</td>
+            <td class='message'>
+              <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
+            </td>
+          </tr>
+          <tr class="RemoveTrailingWhitespaceCheck">
+            <td class='filename'>
+                db/migrate/20241023110626_fix_min_seats_type_in_offers.rb
+            </td>
+            <td class='line'>6</td>
             <td class='message'>
               <a href='https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/' target='_blank'>remove trailing whitespace</a>
             </td>

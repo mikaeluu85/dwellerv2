@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem 'rails', '~> 7.1.0'
+gem "rails", "~> 7.1.0"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 # Use postgresql as the database for Active Record
@@ -21,7 +21,7 @@ gem "jbuilder"
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
-gem 'ostruct', '~> 0.6.0' # For Rack Attack
+gem "ostruct", "~> 0.6.0" # For Rack Attack
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
@@ -37,7 +37,7 @@ gem "bootsnap", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
-gem 'image_processing', '~> 1.2'
+gem "image_processing", "~> 1.2"
 # gem "image_processing", "~> 1.2"
 
 # Project dedicated
@@ -50,31 +50,30 @@ gem "aws-sdk-s3" # Amazon S3 SDK for Ruby, https://github.com/aws/aws-sdk-ruby
 gem "redis", ">= 4.0.1" # Redis key-value store for Ruby, https://github.com/redis/redis
 
 # Add missing gems
-gem 'activeadmin' # For admin interface
-gem 'sassc-rails' #Support for activeadmin
-gem 'redcarpet' # For Markdown rendering
-gem 'active_storage_validations' # For image validations
-gem 'nokogiri' # For parsing and modifying SVG content
-gem 'sitemap_generator' # For sitemap creation
-gem 'rss' # For RSS feed (nice to have)
-gem 'meta-tags' # For SEO meta tags
-gem 'mini_magick', '~> 4.11'
-gem 'rails-html-sanitizer' # For sanitizing HTML input
-gem 'sanitize' # For sanitizing inputs in a flexible way
-gem 'friendly_id', '~> 5.5.1' #Nice slugs
-gem 'kaminari' # For pagination
-gem 'paranoia' # For soft delete
-gem 'rack-attack' # For rate limiting
-gem 'postmark-rails' # For sending emails
-gem 'google_maps_rails' # For Google Maps
-gem 'geocoder' # For geocoding
-gem 'activerecord-postgis-adapter', '~> 9.0' # PostGIS adapter
-gem 'rgeo' # For spatial data types
-gem 'rgeo-geojson' #
+gem "activeadmin" # For admin interface
+gem "sassc-rails" # Support for activeadmin
+gem "redcarpet" # For Markdown rendering
+gem "active_storage_validations" # For image validations
+gem "nokogiri" # For parsing and modifying SVG content
+gem "sitemap_generator" # For sitemap creation
+gem "rss" # For RSS feed (nice to have)
+gem "meta-tags" # For SEO meta tags
+gem "mini_magick", "~> 4.11"
+gem "rails-html-sanitizer" # For sanitizing HTML input
+gem "sanitize" # For sanitizing inputs in a flexible way
+gem "friendly_id", "~> 5.5.1" # Nice slugs
+gem "kaminari" # For pagination
+gem "paranoia" # For soft delete
+gem "rack-attack" # For rate limiting
+gem "postmark-rails" # For sending emails
+gem "google_maps_rails" # For Google Maps
+gem "geocoder" # For geocoding
+gem "activerecord-postgis-adapter", "~> 9.0" # PostGIS adapter
+gem "rgeo" # For spatial data types
+gem "rgeo-geojson" #
 
-
-gem 'wicked_pdf'
-gem 'wkhtmltopdf-binary'
+gem "wicked_pdf"
+gem "wkhtmltopdf-binary"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -84,7 +83,7 @@ group :development, :test do
   gem "brakeman", require: false
 
   # .env
-  gem 'dotenv-rails'
+  gem "dotenv-rails"
 
   # Best Practices
   gem "rails_best_practices"
@@ -93,7 +92,7 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   # Use Faker in your seeds file
-  gem 'faker'
+  gem "faker"
 end
 
 group :development do
@@ -105,8 +104,8 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
-  gem 'rspec-rails'
-  gem 'rails-controller-testing'
-  gem 'factory_bot_rails'
-  gem 'shoulda-matchers'
+  gem "rspec-rails"
+  gem "rails-controller-testing"
+  gem "factory_bot_rails"
+  gem "shoulda-matchers"
 end
