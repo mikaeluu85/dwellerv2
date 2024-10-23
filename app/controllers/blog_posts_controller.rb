@@ -1,8 +1,20 @@
 class BlogPostsController < ApplicationController
   include MarkdownHelper
+  skip_after_action :verify_policy_scoped, only: :index
 
   def index
-    @blog_posts = BlogPost.visible.recent.page(params[:page]).per(6)
+    @category = Category.find_by(slug: params[:category_slug]) if params[:category_slug]
+    
+    # Start with the policy scope, passing current_user or nil
+    base_scope = policy_scope(BlogPost)
+    
+    # Build the query using recent instead of ordered
+    @blog_posts = base_scope
+      .then { |scope| @category ? scope.where(category: @category) : scope }
+      .recent
+      .page(params[:page])
+      .per(12)
+
     respond_to do |format|
       format.html
       format.turbo_stream
