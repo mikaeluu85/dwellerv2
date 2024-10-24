@@ -14,6 +14,9 @@ require 'simplecov'
 require 'pundit/matchers'
 require 'pundit/rspec'
 require 'devise'
+require 'webdrivers'
+require 'capybara'
+require 'selenium-webdriver'
 
 # Configure SimpleCov
 SimpleCov.start 'rails' do
@@ -53,8 +56,8 @@ RSpec.configure do |config|
 
   # Database cleaner configuration
   config.before(:suite) do
-    DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
+    DatabaseCleaner.strategy = :transaction
   end
 
   config.around(:each) do |example|
@@ -102,7 +105,81 @@ RSpec.configure do |config|
   config.include Warden::Test::Helpers
 
   config.before(:each, type: :system) do
-    driven_by(:rack_test)
+    driven_by :selenium_chrome_headless
+  end
+
+  # Update Capybara configuration for M1/M2 Mac
+  Capybara.register_driver :selenium_chrome_headless do |app|
+    # Set Chrome binary path explicitly
+    chrome_path = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.add_argument('--headless=new')  # Use new headless mode
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+    options.add_argument('--window-size=1400,1400')
+    options.binary = chrome_path
+
+    Capybara::Selenium::Driver.new(
+      app,
+      browser: :chrome,
+      options: options
+    )
+  end
+
+  # Configure Capybara
+  Capybara.configure do |config|
+    config.default_driver = :rack_test
+    config.javascript_driver = :selenium_chrome_headless
+    config.default_max_wait_time = 5
+    config.server = :puma, { Silent: true }
+  end
+
+  # Disable Webdrivers automatic updates since we're using Homebrew's chromedriver
+  Webdrivers::Chromedriver.required_version = File.read('/opt/homebrew/Caskroom/chromedriver/130.0.6723.69/version').strip rescue nil
+
+  config.include ActionDispatch::TestProcess::FixtureFile
+
+  config.include Devise::Test::ControllerHelpers, type: :controller
+
+  # Helper to evaluate ActiveAdmin DSL blocks
+  config.before(:each, type: :controller) do
+    @routes = Rails.application.routes
+  end
+
+  # Update Devise configuration
+  config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include Devise::Test::IntegrationHelpers, type: :system
+  config.include Devise::Test::IntegrationHelpers, type: :request
+
+  # Make sure Warden is properly configured
+  config.include Warden::Test::Helpers
+
+  config.before(:suite) do
+    Warden.test_mode!
+  end
+
+  config.after(:each) do
+    Warden.test_reset!
+  end
+
+  # Add this for controller tests
+  config.before(:each, type: :controller) do
+    @request = ActionController::TestRequest.create(ActionController::Metal.new.class)
+  end
+
+  # Replace the ActiveAdmin load! call with proper initialization
+  config.before(:suite) do
+    # Load Active Admin configuration
+    ActiveAdmin.setup do |config|
+      config.authentication_method = :authenticate_admin_user!
+      config.current_user_method = :current_admin_user
+      config.logout_link_path = :destroy_admin_user_session_path
+      config.batch_actions = true
+    end
+
+    # Reload routes
+    Rails.application.reload_routes!
   end
 end
 

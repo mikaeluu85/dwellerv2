@@ -188,4 +188,115 @@ RSpec.describe "Admin::AdminUsers", type: :system do
       expect(page).to have_current_path('/admin_users/sign_in')
     end
   end
+
+  # New DSL configuration tests
+  describe 'ActiveAdmin DSL configuration', type: :model do
+    let(:namespace) { ActiveAdmin.application.namespaces[:admin] }
+    let(:resource) { namespace.resources['AdminUser'] }
+
+    before(:all) do
+      # Ensure ActiveAdmin is properly loaded
+      Rails.application.reload_routes!
+    end
+
+    it 'has correct menu settings' do
+      expect(resource).to be_present
+      expect(resource.menu_item.parent.label).to eq 'Settings'
+      expect(resource.menu_item.priority).to eq 5
+    end
+
+    it 'has correct permitted params' do
+      expected_params = [ 'email', 'password', 'password_confirmation', 'name', 'avatar' ]
+      controller = resource.controller.new
+      params = ActionController::Parameters.new(
+        admin_user: {
+          email: 'test@example.com',
+          password: 'password',
+          password_confirmation: 'password',
+          name: 'Test User',
+          avatar: fixture_file_upload('spec/fixtures/files/avatar.jpg', 'image/jpeg')
+        }
+      )
+      controller.params = params
+      permitted_params = controller.send(:permitted_params)[:admin_user]
+      expect(permitted_params.keys).to match_array(expected_params)
+    end
+  end
+
+  # Controller-specific tests
+  describe Admin::AdminUsersController, type: :controller do
+    render_views
+
+    let(:admin_user) { create(:admin_user) }
+
+    before do
+      @request.env["devise.mapping"] = Devise.mappings[:admin_user]
+      sign_in admin_user
+      Rails.application.reload_routes!
+    end
+
+    describe 'PUT #update' do
+      context 'with valid params without password' do
+        let(:new_attributes) { { name: 'Updated Name' } }
+
+        it 'updates the requested admin_user' do
+          put :update, params: { id: admin_user.id, admin_user: new_attributes }
+          admin_user.reload
+          expect(admin_user.name).to eq('Updated Name')
+          expect(response).to redirect_to(admin_admin_user_path(admin_user))
+        end
+      end
+
+      context 'with password update' do
+        let(:password_attributes) do
+          {
+            password: 'newpassword123',
+            password_confirmation: 'newpassword123'
+          }
+        end
+
+        it 'updates password and signs out user' do
+          put :update, params: { id: admin_user.id, admin_user: password_attributes }
+          expect(response).to redirect_to('/admin_users/sign_in')
+          expect(flash[:notice]).to match(/Password updated successfully/)
+        end
+      end
+
+      context 'with invalid params' do
+        let(:invalid_attributes) { { email: '' } }
+
+        it 'returns to edit form with errors' do
+          put :update, params: { id: admin_user.id, admin_user: invalid_attributes }
+          expect(response).to render_template(:edit)
+        end
+      end
+    end
+  end
+
+  # Model configuration tests
+  describe AdminUser, type: :model do
+    describe 'ActiveAdmin resource' do
+      subject { AdminUser }
+
+      it 'is registered with ActiveAdmin' do
+        expect(ActiveAdmin.application.namespaces[:admin].resources['AdminUser']).to be_present
+      end
+
+      it 'has avatar attachment configured' do
+        user = create(:admin_user)
+        expect(user).to respond_to(:avatar)
+        expect(user.avatar).to respond_to(:attach)
+      end
+
+      it 'has correct ransackable attributes' do
+        expected_attributes = [ 'email', 'id', 'created_at', 'updated_at', 'name', 'avatar' ]
+        expect(AdminUser.ransackable_attributes).to match_array(expected_attributes)
+      end
+
+      it 'has correct ransackable associations' do
+        expected_associations = [ 'blog_posts', 'avatar_attachment', 'avatar_blob' ]
+        expect(AdminUser.ransackable_associations).to match_array(expected_associations)
+      end
+    end
+  end
 end
