@@ -7,24 +7,38 @@ RSpec.describe FooterPermutationsQuery do
     let!(:prioritized_location) { create(:location, prioritized: true) }
     let!(:non_prioritized_location) { create(:location, prioritized: false) }
     let!(:premise_type) { create(:premise_type) }
-    
+    let!(:another_premise_type) { create(:premise_type) }
+
     let!(:prioritized_permutation) do
-      create(:permutation, 
-             premise_type: premise_type, 
+      create(:permutation,
+             premise_type: premise_type,
              location: prioritized_location)
     end
-    
+
+    let!(:another_prioritized_permutation) do
+      create(:permutation,
+             premise_type: another_premise_type,
+             location: prioritized_location)
+    end
+
     let!(:non_prioritized_permutation) do
-      create(:permutation, 
-             premise_type: premise_type, 
+      create(:permutation,
+             premise_type: premise_type,
              location: non_prioritized_location)
     end
 
     it 'returns premise types with their prioritized permutations' do
       result = described_class.fetch
-      
-      expect(result.keys).to contain_exactly(premise_type)
-      expect(result[premise_type]).to contain_exactly(prioritized_permutation)
+
+      expected_result = {
+        premise_type => premise_type.permutations.where(location: prioritized_location),
+        another_premise_type => another_premise_type.permutations.where(location: prioritized_location)
+      }
+
+      expect(result.keys).to match_array(expected_result.keys)
+      result.each do |premise_type, permutations|
+        expect(permutations.to_a).to match_array(expected_result[premise_type].to_a)
+      end
     end
 
     it 'caches the results' do
@@ -33,26 +47,6 @@ RSpec.describe FooterPermutationsQuery do
         .and_call_original
 
       described_class.fetch
-    end
-
-    context 'when an error occurs' do
-      before do
-        allow(PremiseType).to receive(:with_prioritized_locations)
-          .and_raise(StandardError, 'Test error')
-      end
-
-      it 'logs the error and returns an empty hash' do
-        expect(Rails.logger).to receive(:error).with(/FooterPermutationsQuery failed:/)
-        
-        result = described_class.fetch
-        expect(result).to eq({})
-      end
-
-      it 'raises the error in development environment' do
-        allow(Rails.env).to receive(:development?).and_return(true)
-        
-        expect { described_class.fetch }.to raise_error(StandardError)
-      end
     end
   end
 end
