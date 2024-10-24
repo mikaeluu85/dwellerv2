@@ -187,3 +187,11 @@ end
 
 # Load all factories
 # Dir[Rails.root.join('spec/factories/**/*.rb')].sort.each { |file| require file }
+
+# Add this block at the bottom of the file
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
+end
