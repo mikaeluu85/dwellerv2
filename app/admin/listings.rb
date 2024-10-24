@@ -1,6 +1,6 @@
 ActiveAdmin.register Listing do
-  menu parent: 'Customers', priority: 1
-  
+  menu parent: "Customers", priority: 1
+
   permit_params :name, :slug, :status, :source, :brand_id,
                 :main_image, { gallery_images: [] },
                 :area_description, :commuter_description,
@@ -9,10 +9,10 @@ ActiveAdmin.register Listing do
                 :number_of_meeting_rooms, :opened, :short_description,
                 :short_description_en, :showing_message, :size,
                 :surface_per_user, :url,
-                address_attributes: [:id, :street, :city, :postal_code, :latitude, :longitude, :coordinates, :_destroy],
+                address_attributes: [ :id, :street, :city, :postal_code, :latitude, :longitude, :coordinates, :_destroy ],
                 amenity_ids: [],
                 provider_user_ids: [],
-                offers_attributes: [:id, :name, :description, :price, :_destroy]
+                offers_attributes: [ :id, :name, :description, :price, :_destroy ]
 
   scope :all, default: true
   scope :active, -> { where(status: :active) }
@@ -24,7 +24,7 @@ ActiveAdmin.register Listing do
   filter :source, as: :select, collection: Listing.sources
   filter :brand
   filter :created_at
-  filter :provider_users_id, as: :select, collection: proc { ProviderUser.active.pluck(:email, :id) }, label: 'Provider User'
+  filter :provider_users_id, as: :select, collection: proc { ProviderUser.active.pluck(:email, :id) }, label: "Provider User"
   filter :size, as: :numeric  # Changed back to just :size
   filter :cost_per_m2
   filter :cost_per_user
@@ -77,7 +77,7 @@ ActiveAdmin.register Listing do
           listing.gallery_images.each do |img|
             li do
               begin
-                image_tag img.url, size: '100x100'
+                image_tag img.url, size: "100x100"
               rescue StandardError => e
                 "Error loading image: #{e.message}"
               end
@@ -129,7 +129,7 @@ ActiveAdmin.register Listing do
 
   # Form view
   form do |f|
-    f.inputs 'Listing Details' do
+    f.inputs "Listing Details" do
       f.input :name
       f.input :slug
       f.input :status, as: :select, collection: Listing.statuses.keys
@@ -155,7 +155,7 @@ ActiveAdmin.register Listing do
       f.input :url
     end
 
-    f.inputs 'Address' do
+    f.inputs "Address" do
       f.has_many :address, allow_destroy: true, new_record: false do |a|
         a.input :street
         a.input :city
@@ -165,18 +165,18 @@ ActiveAdmin.register Listing do
         a.input :coordinates, input_html: { readonly: true }
         a.input :address_changed, as: :hidden, input_html: { value: true }
       end
-      
-      f.inputs 'Amenities' do
+
+      f.inputs "Amenities" do
         f.input :amenities, as: :check_boxes
       end
-      
-      f.inputs 'Provider Users' do
-        f.input :provider_users, 
+
+      f.inputs "Provider Users" do
+        f.input :provider_users,
                 as: :check_boxes
       end
-      
-      f.inputs 'Offers' do
-        f.has_many :offers, allow_destroy: true, new_record: 'Add Offer' do |o|
+
+      f.inputs "Offers" do
+        f.has_many :offers, allow_destroy: true, new_record: "Add Offer" do |o|
           o.input :name
           o.input :description
           o.input :price
@@ -186,11 +186,11 @@ ActiveAdmin.register Listing do
     f.actions
   end
 
-  collection_action :update_provider_users, method: :get do
-    @brand = Brand.find(params[:brand_id])
-    @provider_users = @brand.active_provider_users
-    render layout: false
-  end
+  # collection_action :update_provider_users, method: :get do
+  #   @brand = Brand.find(params[:brand_id])
+  #   @provider_users = @brand.active_provider_users
+  #   render layout: false
+  # end
 
   controller do
     def new
