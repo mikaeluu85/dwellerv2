@@ -1,22 +1,4 @@
-# This file is copied to spec/ when you run 'rails generate rspec:install'
-require 'spec_helper'
-ENV['RAILS_ENV'] ||= 'test'
-require_relative '../config/environment'
-# Prevent database truncation if the environment is production
-abort("The Rails environment is running in production mode!") if Rails.env.production?
-# Uncomment the line below in case you have `--require rails_helper` in the `.rspec` file
-# that will avoid rails generators crashing because migrations haven't been run yet
-# return unless Rails.env.test?
-require 'rspec/rails'
-# Add additional requires below this line. Rails is not loaded until this point!
-require 'capybara/rails' # If you plan to write feature specs
 require 'simplecov'
-require 'pundit/matchers'
-require 'pundit/rspec'
-require 'devise'
-require 'webdrivers'
-require 'capybara'
-require 'selenium-webdriver'
 
 # Configure SimpleCov
 SimpleCov.start 'rails' do
@@ -38,6 +20,26 @@ SimpleCov.start 'rails' do
   # Set minimum coverage percentage
   minimum_coverage 90
 end
+# This file is copied to spec/ when you run 'rails generate rspec:install'
+require 'spec_helper'
+ENV['RAILS_ENV'] ||= 'test'
+require_relative '../config/environment'
+# Prevent database truncation if the environment is production
+abort("The Rails environment is running in production mode!") if Rails.env.production?
+# Uncomment the line below in case you have `--require rails_helper` in the `.rspec` file
+# that will avoid rails generators crashing because migrations haven't been run yet
+# return unless Rails.env.test?
+require 'rspec/rails'
+# Add additional requires below this line. Rails is not loaded until this point!
+require 'capybara/rails' # If you plan to write feature specs
+require 'pundit/matchers'
+require 'pundit/rspec'
+require 'devise'
+require 'webdrivers'
+require 'capybara'
+require 'selenium-webdriver'
+
+
 
 # Load support files
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
