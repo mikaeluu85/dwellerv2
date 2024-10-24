@@ -18,11 +18,11 @@ class Offer < ApplicationRecord
   validates :offer_category, presence: true
 
   def self.ransackable_attributes(auth_object = nil)
-    ["created_at", "deleted_at", "id", "listing_id", "name", "slug", "updated_at", "status", "type", "offer_category_id"]
+    [ "created_at", "deleted_at", "id", "listing_id", "name", "slug", "updated_at", "status", "type", "offer_category_id" ]
   end
 
   def self.ransackable_associations(auth_object = nil)
-    ["listing", "offer_category", "offer_excluded_amenities", "offer_paid_amenities", "offer_versions", "excluded_amenities", "paid_amenities"]
+    [ "listing", "offer_category", "offer_excluded_amenities", "offer_paid_amenities", "offer_versions", "excluded_amenities", "paid_amenities" ]
   end
 
   def category
